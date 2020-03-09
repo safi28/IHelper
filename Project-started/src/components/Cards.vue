@@ -7,9 +7,9 @@
           <div class="md-subhead">Normal size</div>
         </md-card-header-text>
 
-        <md-card-media>
+        <!-- <md-card-media>
           <img src="../assets/img.png" alt="People">
-        </md-card-media>
+        </md-card-media> -->
       </md-card-header>
 
       <md-card-actions>

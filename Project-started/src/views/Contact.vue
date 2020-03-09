@@ -15,12 +15,12 @@
 </style>
 
 <script>
-import EventCar from "@/components/EventCar.vue";
 import ContactInfo from "@/components/Contact.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "Contact",
-  components: {ContactInfo,EventCar}
+  components: { ContactInfo, Footer }
 };
 </script>
 

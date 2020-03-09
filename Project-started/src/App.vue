@@ -1,33 +1,25 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/contact">Contact</router-link>
-    </div>
-    <router-view />
-  </div>
+  <span class="app">
+    <app-header></app-header>
+    <router-view></router-view>
+    <Footer></Footer>
+  </span>
 </template>
+<script>
+import ContactInfo from "./components/Contact";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+export default {
+  name: "App",
+  components: {
+    ContactInfo,
+    Footer,
+    "app-header": Header
+  },
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+    //
+  })
+};
+</script>

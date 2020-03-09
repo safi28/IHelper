@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import EventCar from "../components/EventCar.vue";
 
 Vue.use(VueRouter);
 
@@ -20,8 +19,9 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
-  { path: "/contact", name: "Contact",  component: () =>
-  import(/* webpackChunkName: "contact" */ "../views/Contact.vue") }
+  { path: "/contact", name: "ContactInfo",  component: () =>
+  import(/* webpackChunkName: "contact" */ "../views/Contact.vue") },
+
 ];
 
 const router = new VueRouter({
