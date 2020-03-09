@@ -1,6 +1,11 @@
 <template>
   <div class="app">
+    <span class="main">
       <ContactInfo></ContactInfo>
+    </span>
+    <!-- <span class="banner">
+      <EventCar></EventCar>
+    </span> -->
   </div>
 </template>
 <style lang="css" scoped>
@@ -13,17 +18,14 @@ img {
 
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 import ContactInfo from "@/components/Contact.vue";
-import { Footer } from "@/components/Footer.vue";
+import  EventCar  from "@/components/EventCar.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
     ContactInfo,
-    Footer
+    EventCar
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="contact">
-    <!-- <img src="../assets/img.png"> -->
-    <ContactInfo info="in" />
+    <ContactInfo></ContactInfo>
+    <EventCar></EventCar>
   </div>
 </template>
 
@@ -17,10 +17,10 @@
 <script>
 import ContactInfo from "@/components/Contact.vue";
 import Footer from "@/components/Footer.vue";
-
+import { EventCar } from "@/components/EventCar.vue";
 export default {
   name: "Contact",
-  components: { ContactInfo, Footer }
+  components: { ContactInfo, Footer, EventCar }
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <span class="app">
-    <app-header></app-header>
+    <Header></Header>
     <router-view></router-view>
     <Footer></Footer>
   </span>
@@ -15,7 +15,7 @@ export default {
   components: {
     ContactInfo,
     Footer,
-    "app-header": Header
+    Header
   },
 
   data: () => ({

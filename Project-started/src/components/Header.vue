@@ -9,7 +9,7 @@
         prominent
         src="https://picsum.photos/1920/1080?random"
         fade-img-on-scroll
-        scroll-target="#scrolling-techniques-3"
+        scroll-target="#scrolling-techniques-2"
       >
         <template v-slot:img="{ props }">
           <v-img v-bind="props" gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"></v-img>
@@ -21,11 +21,11 @@
           <v-list nav dense>
             <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
               <v-list-item>
-                <v-list-item-title>Log In</v-list-item-title>
+              <v-list-item-title><router-link to="login" class="auth">Log In</router-link></v-list-item-title>
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-title>Register</v-list-item-title>
+              <v-list-item-title><router-link to="login" class="auth">Register</router-link></v-list-item-title>
               </v-list-item>
             </v-list-item-group>
           </v-list>
@@ -42,29 +42,8 @@
         <v-btn icon>
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
-
-        <!-- <template v-slot:extension>
-            <!-- <v-tabs align-with-title>
-              <v-tab>Tab 1</v-tab>
-              <v-tab>Tab 2</v-tab>
-              <v-tab>Tab 3</v-tab>
-            </v-tabs>
-        </template>-->
       </v-app-bar>
-      <!-- 
-        <v-sheet id="scrolling-techniques-3" max-width="2000px" max-height="600">
-          <v-container style="height: 1000px;">
-            <v-img
-              :src="`https://cdn.hipwallpaper.com/i/6/10/gloj6e.jpg`"
-              absolute
-              dark
-              shrink-on-scroll
-              prominent
-              fade-img-on-scroll
-              class="grey lighten-2"
-            ></v-img>
-          </v-container>
-      </v-sheet>-->
+     
     </v-card>
   </div>
 </template>
@@ -72,16 +51,21 @@
 .grey {
   background-size: cover;
 }
+.auth {
+    color: wheat;
+}
 </style>
 <script>
 import ContactInfo from "../components/Contact";
 import Vuetify from "vuetify";
+import { login } from "../components/Login";
 
 export default {
   name: "Header",
   vuetify: new Vuetify(),
   components: {
-    ContactInfo
+    ContactInfo,
+    login
   },
   data: () => ({
     drawer: false,
