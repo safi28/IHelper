@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <div>
       <v-carousel v-model="model">
-        <v-carousel-item v-for="(image, i) in images" :key="image">
+        <v-carousel-item v-for="(image, i) in images" :key="i" >
           <v-img
             gradient="to top right, rgba(100,113,201,.7), rgba(24,32,72,.7)"
             class="medical"
@@ -12,8 +12,7 @@
             tile
           >
             <v-row class="fill-height" align="center" justify="center">
-              <!-- <div class="display-3">  {{ i + 1 }}</div> -->
-              <div class="display-3" v-if="i=1">Take care for your health</div>
+              <div class="display-3">Take care of your health</div>
             </v-row>
           </v-img>
         </v-carousel-item>
@@ -48,7 +47,7 @@ export default {
     info: String
   },
   vuetify: new Vuetify(),
-  data() {
+  data: () => {
     return {
       images: [
         "https://static1.squarespace.com/static/564dfd3ee4b0678bea6ec649/5653036de4b037d305e758b6/59a5441d4c0dbf78d3dad8e7/1511535681017/v-img_6973.JPG?format=1500w",

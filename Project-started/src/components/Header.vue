@@ -1,12 +1,10 @@
 <template>
   <div id="app">
     <v-card class="overflow-hidden">
-      <v-app-bar
-        absolute
+      <v-app-bar 
         color="#6A76AB"
         dark
         shrink-on-scroll
-        prominent
         src="https://picsum.photos/1920/1080?random"
         fade-img-on-scroll
         scroll-target="#scrolling-techniques-2"
@@ -45,6 +43,7 @@
       </v-app-bar>
      
     </v-card>
+
   </div>
 </template>
 <style scoped>
@@ -58,7 +57,7 @@
 <script>
 import ContactInfo from "../components/Contact";
 import Vuetify from "vuetify";
-import { login } from "../components/Login";
+import  login  from "../components/Login";
 
 export default {
   name: "Header",

@@ -12,7 +12,7 @@
             grow
           >
             <v-tabs-slider color="purple darken-4"></v-tabs-slider>
-            <v-tab v-for="i in tabs" :key="i">
+            <v-tab v-for="i in tabs">
               <v-icon large>{{ i.icon }}</v-icon>
               <div class="caption py-1">{{ i.name }}</div>
             </v-tab>
@@ -23,7 +23,7 @@
                     <v-row>
                       <v-col cols="12">
                         <v-text-field
-                          v-model="loginEmail"
+                          v-model="email"
                           :rules="loginEmailRules"
                           label="E-mail"
                           required
@@ -31,7 +31,7 @@
                       </v-col>
                       <v-col cols="12">
                         <v-text-field
-                          v-model="loginPassword"
+                          v-model="password"
                           :append-icon="show1?'eye':'eye-off'"
                           :rules="[rules.required, rules.min]"
                           :type="show1 ? 'text' : 'password'"
@@ -45,13 +45,7 @@
                       <v-col class="d-flex" cols="12" sm="6" xsm="12"></v-col>
                       <v-spacer></v-spacer>
                       <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                        <v-btn
-                          x-large
-                          block
-                          :disabled="!valid"
-                          color="success"
-                          @click="validate"
-                        >Login</v-btn>
+                        <v-btn x-large block :disabled="!valid" color="success" @click="login">Login</v-btn>
                       </v-col>
                     </v-row>
                   </v-form>
@@ -117,7 +111,7 @@
                           block
                           :disabled="!valid"
                           color="success"
-                          @click="validate"
+                          @click="register"
                         >Register</v-btn>
                       </v-col>
                     </v-row>
@@ -132,6 +126,10 @@
   </div>
 </template>
 <script>
+import * as firebase from "firebase";
+import "vuejs-noty/dist/vuejs-noty.css";
+import Noty from "noty";
+
 import Vuetify from "vuetify";
 export default {
   name: "login",
@@ -139,19 +137,6 @@ export default {
   computed: {
     passwordMatch() {
       return () => this.password === this.verify || "Password must match";
-    }
-  },
-  methods: {
-    validate() {
-      if (this.$refs.loginForm.validate()) {
-        // submit form to server/API here...
-      }
-    },
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
     }
   },
   data: () => ({
@@ -162,7 +147,7 @@ export default {
       { name: "Register", icon: "mdi-account-outline" }
     ],
     valid: true,
-
+    isLogged: false,
     firstName: "",
     lastName: "",
     email: "",
@@ -184,6 +169,39 @@ export default {
       required: value => !!value || "Required.",
       min: v => (v && v.length >= 8) || "Min 8 characters"
     }
-  })
+  }),
+  methods: {
+    register() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(data => {
+          data.user
+            .updateProfile({
+              displayName: this.firstName
+            })
+            .then(() => {
+              this.$noty.success("Registered successfully!");
+            })
+            .catch(err => {
+              this.$noty.warning("Error");
+            });
+        });
+    },
+    login() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(data => {
+          this.isLogged = true;
+          this.$router.replace({ name: "Dashboard" });
+          this.$noty.success("Logged in successfully!");
+        })
+        .catch(err => {
+          this.$noty.error("Error");
+          console.log(err);
+        });
+    }
+  }
 };
 </script>

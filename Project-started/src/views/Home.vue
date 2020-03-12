@@ -1,11 +1,7 @@
 <template>
   <div class="app">
-    <span class="main">
-      <ContactInfo></ContactInfo>
-    </span>
-    <!-- <span class="banner">
-      <EventCar></EventCar>
-    </span> -->
+    <ContactInfo></ContactInfo>
+    <!-- <EventCar></EventCar> -->
   </div>
 </template>
 <style lang="css" scoped>
@@ -19,7 +15,7 @@ img {
 
 <script>
 import ContactInfo from "@/components/Contact.vue";
-import  EventCar  from "@/components/EventCar.vue";
+import EventCar from "@/components/EventCar.vue";
 
 export default {
   name: "Home",

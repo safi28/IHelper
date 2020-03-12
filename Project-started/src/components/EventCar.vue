@@ -1,5 +1,4 @@
 <template>
-  <div class="app">
     <v-app id="inspire">
       <v-banner two-line>
         <v-avatar slot="icon" color="deep-purple accent-4" size="40">
@@ -13,7 +12,6 @@
         </template>
       </v-banner>
     </v-app>  
-  </div>
 </template>
 
 <script>
