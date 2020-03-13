@@ -1,43 +1,57 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-    <div class="container">
-      <router-link to="/" class="navbar-brand">Vue Firebase Auth</router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto"></ul>
-        <ul class="navbar-nav ml-auto">
-          <template v-if="user.loggedIn">
-            <div class="nav-item">{{user.data.displayName}}</div>
-            <li class="nav-item">
-              <a class="nav-link" @click.prevent="signOut">Sign out</a>
-            </li>
-          </template>
-          <template v-else>
-            <li class="nav-item">
-              <router-link to="login" class="nav-link">Login</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="register" class="nav-link">Register</router-link>
-            </li>
-          </template>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</template>
+  <div id="app">
+    <v-app id="inspire">
+      <v-container>
+        <v-card height="900" width="9000" class="overflow-hidden">
+          <v-navigation-drawer
+            v-model="drawer"
+            :color="color"
+            :expand-on-hover="expandOnHover"
+            :mini-variant="miniVariant"
+            :right="right"
+            absolute  
+            dark
+          >
+            <v-list dense nav class="py-0">
+              <v-list-item two-line :class="miniVariant && 'px-0'">
+                <v-list-item-avatar>
+                  <img src="https://svgur.com/i/65U.svg" />
+                </v-list-item-avatar>
 
+                <v-list-item-content>
+                  <v-list-item-title>Application</v-list-item-title>
+                  <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider></v-divider>
+
+              <v-list-item v-for="item in items" :key="item.title" link>
+                <v-list-item-icon>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+        </v-card>
+      </v-container>
+    </v-app>
+  </div>
+</template>
+<style scoped>
+.overflow-hidden{
+  right: 264px;
+  bottom: 13px;
+}
+</style>>
+
+</style>
 <script>
-import * as firebase from 'firebase';
+import * as firebase from "firebase";
 import Media from "../components/Cards";
 import { mapGetters } from "vuex";
 
@@ -46,12 +60,22 @@ export default {
   components: {
     Media
   },
-   computed: {
-    // map `this.user` to `this.$store.getters.user`
-    ...mapGetters({
-      user: "user"
-    })
-   },
+  data() {
+    return {
+      isLoggedIn: false,
+      drawer: true,
+      items: [
+        { title: "Dashboard", icon: "mdi-view-dashboard" },
+        { title: "Photos", icon: "mdi-image" },
+        { title: "About", icon: "mdi-help-box" }
+      ],
+      color: "primary",
+      right: false,
+      miniVariant: true,
+      expandOnHover: true,
+      background: false
+    };
+  },
   methods: {
     signOut() {
       firebase
@@ -59,10 +83,33 @@ export default {
         .signOut()
         .then(() => {
           this.$router.replace({
-            name: "home"
+            name: "ContactInfo"
           });
         });
-    }
+    },
+    isSignedIn() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          var user = firebase.auth().currentUser;
+          var name, email, photoUrl, uid, emailVerified;
+
+          if (user != null) {
+            name = user.displayName;
+            email = user.email;
+            photoUrl = user.photoURL;
+            emailVerified = user.emailVerified;
+            uid = user.uid;
+            console.log(user);
+          }
+          return true;
+        } else {
+          return false;
+        }
+      });
+    },
+    mounted() {
+      this.isSignedIn();
+    },
   }
 };
 </script>

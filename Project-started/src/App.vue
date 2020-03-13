@@ -1,13 +1,8 @@
 <template>
   <div class="app">
-    <div v-if="isLogged">
-      <!-- <Header></Header> -->
-      <h2>here</h2>
-    </div>
-    <div v-else>
-      <h1>hello</h1>
-    </div>
+    <Header></Header>
     <router-view></router-view>
+    
     <Footer></Footer>
   </div>
 </template>
@@ -15,7 +10,7 @@
 import ContactInfo from "./components/Contact";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import login from "./components/Login";
+import login from "./components/auth/Auth";
 import * as firebase from "firebase";
 
 export default {
@@ -30,19 +25,18 @@ export default {
     isLoggedIn: false
   }),
   methods: {
-    isLogged() {
-      var user = firebase.auth().currentUser;
-      console.log(user);
-
-      this.firebase.auth().onAuthStateChanged(user => {
+    isSignedIn() {
+      firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          isLoggedIn = true;
-          
+          this.isLoggedIn = true;
         } else {
-          isLoggedIn = false;          
+          this.isLoggedIn = false;
         }
       });
     }
+  },
+  mounted() {
+    this.isSignedIn();
   }
 };
 </script>
