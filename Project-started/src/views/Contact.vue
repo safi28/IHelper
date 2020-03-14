@@ -1,13 +1,13 @@
 <template>
   <div class="contact">
     <ContactInfo></ContactInfo>
-    <EventCar></EventCar>
+    <!-- <EventCar></EventCar> -->
   </div>
 </template>
 
 <style lang="css" scoped>
 .contact {
-  background-image: url("../assets/img.png");
+  /* background-image: url("../assets/img.png"); */
   background-size: cover;
   width: 100%;
   height: 800%;

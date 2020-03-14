@@ -1,6 +1,41 @@
 <template>
   <div id="app">
-    <div v-if="!isSignedIn">
+    <div v-if="!authUser">
+      <div id="inspire">
+        <div>
+          <v-app-bar color="deep-purple accent-4" dense dark>
+            <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
+            <v-toolbar-title>
+              Health Information
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <div class="my-2">
+              <v-btn text small @click="signOut">Logout</v-btn>
+            </div>
+
+            <v-menu left bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item v-for="n in 5" :key="n" @click="() => {}">
+                  <v-list-item-title>Option {{ n }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-app-bar>
+        </div>
+      </div>
+    </div>
+    <div v-else>
       <v-card class="overflow-hidden">
         <v-app-bar
           color="#6A76AB"
@@ -48,41 +83,6 @@
         </v-app-bar>
       </v-card>
     </div>
-    <div v-else>
-      <div id="inspire">
-        <div>
-          <v-app-bar color="deep-purple accent-4" dense dark>
-            <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-            <v-toolbar-title>
-              Health Information
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-            </v-toolbar-title>
-
-            <v-spacer></v-spacer>
-
-            <div class="my-2">
-              <v-btn text small @click="signOut">Logout</v-btn>
-            </div>
-
-            <v-menu left bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-
-              <v-list>
-                <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-                  <v-list-item-title>Option {{ n }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-app-bar>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -111,7 +111,9 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    title: "Click Me"
+    title: "Click Me",
+    user: null,
+    authUser: null
   }),
   watch: {
     group() {
@@ -119,22 +121,9 @@ export default {
     }
   },
   methods: {
-    signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.replace({ name: "/ContactInfo" });
-          this.$noty.success("Logged out successfully!");
-        })
-        .catch(err => {
-          this.$noty.error("Error");
-          console.log(err);
-        });
-    },
     isSignedIn() {
       firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
+        if (this.user !== null) {
           var user = firebase.auth().currentUser;
           var name, email, photoUrl, uid, emailVerified;
 
@@ -154,6 +143,26 @@ export default {
     },
     mounted() {
       this.isSignedIn();
+    },
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({ name: "ContactInfo" }).catch(err => {
+            this.$noty.error("Error router!");
+            this.user = localStorage.removeItem("user");
+          });
+        })
+        .catch(err => {
+          this.$noty.error("Error");
+          console.log(err);
+        });
+    },
+     created() {
+      firebase.auth().onAuthStateChanged(user => {
+        this.authUser = user;
+      });
     }
   }
 };

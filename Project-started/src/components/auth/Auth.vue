@@ -146,6 +146,7 @@ export default {
       { name: "Login", icon: "mdi-account" },
       { name: "Register", icon: "mdi-account-outline" }
     ],
+    authUser: null,
     valid: true,
     isLogged: false,
     firstName: "",
@@ -196,11 +197,17 @@ export default {
           this.isLogged = true;
           this.$router.replace({ name: "Dashboard" });
           this.$noty.success("Logged in successfully!");
+          // localStorage.setItem("user", user.token);
         })
         .catch(err => {
           this.$noty.error("Error");
           console.log(err);
         });
+    },
+    created() {
+      firebase.auth().onAuthStateChanged(user => {
+        this.authUser = user;
+      });
     }
   }
 };
