@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <Header></Header>
     <router-view></router-view>
     <Footer></Footer>
   </div>
@@ -11,6 +10,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import login from "./components/auth/Auth";
 import * as firebase from "firebase";
+import LoggedHome from "./components/pages/LoggedPage";
 
 export default {
   name: "App",

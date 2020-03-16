@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    <div v-if="!authUser">
+    <div v-if="isLoggedIn">
       <div id="inspire">
         <div>
           <v-app-bar color="deep-purple accent-4" dense dark>
-            <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
             <v-toolbar-title>
               Health Information
               <v-btn icon>
@@ -113,7 +112,8 @@ export default {
     group: null,
     title: "Click Me",
     user: null,
-    authUser: null
+    authUser: null,
+    isLoggedIn  : false
   }),
   watch: {
     group() {
@@ -122,22 +122,11 @@ export default {
   },
   methods: {
     isSignedIn() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (this.user !== null) {
-          var user = firebase.auth().currentUser;
-          var name, email, photoUrl, uid, emailVerified;
-
-          if (user != null) {
-            name = user.displayName;
-            email = user.email;
-            photoUrl = user.photoURL;
-            emailVerified = user.emailVerified;
-            uid = user.uid;
-            console.log(user);
-          }
-          return true;
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          this.isLoggedIn = true;
         } else {
-          return false;
+          this.isLoggedIn = false;
         }
       });
     },
@@ -149,20 +138,15 @@ export default {
         .auth()
         .signOut()
         .then(() => {
+          localStorage.removeItem("user");
           this.$router.replace({ name: "ContactInfo" }).catch(err => {
             this.$noty.error("Error router!");
-            this.user = localStorage.removeItem("user");
           });
         })
         .catch(err => {
           this.$noty.error("Error");
           console.log(err);
         });
-    },
-     created() {
-      firebase.auth().onAuthStateChanged(user => {
-        this.authUser = user;
-      });
     }
   }
 };

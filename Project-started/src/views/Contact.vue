@@ -1,7 +1,6 @@
 <template>
   <div class="contact">
     <ContactInfo></ContactInfo>
-    <!-- <EventCar></EventCar> -->
   </div>
 </template>
 

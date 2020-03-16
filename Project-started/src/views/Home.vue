@@ -1,12 +1,11 @@
 <template>
   <div class="app">
     <div class="logged" v-if="isSignedIn">
-      <Dashboard></Dashboard>
+      <LoggedHome></LoggedHome>
     </div>
     <div v-else>
       <ContactInfo></ContactInfo>
     </div>
-    
   </div>
 </template>
 <style lang="css" scoped>
@@ -23,32 +22,28 @@ import ContactInfo from "@/components/Contact.vue";
 import EventCar from "@/components/EventCar.vue";
 import * as firebase from "firebase/app";
 import Dashboard from "@/components/Dashboard.vue";
+import LoggedHome from "@/components/pages/LoggedPage";
 
 export default {
   name: "Home",
   components: {
     ContactInfo,
     EventCar,
-    Dashboard
+    Dashboard,
+    LoggedHome
+  },
+  data: function() {
+    return {
+      isLoggedIn: false
+    };
   },
   methods: {
     isSignedIn() {
-      firebase.auth().onAuthStateChanged(function(user) {
+      firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          var user = firebase.auth().currentUser;
-          var name, email, photoUrl, uid, emailVerified;
-
-          if (user != null) {
-            name = user.displayName;
-            email = user.email;
-            photoUrl = user.photoURL;
-            emailVerified = user.emailVerified;
-            uid = user.uid;
-            console.log(user);
-          }
-          return true;
+          this.isLoggedIn = true;
         } else {
-          return false;
+          this.isLoggedIn = false;
         }
       });
     },
