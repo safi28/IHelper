@@ -14,7 +14,6 @@ img {
 
 <script>
 import ContactInfo from "@/components/Contact.vue";
-import EventCar from "@/components/EventCar.vue";
 import * as firebase from "firebase/app";
 import Dashboard from "@/components/Dashboard.vue";
 import LoggedHome from "@/components/pages/LoggedPage.vue";
@@ -25,7 +24,6 @@ export default {
   name: "Home",
   components: {
     ContactInfo,
-    EventCar,
     Dashboard,
     LoggedHome,
     HeaderMain,

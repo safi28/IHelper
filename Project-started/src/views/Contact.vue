@@ -15,13 +15,11 @@
 
 <script>
 import ContactInfo from "@/components/Contact.vue";
-import Footer from "@/components/Footer.vue";
-import EventCar from "@/components/EventCar.vue";
 import Header from "@/components/core/Header.vue";
 
 export default {
   name: "Contact",
-  components: { ContactInfo, Footer, EventCar, Header }
+  components: { ContactInfo, Header }
 };
 </script>
 

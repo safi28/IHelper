@@ -4,14 +4,13 @@
       <div id="inspire">
         <div>
           <v-app-bar color="deep-purple accent-4" dense dark>
-            <router-link to="Dashboard" class="dashboard">
-              <v-toolbar-title>
-                Health Information
-                <!-- <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-                </v-btn>-->
-              </v-toolbar-title>
+            <router-link :to="{ name: 'LoggedHome'}">
+              <div class="my-2">
+                <v-btn text small color="primary">Health Information</v-btn>
+                <router-link to="/dashboard"></router-link>
+              </div>
             </router-link>
+            <!-- </router-link> -->
 
             <v-spacer></v-spacer>
 
@@ -110,7 +109,8 @@ export default {
   vuetify: new Vuetify(),
   components: {
     ContactInfo,
-    login
+    login,
+    
   },
   props: {
     isLoggedIn: false

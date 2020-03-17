@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    //tuk
+ 
     <app-header></app-header>  
     <router-view></router-view>
     <Footer></Footer>
@@ -8,7 +8,7 @@
 </template>
 <script>
 import ContactInfo from "./components/Contact";
-import Footer from "./components/Footer";
+import Footer from "./components/core/Footer";
 import login from "./components/auth/Auth";
 import * as firebase from "firebase";
 import LoggedHome from "./components/pages/LoggedPage";

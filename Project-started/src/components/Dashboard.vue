@@ -52,16 +52,22 @@
 </style>
 <script>
 import * as firebase from "firebase";
-import Media from "../components/Cards";
 import { mapGetters } from "vuex";
+
 
 export default {
   name: "Dashboard",
   components: {
-    Media
+    
   },
   data() {
     return {
+      icons: {
+      mdiAccount,
+      mdiPencil,
+      mdiShareVariant,
+      mdiDelete,
+    },
       isLoggedIn: false,
       drawer: true,
       items: [

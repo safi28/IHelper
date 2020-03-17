@@ -4,9 +4,8 @@
   </div>
 </template>
 <script>
-import Media from "@/components/Cards.vue"
 export default {
   name: "about",
-  components: Media
+  components: {}
 }
 </script>
