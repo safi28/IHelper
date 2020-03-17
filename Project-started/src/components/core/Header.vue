@@ -129,11 +129,24 @@ export default {
   },
   methods: {
     isSignedIn() {
-      if (firebase.auth().currentUser) {
-        return true;
-      } else {
-        return false;
-      }
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          var user = firebase.auth().currentUser;
+          var name, email, photoUrl, uid, emailVerified;
+
+          if (user != null) {
+            name = user.displayName;
+            email = user.email;
+            photoUrl = user.photoURL;
+            emailVerified = user.emailVerified;
+            uid = user.uid;
+            console.log(user);
+          }
+          return true;
+        } else {
+          return false;
+        }
+      });
     },
     mounted() {
       this.isSignedIn();
