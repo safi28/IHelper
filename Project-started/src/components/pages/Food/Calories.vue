@@ -1,163 +1,183 @@
 <template>
-  <div id="app">
-    <v-app>
-      <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
-        <template v-slot:top>
-          <v-toolbar flat color="white">
-            <v-toolbar-title>Calories counter</v-toolbar-title>
-            <v-divider class="mx-4" inset vertical></v-divider>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">{{ formTitle }}</span>
-                </v-card-title>
+  <div id="nav">
+    <nav class="main-nav">
+      <div class="logo">my.company</div>
+      <Burger></Burger>
+    </nav>
 
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
+    <Sidebar>
+      <ul class="sidebar-panel-nav">
+        <li>
+          <a href="#home">Home</a>
+        </li>
+        <li>
+          <a href="#about">About</a>
+        </li>
+        <li>
+          <a href="#contact">Contact</a>
+        </li>
+      </ul>
+    </Sidebar>
+    <div id="app">
+      <v-app>
+        <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+          <template v-slot:top>
+            <v-toolbar flat color="white">
+              <v-toolbar-title>Track your food habit</v-toolbar-title>
+              <v-divider class="mx-4" inset vertical></v-divider>
+              <v-spacer></v-spacer>
+              <v-dialog v-model="dialog" max-width="500px">
+                <template v-slot:activator="{ on }">
+                  <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">{{ formTitle }}</span>
+                  </v-card-title>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon class="ma-2" color="purple" dark @click="editItem(item)">{{icons.mdiFileEdit}}</v-icon>
-          <v-icon class="ma-2" color="red" dark @click="deleteItem(item)">{{ icons.mdiDelete }}</v-icon>
-        </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
-        </template>
-      </v-data-table>
-    </v-app>
-   <h1>You can find information about food and their properties</h1>
-    <v-app id="inspire">
-      <v-container fluid>
-        <v-data-iterator
-          :items="items"
-          :items-per-page.sync="itemsPerPage"
-          :page="page"
-          :search="search"
-          :sort-by="sortBy.toLowerCase()"
-          :sort-desc="sortDesc"
-          hide-default-footer
-        >
-          <template v-slot:header>
-            <v-toolbar dark color="blue darken-3" class="mb-1">
-              <v-text-field
-                v-model="search"
-                clearable
-                flat
-                solo-inverted
-                hide-details
-                prepend-inner-icon="search"
-              ></v-text-field>
-              <template v-if="$vuetify.breakpoint.mdAndUp">
-                <v-spacer></v-spacer>
-                <v-select
-                  v-model="sortBy"
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-toolbar>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon class="ma-2" color="purple" dark @click="editItem(item)">{{icons.mdiFileEdit}}</v-icon>
+            <v-icon class="ma-2" color="red" dark @click="deleteItem(item)">{{ icons.mdiDelete }}</v-icon>
+          </template>
+          <template v-slot:no-data>
+            <v-btn color="primary" @click="initialize">Reset</v-btn>
+          </template>
+        </v-data-table>
+      </v-app>
+      <h1>You can find information about food and their properties</h1>
+      <v-app id="inspire">
+        <v-container fluid>
+          <v-data-iterator
+            :items="items"
+            :items-per-page.sync="itemsPerPage"
+            :page="page"
+            :search="search"
+            :sort-by="sortBy.toLowerCase()"
+            :sort-desc="sortDesc"
+            hide-default-footer
+          >
+            <template v-slot:header>
+              <v-toolbar dark color="blue darken-3" class="mb-1">
+                <v-text-field
+                  v-model="search"
+                  clearable
                   flat
                   solo-inverted
                   hide-details
-                  :items="keys"
                   prepend-inner-icon="search"
-                ></v-select>
-                <v-spacer></v-spacer>
-                <v-btn-toggle v-model="sortDesc" mandatory>
-                  <v-btn large depressed color="blue" :value="false">
-                    <v-icon>mdi-arrow-up</v-icon>
-                  </v-btn>
-                  <v-btn large depressed color="blue" :value="true">
-                    <v-icon>mdi-arrow-down</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </template>
-            </v-toolbar>
-          </template>
+                ></v-text-field>
+                <template v-if="$vuetify.breakpoint.mdAndUp">
+                  <v-spacer></v-spacer>
+                  <v-select
+                    v-model="sortBy"
+                    flat
+                    solo-inverted
+                    hide-details
+                    :items="keys"
+                    prepend-inner-icon="search"
+                  ></v-select>
+                  <v-spacer></v-spacer>
+                  <v-btn-toggle v-model="sortDesc" mandatory>
+                    <v-btn large depressed color="blue" :value="false">
+                      <v-icon>mdi-arrow-up</v-icon>
+                    </v-btn>
+                    <v-btn large depressed color="blue" :value="true">
+                      <v-icon>mdi-arrow-down</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </template>
+              </v-toolbar>
+            </template>
 
-          <template v-slot:default="props">
-            <v-row>
-              <v-col v-for="item in props.items" :key="item.name" cols="12" sm="6" md="4" lg="3">
-                <v-card>
-                  <v-card-title class="subheading font-weight-bold">{{ item.name }}</v-card-title>
+            <template v-slot:default="props">
+              <v-row>
+                <v-col v-for="item in props.items" :key="item.name" cols="12" sm="6" md="4" lg="3">
+                  <v-card>
+                    <v-card-title class="subheading font-weight-bold">{{ item.name }}</v-card-title>
 
-                  <v-divider></v-divider>
+                    <v-divider></v-divider>
 
-                  <v-list dense>
-                    <v-list-item v-for="(key, index) in filteredKeys" :key="index">
-                      <v-list-item-content :class="{ 'blue--text': sortBy === key }">{{ key }}:</v-list-item-content>
-                      <v-list-item-content
-                        class="align-end"
-                        :class="{ 'blue--text': sortBy === key }"
-                      >{{ item[key.toLowerCase()] }}</v-list-item-content>
+                    <v-list dense>
+                      <v-list-item v-for="(key, index) in filteredKeys" :key="index">
+                        <v-list-item-content :class="{ 'blue--text': sortBy === key }">{{ key }}:</v-list-item-content>
+                        <v-list-item-content
+                          class="align-end"
+                          :class="{ 'blue--text': sortBy === key }"
+                        >{{ item[key.toLowerCase()] }}</v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </template>
+
+            <template v-slot:footer>
+              <v-row class="mt-2" align="center" justify="center">
+                <span class="grey--text">Items per page</span>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn dark text color="primary" class="ml-2" v-on="on">
+                      {{ itemsPerPage }}
+                      <v-icon>mdi-chevron-down</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      v-for="(number, index) in itemsPerPageArray"
+                      :key="index"
+                      @click="updateItemsPerPage(number)"
+                    >
+                      <v-list-item-title>{{ number }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
-                </v-card>
-              </v-col>
-            </v-row>
-          </template>
+                </v-menu>
 
-          <template v-slot:footer>
-            <v-row class="mt-2" align="center" justify="center">
-              <span class="grey--text">Items per page</span>
-              <v-menu offset-y>
-                <template v-slot:activator="{ on }">
-                  <v-btn dark text color="primary" class="ml-2" v-on="on">
-                    {{ itemsPerPage }}
-                    <v-icon>mdi-chevron-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(number, index) in itemsPerPageArray"
-                    :key="index"
-                    @click="updateItemsPerPage(number)"
-                  >
-                    <v-list-item-title>{{ number }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+                <v-spacer></v-spacer>
 
-              <v-spacer></v-spacer>
-
-              <span class="mr-4 grey--text">Page {{ page }} of {{ numberOfPages }}</span>
-              <v-btn fab dark color="blue darken-3" class="mr-1" @click="formerPage">
-                <v-icon>mdi-chevron-left</v-icon>
-              </v-btn>
-              <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
-                <v-icon>mdi-chevron-right</v-icon>
-              </v-btn>
-            </v-row>
-          </template>
-        </v-data-iterator>
-      </v-container>
-    </v-app>
+                <span class="mr-4 grey--text">Page {{ page }} of {{ numberOfPages }}</span>
+                <v-btn fab dark color="blue darken-3" class="mr-1" @click="formerPage">
+                  <v-icon>mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
+                  <v-icon>mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-row>
+            </template>
+          </v-data-iterator>
+        </v-container>
+      </v-app>
+    </div>
   </div>
 </template>
 
@@ -165,6 +185,9 @@
 import Vuetify from "vuetify";
 import AppHeader from "@/components/core/Header.vue";
 import Noty from "noty";
+import Burger from "@/components/core/Menu/Burger.vue";
+import Sidebar from "@/components/core/Menu/Sidebar.vue";
+
 import {
   mdiAccount,
   mdiFileEdit,
@@ -177,7 +200,9 @@ export default {
   name: "Calories",
   vuetify: new Vuetify(),
   components: {
-    AppHeader
+    AppHeader,
+    Burger,
+    Sidebar
   },
   data() {
     return {
@@ -488,5 +513,44 @@ h1 {
   text-align: center;
   margin: 0px 50px 0 50px;
   padding-top: -60px;
+}
+html {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato";
+  height: 100%;
+  background: rgb(101, 31, 87);
+  background: linear-gradient(
+    45deg,
+    rgba(101, 31, 87, 1) 0%,
+    rgba(225, 113, 87, 1) 48%,
+    rgba(249, 248, 113, 1) 100%
+  );
+}
+.logo {
+  align-self: center;
+  color: #fff;
+  font-weight: bold;
+  font-family: "Lato";
+}
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+}
+ul.sidebar-panel-nav {
+  list-style-type: none;
+}
+ul.sidebar-panel-nav > li > a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  display: block;
+  padding-bottom: 0.5em;
 }
 </style>
