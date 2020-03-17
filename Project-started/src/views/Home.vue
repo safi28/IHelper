@@ -1,11 +1,6 @@
 <template>
   <div class="app">
-    <div class="logged" v-if="isSignedIn">
-      <LoggedHome></LoggedHome>
-    </div>
-    <div v-else>
-      <ContactInfo></ContactInfo>
-    </div>
+
   </div>
 </template>
 <style lang="css" scoped>
@@ -22,7 +17,9 @@ import ContactInfo from "@/components/Contact.vue";
 import EventCar from "@/components/EventCar.vue";
 import * as firebase from "firebase/app";
 import Dashboard from "@/components/Dashboard.vue";
-import LoggedHome from "@/components/pages/LoggedPage";
+import LoggedHome from "@/components/pages/LoggedPage.vue";
+import HeaderMain from "@/views/Header.vue";
+import Header from "@/components/core/Header";
 
 export default {
   name: "Home",
@@ -30,7 +27,9 @@ export default {
     ContactInfo,
     EventCar,
     Dashboard,
-    LoggedHome
+    LoggedHome,
+    HeaderMain,
+    Header
   },
   data: function() {
     return {

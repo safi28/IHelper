@@ -1,5 +1,7 @@
 <template>
   <div class="app">
+
+    <app-header></app-header>  
     <router-view></router-view>
     <Footer></Footer>
   </div>
@@ -7,31 +9,31 @@
 <script>
 import ContactInfo from "./components/Contact";
 import Footer from "./components/Footer";
-import Header from "./components/Header";
 import login from "./components/auth/Auth";
 import * as firebase from "firebase";
 import LoggedHome from "./components/pages/LoggedPage";
+import HeaderMain from "./views/Header";
+import appHeader from "./components/core/Header";
 
 export default {
   name: "App",
   components: {
     ContactInfo,
     Footer,
-    Header,
-    login
+    login,
+    appHeader
+ 
   },
   data: () => ({
     isLoggedIn: false
   }),
   methods: {
     isSignedIn() {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
-        }
-      });
+      if (firebase.auth().currentUser) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {

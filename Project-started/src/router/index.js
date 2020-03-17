@@ -2,14 +2,14 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import login from "@/components/auth/Auth.vue";
-import Dashboard from "@/components/Dashboard.vue";
 import LoggedHome from "@/components/pages/LoggedPage.vue";
+import Calories from '@/components/pages/Food/Calories.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: Home
   },
@@ -32,6 +32,11 @@ const routes = [
     path: "/dashboard",
     name: "LoggedHome",
     component: LoggedHome
+  },
+  {
+    path: "/calories",
+    name: "Calories",
+    component: Calories
   }
 ];
 

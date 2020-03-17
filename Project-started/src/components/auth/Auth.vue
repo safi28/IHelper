@@ -197,7 +197,6 @@ export default {
           this.isLogged = true;
           this.$router.replace({ name: "LoggedHome" });
           this.$noty.success("Logged in successfully!");
-          localStorage.setItem("user", JSON.stringify(data));
         })
         .catch(err => {
           this.$noty.error("Error");

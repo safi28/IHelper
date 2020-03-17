@@ -1,40 +1,5 @@
 <template>
   <div id="app">
-    <div v-if="isLoggedIn">
-      <div id="inspire">
-        <div>
-          <v-app-bar color="deep-purple accent-4" dense dark>
-            <v-toolbar-title>
-              Health Information
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-            </v-toolbar-title>
-
-            <v-spacer></v-spacer>
-
-            <div class="my-2">
-              <v-btn text small @click="signOut">Logout</v-btn>
-            </div>
-
-            <v-menu left bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-
-              <v-list>
-                <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-                  <v-list-item-title>Option {{ n }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-app-bar>
-        </div>
-      </div>
-    </div>
-    <div v-else>
       <v-card class="overflow-hidden">
         <v-app-bar
           color="#6A76AB"
@@ -81,7 +46,6 @@
           </v-btn>
         </v-app-bar>
       </v-card>
-    </div>
   </div>
 </template>
 
@@ -94,60 +58,23 @@
 }
 </style>
 <script>
-import ContactInfo from "../components/Contact";
+import ContactInfo from "../../components/Contact";
 import Vuetify from "vuetify";
-import login from "../components/auth/Auth";
 import * as firebase from "firebase/app";
 import Noty from "noty";
 
 export default {
-  name: "Header",
   vuetify: new Vuetify(),
   components: {
-    ContactInfo,
-    login
+    ContactInfo
   },
+
   data: () => ({
     drawer: false,
     group: null,
     title: "Click Me",
     user: null,
-    authUser: null,
-    isLoggedIn  : false
-  }),
-  watch: {
-    group() {
-      this.drawer = false;
-    }
-  },
-  methods: {
-    isSignedIn() {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
-        }
-      });
-    },
-    mounted() {
-      this.isSignedIn();
-    },
-    signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          localStorage.removeItem("user");
-          this.$router.replace({ name: "ContactInfo" }).catch(err => {
-            this.$noty.error("Error router!");
-          });
-        })
-        .catch(err => {
-          this.$noty.error("Error");
-          console.log(err);
-        });
-    }
-  }
+    authUser: null
+  })
 };
 </script>

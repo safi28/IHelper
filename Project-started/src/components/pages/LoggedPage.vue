@@ -1,42 +1,11 @@
 <template>
   <div class="app">
-    <div class="header">
-      <div id="inspire">
-        <v-app-bar color="deep-purple accent-4" dense dark>
-          <v-toolbar-title>
-            Health Information
-            <v-btn icon>
-              <v-icon>mdi-heart-outline</v-icon>
-            </v-btn>
-          </v-toolbar-title>
-
-          <v-spacer></v-spacer>
-
-          <div class="my-2">
-            <v-btn text small @click="signOut">Logout</v-btn>
-          </div>
-
-          <v-menu left bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn icon v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-                <v-list-item-title>Option {{ n }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-app-bar>
-      </div>
-    </div>
+    <!-- <app-header></app-header> -->
     <div id="main">
       <v-app id="inspire">
         <v-container>
-          <v-row class="mb-4" no-gutters>
-            <v-col cols="12" md="8">
+          <v-row class="mb-6" no-gutters>
+            <v-col cols="14" md="8">
               <v-card height="900" width="9000" class="overflow-hidden">
                 <v-navigation-drawer
                   v-model="drawer"
@@ -61,50 +30,87 @@
 
                     <v-divider></v-divider>
 
-                    <v-list-item v-for="item in items" :key="item.title" link>
-                      <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
-                      </v-list-item-icon>
+                    <router-link :to="{ name: 'About' }">
+                      <v-list-item link>
+                        <v-list-item-icon>
+                          <v-icon>mdi-view-dashboard</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>
+                          Dashboard
+                          <router-link to="/about"></router-link>
+                        </v-list-item-title>
 
-                      <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
+                        <v-list-item-icon></v-list-item-icon>
+                      </v-list-item>
+                    </router-link>
+                    <router-link :to="{ name: 'About'}">
+                      <v-list-item link>
+                        <v-list-item-icon>
+                          <v-icon>mdi-heart</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>
+                          Health
+                          <router-link to="/about"></router-link>
+                        </v-list-item-title>
+
+                        <v-list-item-icon></v-list-item-icon>
+                      </v-list-item>
+                    </router-link>
+                    <router-link :to="{ name: 'Calories'}">
+                      <v-list-item link>
+                        <v-list-item-icon>
+                          <v-icon>mdi-food-apple</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>
+                          Food
+                          <router-link to="/calories"></router-link>
+                        </v-list-item-title>
+
+                        <v-list-item-icon></v-list-item-icon>
+                      </v-list-item>
+                    </router-link>
+                    <router-link :to="{ name: 'About'}">
+                      <v-list-item link>
+                        <v-list-item-icon>
+                          <v-icon>mdi-help-box</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>
+                          About
+                          <router-link to="/about"></router-link>
+                        </v-list-item-title>
+
+                        <v-list-item-icon></v-list-item-icon>
+                      </v-list-item>
+                    </router-link>
                   </v-list>
                 </v-navigation-drawer>
-                <v-parallax
-                  height="1000"
-                  class="parall"
-                  width="900"
-                  dark
-                  src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-                >
+
+                <v-parallax height="1000" class="parall" width="900" dark>
                   <v-row align="center" justify="center">
                     <v-col class="text-center" cols="16">
-                      <h1 class="display-1 font-weight-thin mb-4">Vuetify.js</h1>
-                      <h4 class="subheading">Build your application today!</h4>
+                      <h1 class="display-1 font-weight-thin mb-4">Your online health assistant</h1>
+                      <h4 class="subheading">Track your results!</h4>
                     </v-col>
                   </v-row>
                 </v-parallax>
               </v-card>
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col cols="14" md="4">
               <v-card height="900" width="9000" outlined tile>
-                <v-card-title class="text-center justify-center py-6">
-                  <h1 class="font-weight-bold display-3 basil--text">BASiL</h1>
-                </v-card-title>
-
-                <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-                  <v-tab v-for="item in categories" :key="item">{{ item }}</v-tab>
-                </v-tabs>
-
-                <v-tabs-items v-model="tab">
-                  <v-tab-item v-for="item in items" :key="item">
-                    <v-card color="basil" flat>
-                      <v-card-text>{{ text }}</v-card-text>
-                    </v-card>
-                  </v-tab-item>
-                </v-tabs-items>
+                <v-timeline>
+                  <v-timeline-item v-for="(year, i) in years" :key="i" :color="year.color" small>
+                    <template v-slot:opposite>
+                      <span
+                        :class="`headline font-weight-bold ${year.color}--text`"
+                        v-text="year.year"
+                      ></span>
+                    </template>
+                    <div class="py-4">
+                      <h2 :class="`headline font-weight-light mb-4 ${year.color}--text`">Lorem ipsum</h2>
+                      <div>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</div>
+                    </div>
+                  </v-timeline-item>
+                </v-timeline>
               </v-card>
             </v-col>
           </v-row>
@@ -120,25 +126,36 @@
 }
 .parall {
   bottom: 50px;
+  background-image: linear-gradient(
+      to top right,
+      rgba(97, 116, 223, 0.7),
+      rgba(25, 32, 72, 0.7)
+    ),
+    url("https://i.pinimg.com/736x/68/46/10/684610d7617668e4c68c19431a4f338f.jpg");
+}
+.home {
+  color: aliceblue;
 }
 </style>
 
 <script>
 import * as firebase from "firebase";
 import { mapGetters } from "vuex";
+import AppHeader from '@/components/core/Header.vue'
 
 export default {
   name: "LoggedHome",
+  components: { AppHeader },
   data() {
     return {
       isLoggedIn: false,
       drawer: true,
       items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard" },
-        { title: "Health", icon: "mdi-heart" },
-        { title: "Food", icon: "mdi-food-apple" },
-        { title: "Photos", icon: "mdi-image" },
-        { title: "About", icon: "mdi-help-box" }
+        { title: "Dashboard", icon: "mdi-view-dashboard", link: "/about" },
+        { title: "Health", icon: "mdi-heart", link: "/about" },
+        { title: "Food", icon: "mdi-food-apple", link: "/calories" },
+        { title: "Photos", icon: "mdi-image", link: "/health" },
+        { title: "About", icon: "mdi-help-box", link: "/about" }
       ],
       color: "primary",
       right: false,
@@ -146,9 +163,20 @@ export default {
       expandOnHover: true,
       background: true,
       tab: null,
-      categories: ["Appetizers", "Entrees", "Deserts", "Cocktails"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      years: [
+        {
+          color: "cyan",
+          year: "1960"
+        },
+        {
+          color: "green",
+          year: "1970"
+        },
+        {
+          color: "pink",
+          year: "1980"
+        }
+      ]
     };
   },
 
