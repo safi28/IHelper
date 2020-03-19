@@ -1,10 +1,9 @@
 <template>
-  <div id="nav">
+  <div id="app">
     <nav class="main-nav">
-      <div class="logo">my.company</div>
       <Burger></Burger>
     </nav>
-    <Sidebar>
+    <Sidebar class="burger-button">
       <v-list>
         <v-divider></v-divider>
         <router-link :to="{ name: 'LoggedHome' }">
@@ -74,125 +73,90 @@
         </router-link>
       </v-list>
     </Sidebar>
-    <h1>You can find information about food and their properties and create your table with your daily meals</h1>
-    
-    <v-container fluid class="pa-0">
-      <v-col cols="12" sm="6">
-        <router-link :to="{ name: 'youTable' }">
-          <div class="text-center">
-            <div class="my-2">
-              <v-btn color="success" fab x-large dark>
-                   <router-link to="/youTable"></router-link>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </div>
-          </div>
-        </router-link>
-      </v-col>
-    </v-container>
-    <v-app id="inspire">
-      <v-container fluid>
-        <v-data-iterator
-          :items="items"
-          :items-per-page.sync="itemsPerPage"
-          :page="page"
-          :search="search"
-          :sort-by="sortBy.toLowerCase()"
-          :sort-desc="sortDesc"
-          hide-default-footer
-        >
-          <template v-slot:header>
-            <v-toolbar dark color="blue darken-3" class="mb-1">
-              <v-text-field
-                v-model="search"
-                clearable
-                flat
-                solo-inverted
-                hide-details
-                prepend-inner-icon="search"
-              ></v-text-field>
-              <template v-if="$vuetify.breakpoint.mdAndUp">
-                <v-spacer></v-spacer>
-                <v-select
-                  v-model="sortBy"
-                  flat
-                  solo-inverted
-                  hide-details
-                  :items="keys"
-                  prepend-inner-icon="search"
-                ></v-select>
-                <v-spacer></v-spacer>
-                <v-btn-toggle v-model="sortDesc" mandatory>
-                  <v-btn large depressed color="blue" :value="false">
-                    <v-icon>mdi-arrow-up</v-icon>
-                  </v-btn>
-                  <v-btn large depressed color="blue" :value="true">
-                    <v-icon>mdi-arrow-down</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </template>
-            </v-toolbar>
-          </template>
+    <v-app>
+      <h1>Here you can add what you have eaten for the day</h1>
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="6">
+            <v-row align="center">
+              <v-data-table
+                :headers="headers"
+                :items="desserts"
+                sort-by="calories"
+                class="elevation-1"
+              >
+                <template v-slot:top>
+                  <v-toolbar flat color="white">
+                    <v-spacer></v-spacer>
+                    <v-toolbar-title>Your total calories for the day is: {{totalCurrent}} kcal</v-toolbar-title>
 
-          <template v-slot:default="props">
-            <v-row>
-              <v-col v-for="item in props.items" :key="item.name" cols="12" sm="6" md="4" lg="3">
-                <v-card>
-                  <v-card-title class="subheading font-weight-bold">{{ item.name }}</v-card-title>
+                    <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-spacer></v-spacer>
+                    <v-dialog v-model="dialog" max-width="500px">
+                      <template v-slot:activator="{ on }">
+                        <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                          <span class="headline">{{ formTitle }}</span>
+                        </v-card-title>
 
-                  <v-divider></v-divider>
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
 
-                  <v-list dense>
-                    <v-list-item v-for="(key, index) in filteredKeys" :key="index">
-                      <v-list-item-content :class="{ 'blue--text': sortBy === key }">{{ key }}:</v-list-item-content>
-                      <v-list-item-content
-                        class="align-end"
-                        :class="{ 'blue--text': sortBy === key }"
-                      >{{ item[key.toLowerCase()] }}</v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </v-card>
-              </v-col>
-            </v-row>
-          </template>
-
-          <template v-slot:footer>
-            <v-row class="mt-2" align="center" justify="center">
-              <span class="grey--text">Items per page</span>
-              <v-menu offset-y>
-                <template v-slot:activator="{ on }">
-                  <v-btn dark text color="primary" class="ml-2" v-on="on">
-                    {{ itemsPerPage }}
-                    <v-icon>mdi-chevron-down</v-icon>
-                  </v-btn>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
+                          <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-toolbar>
                 </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(number, index) in itemsPerPageArray"
-                    :key="index"
-                    @click="updateItemsPerPage(number)"
-                  >
-                    <v-list-item-title>{{ number }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-
-              <v-spacer></v-spacer>
-
-              <span class="mr-4 grey--text">Page {{ page }} of {{ numberOfPages }}</span>
-              <v-btn fab dark color="blue darken-3" class="mr-1" @click="formerPage">
-                <v-icon>mdi-chevron-left</v-icon>
-              </v-btn>
-              <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
-                <v-icon>mdi-chevron-right</v-icon>
-              </v-btn>
+                <template v-slot:item.actions="{ item }">
+                  <v-icon
+                    class="ma-2"
+                    color="purple"
+                    dark
+                    @click="editItem(item)"
+                  >{{icons.mdiFileEdit}}</v-icon>
+                  <v-icon
+                    class="ma-2"
+                    color="red"
+                    dark
+                    @click="deleteItem(item)"
+                  >{{ icons.mdiDelete }}</v-icon>
+                </template>
+                <template v-slot:no-data>
+                  <v-btn color="primary" @click="initialize">Reset</v-btn>
+                </template>
+              </v-data-table>
             </v-row>
-          </template>
-        </v-data-iterator>
+          </v-col>
+        </v-row>
       </v-container>
     </v-app>
   </div>
-</template>
+</template> 
 
 <script>
 import Vuetify from "vuetify";
@@ -201,6 +165,7 @@ import Noty from "noty";
 import Burger from "@/components/core/Menu/Burger.vue";
 import Sidebar from "@/components/core/Menu/Sidebar.vue";
 import UTable from "@/components/pages/Food/dailyCounter.vue";
+
 import {
   mdiAccount,
   mdiFileEdit,
@@ -211,7 +176,7 @@ import {
 } from "@mdi/js";
 
 export default {
-  name: "Calories",
+  name: "youTable",
   vuetify: new Vuetify(),
   components: {
     AppHeader,
@@ -450,6 +415,36 @@ export default {
           sodium: 337,
           calcium: "6%",
           iron: "7%"
+        },
+        {
+          name: "Frozen Yogurt",
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+          sodium: 87,
+          calcium: "14%",
+          iron: "1%"
+        },
+        {
+          name: "Ice cream sandwich",
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+          sodium: 129,
+          calcium: "8%",
+          iron: "1%"
+        },
+        {
+          name: "Eclair",
+          calories: 262,
+          fat: 16.0,
+          carbs: 23,
+          protein: 6.0,
+          sodium: 337,
+          calcium: "6%",
+          iron: "7%"
         }
       ];
     },
@@ -488,8 +483,13 @@ export default {
 </script>
 
 <style scoped>
-.app {
-  background-image: url("../../../assets/img.png");
+#app {
+  background-image: linear-gradient(
+      to top right,
+      rgba(138, 148, 209, 0.7),
+      rgba(73, 82, 129, 0.7)
+    ),
+    url("https://images5.alphacoders.com/736/736373.jpg");
 }
 h1 {
   font-size: 50px;
@@ -505,7 +505,6 @@ html {
   height: 100%;
   overflow: hidden;
 }
-
 body {
   border: 0;
   margin: 0;
@@ -520,8 +519,8 @@ body {
     rgba(249, 248, 113, 1) 100%
   );
 }
-.s {
-  color: white;
+.elevation-1 {
+  border-radius: 5%;
 }
 .logo {
   align-self: center;
@@ -529,10 +528,16 @@ body {
   font-weight: bold;
   font-family: "Lato";
 }
+.burger-button {
+  right: 50%;
+}
 .main-nav {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0.8rem;
+}
+#burger {
+  left: 50%;
 }
 ul.sidebar-panel-nav {
   list-style-type: none;

@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <!-- <app-header></app-header> -->
     <div id="main">
       <v-app id="inspire">
         <v-container>
@@ -30,27 +29,27 @@
 
                     <v-divider></v-divider>
 
-                    <router-link :to="{ name: 'About' }">
+                    <router-link :to="{ name: 'Meistask' }">
                       <v-list-item link>
                         <v-list-item-icon>
                           <v-icon>mdi-view-dashboard</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>
                           Dashboard
-                          <router-link to="/about"></router-link>
+                          <router-link to="/meistask"></router-link>
                         </v-list-item-title>
 
                         <v-list-item-icon></v-list-item-icon>
                       </v-list-item>
                     </router-link>
-                    <router-link :to="{ name: 'About'}">
+                    <router-link :to="{ name: 'calendar'}">
                       <v-list-item link>
                         <v-list-item-icon>
                           <v-icon>mdi-heart</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>
                           Health
-                          <router-link to="/about"></router-link>
+                          <router-link to="/calendar"></router-link>
                         </v-list-item-title>
 
                         <v-list-item-icon></v-list-item-icon>

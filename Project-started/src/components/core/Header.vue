@@ -10,7 +10,6 @@
                 <router-link to="/dashboard"></router-link>
               </div>
             </router-link>
-            <!-- </router-link> -->
 
             <v-spacer></v-spacer>
 
@@ -109,8 +108,7 @@ export default {
   vuetify: new Vuetify(),
   components: {
     ContactInfo,
-    login,
-    
+    login
   },
   props: {
     isLoggedIn: false
@@ -156,6 +154,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
+          this.$noty.success("Logged out successfully!");
           this.$router.replace({ name: "ContactInfo" }).catch(err => {
             this.$noty.error("Error router!");
           });
