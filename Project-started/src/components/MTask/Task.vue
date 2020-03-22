@@ -85,6 +85,37 @@
       <hr />
 
       <v-container>
+        <v-dialog v-model="dialog" max-width="600px">
+          <template v-slot:activator="{ on }">
+            <v-btn class="addbtn" color="pink" dark fab v-on="on">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Write your TODO:</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="6" sm="6" md="4">
+                    <v-text-field v-model="todo.title" label="Title"></v-text-field>
+                  </v-col>
+                  <v-col cols="6" sm="6" md="4">
+                    <v-text-field v-model="todo.text" label="Text"></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <v-row dense>
           <!-- <v-col :cols="6">
                 <v-card color="#385F73" dark>
@@ -96,45 +127,14 @@
                     <v-btn text>Listen Now</v-btn>
                   </v-card-actions>
                 </v-card>
-          </v-col> -->
-          <v-dialog v-model="dialog" max-width="600px">
-            <template v-slot:activator="{ on }">
-              <v-btn class="addbtn" color="pink" dark fab v-on="on">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ todo.title }}</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="todo.title" label="Title"></v-text-field>
-                    </v-col>
-                    <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="todo.text" label="Text"></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          </v-col>-->
 
           <template v-slot:item.actions="{ item }">
             <v-icon class="ma-2" color="purple" dark @click="editItem(item)">edit</v-icon>
             <v-icon class="ma-2" color="red" dark @click="deleteItem(item)">delete</v-icon>
           </template>
-          <v-col v-for="item in tasks" :key="item.id" :cols="6">
-            <v-card  color="#EC2049" dark>
+          <v-col v-for="item in tasks" :key="item.id" cols="4">
+            <v-card color="#EC2049" dark>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="headline" v-text="item.title"></v-card-title>
@@ -142,8 +142,9 @@
                 </div>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-card-actions>
-                  <v-btn color="white" text>Share</v-btn>
-                  <v-btn color="white " text>Explore</v-btn>
+                  <v-btn color="white"  @click="editItem(item.id, $event)"text>Edit</v-btn>
+                  <v-btn color="white " @click="deleteItem(item.id)" text>Delete</v-btn>
+                  <v-checkbox v-model="selected" value="item.id"></v-checkbox>
                 </v-card-actions>
               </div>
             </v-card>
@@ -194,7 +195,7 @@ export default {
     };
   },
   created() {
-    this.getTodos()
+    this.getTodos();
   },
   mounted() {
     this.ref.onSnapshot(querySnapshot => {
@@ -219,16 +220,20 @@ export default {
     }
   },
   methods: {
-    editItem(item) {
-      this.editedIndex = this.tasks.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+    editItem(item, e) {
+      var isChecked = e.target.checked;
+      firebase
+        .firestore()
+        .collection("tasks")
+        .update({ isCompleted: isChecked });
       this.dialog = true;
     },
-
     deleteItem(item) {
-      const index = this.tasks.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.tasks.splice(index, 1);
+      firebase
+        .firestore()
+        .collection("tasks")
+        .doc(item)
+        .delete();
     },
     close() {
       this.dialog = false;
@@ -243,7 +248,8 @@ export default {
         .collection("tasks")
         .add({
           title: this.todo.title,
-          text: this.todo.text
+          text: this.todo.text,
+           createdAt: new Date(),
         });
       this.close();
     },
