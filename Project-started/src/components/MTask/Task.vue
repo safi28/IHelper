@@ -86,7 +86,7 @@
 
       <v-container>
         <v-row dense>
-          <!-- <v-col :cols="items.flex">
+          <!-- <v-col :cols="6">
                 <v-card color="#385F73" dark>
                   <v-card-title class="headline">Unlimited music now</v-card-title>
 
@@ -96,8 +96,8 @@
                     <v-btn text>Listen Now</v-btn>
                   </v-card-actions>
                 </v-card>
-          </v-col>-->
-          <v-dialog v-model="dialog" max-width="400px">
+          </v-col> -->
+          <v-dialog v-model="dialog" max-width="600px">
             <template v-slot:activator="{ on }">
               <v-btn class="addbtn" color="pink" dark fab v-on="on">
                 <v-icon>mdi-plus</v-icon>
@@ -105,17 +105,17 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
+                <span class="headline">{{ todo.title }}</span>
               </v-card-title>
 
               <v-card-text>
                 <v-container>
                   <v-row>
                     <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="editedItem.title" label="Title"></v-text-field>
+                      <v-text-field v-model="todo.title" label="Title"></v-text-field>
                     </v-col>
                     <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="editedItem.text" label="Text"></v-text-field>
+                      <v-text-field v-model="todo.text" label="Text"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -133,23 +133,16 @@
             <v-icon class="ma-2" color="purple" dark @click="editItem(item)">edit</v-icon>
             <v-icon class="ma-2" color="red" dark @click="deleteItem(item)">delete</v-icon>
           </template>
-          <v-col v-for="(item, i) in items" :key="i" :cols="items.flex">
-            <v-card :color="item.color" dark>
+          <v-col v-for="item in tasks" :key="item.id" :cols="6">
+            <v-card  color="#EC2049" dark>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="headline" v-text="item.title"></v-card-title>
-
-                  <v-card-subtitle v-text="item.title"></v-card-subtitle>
+                  <v-card-subtitle v-text="item.text"></v-card-subtitle>
                 </div>
                 <v-divider class="mx-4" inset vertical></v-divider>
-                <v-spacer></v-spacer>
-
-                <v-avatar class="ma-3" size="125" tile>
-                  <v-img :src="item.text"></v-img>
-                </v-avatar>
                 <v-card-actions>
                   <v-btn color="white" text>Share</v-btn>
-
                   <v-btn color="white " text>Explore</v-btn>
                 </v-card-actions>
               </div>
@@ -167,42 +160,25 @@
 import Vuetify from "vuetify";
 import Burger from "@/components/core/Menu/Burger.vue";
 import Sidebar from "@/components/core/Menu/Sidebar.vue";
+import db from "@/main.js";
+import * as firebase from "firebase/app";
+import router from "@/router/index.js";
 export default {
   vuetify: new Vuetify(),
   name: "meist",
   components: { Burger, Sidebar },
   data() {
     return {
-      items: [
-        // {
-        //   color: "#e0b2ab",
-        //   title: "Halcyon Days",
-        //   text: "TODO some homework",
-        //   flex: 6
-        // },
-        // {
-        //   color: "#952175",
-        //   src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-        //   title: "Halcyon Days",
-        //   artist: "Ellie Goulding",
-        //   flex: 6
-        // },
-        // {
-        //   color: "#1F7087",
-        //   src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-        //   title: "Supermodel",
-        //   artist: "Foster the People",
-        //   flex: 12
-        // },
-        // {
-        //   color: "#e0b2ab",
-        //   title: "Halcyon Days",
-        //   text: "TODO some homework",
-        //   flex: 6
-        // }
-      ],
+      tasks: [],
       selected: [],
+      ref: firebase.firestore().collection("tasks"),
+      key: "",
+      todo: {
+        title: "",
+        text: ""
+      },
 
+      items: [],
       editedIndex: -1,
       dialog: false,
       editedItem: {
@@ -217,6 +193,21 @@ export default {
       keys: ["Title", "Text"]
     };
   },
+  created() {
+    this.getTodos()
+  },
+  mounted() {
+    this.ref.onSnapshot(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        this.items.push({
+          key: doc.id,
+          title: doc.data().title,
+          text: doc.data().text
+        });
+      });
+      this.close();
+    });
+  },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
@@ -229,15 +220,15 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.editedIndex = this.items.indexOf(item);
+      this.editedIndex = this.tasks.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.items.indexOf(item);
+      const index = this.tasks.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.items.splice(index, 1);
+        this.tasks.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -246,14 +237,26 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.items[this.editedIndex], this.editedItem);
-      } else {
-        this.items.push(this.editedItem);
-      }
+      firebase
+        .firestore()
+        .collection("tasks")
+        .add({
+          title: this.todo.title,
+          text: this.todo.text
+        });
       this.close();
+    },
+    async getTodos() {
+      var todosRef = await firebase.firestore().collection("tasks");
+      todosRef.onSnapshot(snap => {
+        this.tasks = [];
+        snap.forEach(doc => {
+          var todo = doc.data();
+          todo.id = doc.id;
+          this.tasks.push(todo);
+        });
+      });
     }
   }
 };

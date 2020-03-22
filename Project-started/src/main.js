@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify";
 import * as firebase from "firebase/app";
 import Vuesax from "vuesax";
 import VueNoty from "vuejs-noty";
+import "firebase/firestore";
 
 Vue.config.productionTip = false;
 
@@ -19,6 +20,8 @@ const configOptions = {
   appId: "1:630574009533:web:3e0a22134673233be53bd4"
 };
 firebase.initializeApp(configOptions);
+Vue.prototype.$firebase = firebase;
+export const db = firebase.firestore();
 new Vue({
   router,
   store,
