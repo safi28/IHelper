@@ -78,22 +78,25 @@
     </nav>
 
     <v-app>
-      <!-- <v-card max-width="3000" height="1000" class="mx-auto"> -->
-      <!-- <hr /> -->
-      <h1>Your TODO list</h1>
-
+      <h1>Things To Do</h1>
       <hr />
 
       <v-container>
-        <v-dialog v-model="dialog" max-width="600px">
+        <v-dialog v-model="dialog" max-width="600px" dark>
           <template v-slot:activator="{ on }">
+            <v-img
+              src="https://images.vexels.com/media/users/3/130407/isolated/preview/1baad1e614f56cbdb220a518ca35e106-floral-swirls-decorations-by-vexels.png"
+              height="70"
+              width="500"
+              class="flower"
+            ></v-img>
             <v-btn class="addbtn" color="pink" dark fab v-on="on">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">Write your TODO:</span>
+              <span class="headline">Thing to do:</span>
             </v-card-title>
 
             <v-card-text>
@@ -117,23 +120,8 @@
           </v-card>
         </v-dialog>
         <v-row dense>
-          <!-- <v-col :cols="6">
-                <v-card color="#385F73" dark>
-                  <v-card-title class="headline">Unlimited music now</v-card-title>
-
-                  <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
-
-                  <v-card-actions>
-                    <v-btn text>Listen Now</v-btn>
-                  </v-card-actions>
-                </v-card>
-          </v-col>-->
-
-          <template v-slot:item.actions="{ item }">
-            <v-icon class="ma-2" color="purple" dark @click="editItem(item)">edit</v-icon>
-            <v-icon class="ma-2" color="red" dark @click="deleteItem(item)">delete</v-icon>
-          </template>
-          <v-col v-for="item in tasks" :key="item.id" cols="4">
+        
+          <v-col v-for="item in tasks" :key="item.id" cols="4" :class="{fade: item.isCompleted}">
             <v-card color="#EC2049" dark>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
@@ -142,17 +130,20 @@
                 </div>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-card-actions>
-                  <v-btn color="white"  @click="editItem(item.id, $event)"text>Edit</v-btn>
+                  <v-btn
+                    color="white"
+                    :checked="item.isCompleted"
+                    @click="editIem(item.id, $event)"
+                    text
+                  >Edit</v-btn>
                   <v-btn color="white " @click="deleteItem(item.id)" text>Delete</v-btn>
-                  <v-checkbox v-model="selected" value="item.id"></v-checkbox>
+                  <v-checkbox @change="checkItem(item.id, $event)"></v-checkbox>
                 </v-card-actions>
               </div>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
-
-      <!-- </v-card> -->
     </v-app>
   </div>
 </template>
@@ -176,8 +167,9 @@ export default {
       key: "",
       todo: {
         title: "",
-        text: ""
+        createdAt: new Date().getHours()
       },
+      select: false,
 
       items: [],
       editedIndex: -1,
@@ -220,12 +212,20 @@ export default {
     }
   },
   methods: {
-    editItem(item, e) {
-      var isChecked = e.target.checked;
+    checkItem(item, e) {
+      // var isChecked = e.value;
       firebase
         .firestore()
         .collection("tasks")
-        .update({ isCompleted: isChecked });
+        .doc(item)
+        .update({ isCompleted: true });
+    },
+    editIem(item, e) {
+      firebase
+        .firestore()
+        .collection("tasks")
+        .doc(item)
+        .update({ isCompleted: true });
       this.dialog = true;
     },
     deleteItem(item) {
@@ -249,7 +249,8 @@ export default {
         .add({
           title: this.todo.title,
           text: this.todo.text,
-           createdAt: new Date(),
+          createdAt: new Date().getHours(),
+          isCompleted: false
         });
       this.close();
     },
@@ -269,9 +270,20 @@ export default {
 </script>
 
 <style scoped>
+.flower {
+  left: 330px;
+}
 .addbtn {
   top: 100px;
   right: 190px;
+}
+.headline {
+  color: #f1d1d9;
+  font-family: "Trocchi", serif;
+  font-size: 45px;
+  font-weight: normal;
+  line-height: 48px;
+  margin: 0;
 }
 .slogo {
   width: 90px;

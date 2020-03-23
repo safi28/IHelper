@@ -17,12 +17,14 @@
                 >
                   <v-list dense nav class="py-0">
                     <v-list-item two-line :class="miniVariant && 'px-0'">
-                      <v-list-item-avatar>
-                        <img src="https://svgur.com/i/65U.svg" />
-                      </v-list-item-avatar>
+                      <router-link :to="{ name: 'profile' }">
+                        <v-list-item-avatar>
+                          <img src="https://svgur.com/i/65U.svg" />
+                        </v-list-item-avatar>
+                      </router-link>
 
                       <v-list-item-content>
-                        <v-list-item-title>Application</v-list-item-title>
+                        <v-list-item-title>Profile</v-list-item-title>
                         <v-list-item-subtitle>Subtext</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -140,7 +142,7 @@
 <script>
 import * as firebase from "firebase";
 import { mapGetters } from "vuex";
-import AppHeader from '@/components/core/Header.vue'
+import AppHeader from "@/components/core/Header.vue";
 
 export default {
   name: "LoggedHome",

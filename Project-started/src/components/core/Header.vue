@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="isSignedIn">
+    <div v-if="!isSignedIn">
       <div id="inspire">
         <div>
           <v-app-bar color="deep-purple accent-4" dense dark>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div v-else>
+    <div v-if="isSignedIn">
       <v-card class="overflow-hidden">
         <v-app-bar
           color="#6A76AB"

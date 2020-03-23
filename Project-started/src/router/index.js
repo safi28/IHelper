@@ -7,6 +7,7 @@ import Calories from "@/components/pages/Food/Calories.vue";
 import youTable from "@/components/pages/Food/dailyCounter.vue";
 import calendar from "@/components/pages/Calendar/Calendar.vue";
 import Meistask from "@/components/MTask/Task.vue";
+import profile from "@/components/pages/Profile/Profile.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: login
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: profile
   },
   {
     path: "/about",

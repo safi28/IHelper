@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <!-- <app-header></app-header> -->
     <router-view></router-view>
     <Footer></Footer>
   </div>
@@ -23,7 +22,7 @@ export default {
     appHeader
   },
   data: () => ({
-    isLoggedIn: false
+    isLoggedIn: true
   }),
   methods: {
     isSignedIn() {

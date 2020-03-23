@@ -66,7 +66,8 @@ import Noty from "noty";
 export default {
   vuetify: new Vuetify(),
   components: {
-    ContactInfo
+    ContactInfo,
+    
   },
 
   data: () => ({

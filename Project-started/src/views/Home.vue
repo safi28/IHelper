@@ -1,16 +1,9 @@
 <template>
   <div class="app">
-
+    <Header></Header>
+    <ContactInfo></ContactInfo>
   </div>
 </template>
-<style lang="css" scoped>
-img {
-  background-size: cover;
-  width: 100%;
-  height: 100%;
-}
-</style>
-
 
 <script>
 import ContactInfo from "@/components/Contact.vue";
@@ -50,3 +43,12 @@ export default {
   }
 };
 </script>
+
+<style lang="css" scoped>
+img {
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+
+</style>

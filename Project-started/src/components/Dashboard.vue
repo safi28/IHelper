@@ -58,7 +58,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "Dashboard",
   components: {
-    
   },
   data() {
     return {
