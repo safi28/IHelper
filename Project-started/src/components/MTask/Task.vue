@@ -128,20 +128,21 @@
                   <v-card-subtitle v-text="item.text"></v-card-subtitle>
                 </div>
                 <v-divider class="mx-4" inset vertical></v-divider>
-                <v-card-actions>
-                  <v-btn color="white" @click="editIem(item.id)" text>Edit</v-btn>
+                <v-card-actions >
+                  <v-btn color="white" @click="editIem(item.id)"   text>Edit</v-btn>
 
                   <v-btn color="white" @click="deleteItem(item.id)" text>Delete</v-btn>
-                  <span class="checkbox-container">
+                  <v-divider class="mx-4" inset vertical></v-divider>
+
+                  <span class="checkbox-container circular-container">
                     <label class="checkbox-label">
                       <input
                         type="checkbox"
                         :checked="item.isCompleted"
                         @change="updateTodoItem(item.id, $event)"
                       />
-                      <span class="checkbox-custom rectangular"></span>
+                      <span class="checkbox-custom circular"></span>
                     </label>
-                    <div class="input-title"></div>
                   </span>
                 </v-card-actions>
               </div>
@@ -172,6 +173,7 @@ export default {
       key: this.$route.params.id,
       todo: {
         title: "",
+        text: '',
         createdAt: new Date().getHours()
       },
       select: false,
@@ -292,23 +294,14 @@ export default {
   text-align: center;
   padding: 40px 0px;
 }
-.circular-container {
-  background-color: #0067ff;
-}
 
-.input-title {
-  clear: both;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 300;
-}
 .checkbox-label {
   display: block;
   position: relative;
   margin: auto;
   cursor: pointer;
-  font-size: 22px;
-  line-height: 24px;
+  font-size: 15px;
+  line-height: 10px;
   height: 24px;
   width: 24px;
   clear: both;
@@ -380,6 +373,65 @@ export default {
   border-width: 0 2px 2px 0;
   background-color: transparent;
   border-radius: 0;
+}
+.checkbox-label .checkbox-custom::before {
+  position: absolute;
+  content: "";
+  left: 10px;
+  top: 10px;
+  width: 0px;
+  height: 0px;
+  border-radius: 5px;
+  border: 2px solid #ffffff;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
+
+.checkbox-label input:checked ~ .checkbox-custom::before {
+  left: -3px;
+  top: -3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  -webkit-transform: scale(3);
+  -ms-transform: scale(3);
+  transform: scale(3);
+  opacity: 0;
+  z-index: 999;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+}
+
+/* Style for Circular Checkbox */
+.checkbox-label .checkbox-custom.circular {
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.checkbox-label input:checked ~ .checkbox-custom.circular {
+  background-color: #52032a;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+.checkbox-label input:checked ~ .checkbox-custom.circular::after {
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+}
+.checkbox-label .checkbox-custom.circular::after {
+  border-radius: 50%;
+}
+
+.checkbox-label .checkbox-custom.circular::before {
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.checkbox-label input:checked ~ .checkbox-custom.circular::before {
+  border-radius: 50%;
 }
 .flower {
   left: 330px;

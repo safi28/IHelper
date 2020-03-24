@@ -100,7 +100,6 @@
                         <v-card-title>
                           <span class="headline">{{ formTitle }}</span>
                         </v-card-title>
-
                         <v-card-text>
                           <v-container>
                             <v-row>
@@ -134,6 +133,7 @@
                 </template>
                 <template v-slot:item.actions="{ item }">
                   <v-icon
+                  
                     class="ma-2"
                     color="purple"
                     dark
