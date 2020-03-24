@@ -12,7 +12,7 @@ import * as firebase from "firebase";
 import LoggedHome from "./components/pages/LoggedPage";
 import HeaderMain from "./views/Header";
 import appHeader from "./components/core/Header";
-
+import { mapState } from "vuex";
 export default {
   name: "App",
   components: {
@@ -35,6 +35,20 @@ export default {
   },
   mounted() {
     this.isSignedIn();
+  },
+  computed: {
+    ...mapState(["user"])
+  },
+  beforeMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      // initially user = null, after auth it will be either <fb_user> or false
+      if (user) {
+        this.$store.commit("setUser", user);
+        if (user !== null && this.$route.path === "/login") {
+          this.$router.replace("/");
+        }
+      }
+    });
   }
 };
 </script>

@@ -120,7 +120,6 @@
           </v-card>
         </v-dialog>
         <v-row dense>
-        
           <v-col v-for="item in tasks" :key="item.id" cols="4" :class="{fade: item.isCompleted}">
             <v-card color="#EC2049" dark>
               <div class="d-flex flex-no-wrap justify-space-between">
@@ -130,14 +129,20 @@
                 </div>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-card-actions>
-                  <v-btn
-                    color="white"
-                    :checked="item.isCompleted"
-                    @click="editIem(item.id, $event)"
-                    text
-                  >Edit</v-btn>
-                  <v-btn color="white " @click="deleteItem(item.id)" text>Delete</v-btn>
-                  <v-checkbox @change="checkItem(item.id, $event)"></v-checkbox>
+                  <v-btn color="white" @click="editIem(item.id)" text>Edit</v-btn>
+
+                  <v-btn color="white" @click="deleteItem(item.id)" text>Delete</v-btn>
+                  <span class="checkbox-container">
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        :checked="item.isCompleted"
+                        @change="updateTodoItem(item.id, $event)"
+                      />
+                      <span class="checkbox-custom rectangular"></span>
+                    </label>
+                    <div class="input-title"></div>
+                  </span>
                 </v-card-actions>
               </div>
             </v-card>
@@ -164,12 +169,13 @@ export default {
       tasks: [],
       selected: [],
       ref: firebase.firestore().collection("tasks"),
-      key: "",
+      key: this.$route.params.id,
       todo: {
         title: "",
         createdAt: new Date().getHours()
       },
       select: false,
+      isCompleted: false,
 
       items: [],
       editedIndex: -1,
@@ -212,20 +218,29 @@ export default {
     }
   },
   methods: {
-    checkItem(item, e) {
-      // var isChecked = e.value;
+    updateTodoItem(docId, e) {
+      var isChecked = e.target.checked;
       firebase
         .firestore()
         .collection("tasks")
-        .doc(item)
-        .update({ isCompleted: true });
+        .doc(docId)
+        .update({
+          isCompleted: isChecked
+        });
     },
-    editIem(item, e) {
+    editIem(item) {
       firebase
         .firestore()
         .collection("tasks")
         .doc(item)
-        .update({ isCompleted: true });
+        .update({
+          // title: this.todo.title,
+          // text: this.todo.text,
+          isCompleted: true
+        })
+        .then(() => {
+          console.log("updated");
+        });
       this.dialog = true;
     },
     deleteItem(item) {
@@ -270,6 +285,102 @@ export default {
 </script>
 
 <style scoped>
+.checkbox-container {
+  float: left;
+  width: 50%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 40px 0px;
+}
+.circular-container {
+  background-color: #0067ff;
+}
+
+.input-title {
+  clear: both;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+}
+.checkbox-label {
+  display: block;
+  position: relative;
+  margin: auto;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 24px;
+  height: 24px;
+  width: 24px;
+  clear: both;
+}
+
+.checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkbox-label .checkbox-custom {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 24px;
+  width: 24px;
+  background-color: transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  border: 2px solid #d31d1d;
+}
+
+.checkbox-label input:checked ~ .checkbox-custom {
+  background-color: #c7184d;
+  border-radius: 5px;
+  -webkit-transform: rotate(0deg) scale(1);
+  -ms-transform: rotate(0deg) scale(1);
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+  border: 2px solid #ffffff;
+}
+
+.checkbox-label .checkbox-custom::after {
+  position: absolute;
+  content: "";
+  left: 12px;
+  top: 12px;
+  height: 0px;
+  width: 0px;
+  border-radius: 5px;
+  border: solid #009bff;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(0deg) scale(0);
+  -ms-transform: rotate(0deg) scale(0);
+  transform: rotate(0deg) scale(0);
+  opacity: 1;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -ms-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+}
+
+.checkbox-label input:checked ~ .checkbox-custom::after {
+  -webkit-transform: rotate(45deg) scale(1);
+  -ms-transform: rotate(45deg) scale(1);
+  transform: rotate(45deg) scale(1);
+  opacity: 1;
+  left: 8px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid #f3f7fa;
+  border-width: 0 2px 2px 0;
+  background-color: transparent;
+  border-radius: 0;
+}
 .flower {
   left: 330px;
 }

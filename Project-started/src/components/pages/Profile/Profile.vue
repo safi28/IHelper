@@ -1,33 +1,49 @@
 <template>
-  <v-container class="profile">
-    <v-row 
-      <div class="mx-3"></div>
-
-      <v-badge bordered bottom color="deep-purple accent-6" dot offset-x="10" offset-y="10">
-        <v-avatar size="90">
-          <v-img src="../../../assets/slogo.png"></v-img>
-        </v-avatar>
-      </v-badge>
-    </v-row>
+  <v-container fluid>
+    <v-layout column>
+      <v-card>
+        <v-card-text>
+          <v-flex class="mb-4">
+            <v-avatar size="96" class="mr-4">
+              <img src="../../../assets/slogo.png" alt="Avatar" />
+            </v-avatar>
+            <v-btn @click="openAvatarPicker">Change Avatar</v-btn>
+          </v-flex>
+          <v-text-field v-model="user.displayName" label="FirstName"></v-text-field>
+          <v-text-field v-model="form.lastName" label="Last Name"></v-text-field>
+          <v-text-field v-model="form.contactEmail" label="Email Address"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="black" :loading="loading" @click.native="update">Save Changes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
+import * as firebase from "firebase/app";
+import { mapState } from "vuex";
 export default {
-  name: "profile",
   pageTitle: "My Profile",
+  name: "profile",
   data() {
     return {
       loading: false,
+      name: null,
       form: {
-        firstName: "John",
+        firstName: "",
         lastName: "Doe",
         contactEmail: "john@doe.com",
-        avatar: "../../assets/slogo.png"
+        avatar: "MALE_CAUCASIAN_BLOND_BEARD"
       },
       showAvatarPicker: false
     };
   },
+  computed: {
+    ...mapState(["user"])
+  },
+
   methods: {
     openAvatarPicker() {
       this.showAvatarPicker = true;
@@ -38,9 +54,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.profile {
-    right: 20px;
-}
-</style>
