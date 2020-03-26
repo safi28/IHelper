@@ -10,12 +10,16 @@
             <v-btn @click="openAvatarPicker">Change Avatar</v-btn>
           </v-flex>
           <v-text-field v-model="user.displayName" label="FirstName"></v-text-field>
-          <v-text-field v-model="form.lastName" label="Last Name"></v-text-field>
-          <v-text-field v-model="form.contactEmail" label="Email Address"></v-text-field>
+          <v-text-field v-model="user.email" label="Email Address"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-btn color="black" :loading="loading" @click.native="update">Save Changes</v-btn>
         </v-card-actions>
+        <v-spacer></v-spacer>
+
+        <div class="my-2">
+          <v-btn text small @click="signOut">Logout</v-btn>
+        </div>
       </v-card>
     </v-layout>
   </v-container>
@@ -33,9 +37,9 @@ export default {
       name: null,
       form: {
         firstName: "",
-        lastName: "Doe",
-        contactEmail: "john@doe.com",
-        avatar: "MALE_CAUCASIAN_BLOND_BEARD"
+        lastName: "",
+        contactEmail: "",
+        avatar: ""
       },
       showAvatarPicker: false
     };
@@ -50,6 +54,21 @@ export default {
     },
     selectAvatar(avatar) {
       this.form.avatar = avatar;
+    },
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$noty.success("Logged out successfully!");
+          this.$router.replace({ name: "Home" }).catch(err => {
+            this.$noty.error("Error router!");
+          });
+        })
+        .catch(err => {
+          this.$noty.error("Error");
+          console.log(err);
+        });
     }
   }
 };

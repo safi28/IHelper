@@ -133,7 +133,7 @@
                 </template>
                 <template v-slot:item.actions="{ item }">
                   <v-icon
-                  
+
                     class="ma-2"
                     color="purple"
                     dark

@@ -115,7 +115,8 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+              <v-btn v-if="modal !== 'edit'" color="blue darken-1" text @click="save">Save</v-btn>
+              <v-btn v-else color="blue darken-1" text @click="updateEdit">Edit</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -128,8 +129,8 @@
                   <v-card-subtitle v-text="item.text"></v-card-subtitle>
                 </div>
                 <v-divider class="mx-4" inset vertical></v-divider>
-                <v-card-actions >
-                  <v-btn color="white" @click="editIem(item.id)"   text>Edit</v-btn>
+                <v-card-actions>
+                  <v-btn color="white" :checked="item.update" @click="edit(item)" text>Edit</v-btn>
 
                   <v-btn color="white" @click="deleteItem(item.id)" text>Delete</v-btn>
                   <v-divider class="mx-4" inset vertical></v-divider>
@@ -161,24 +162,24 @@ import Sidebar from "@/components/core/Menu/Sidebar.vue";
 import db from "@/main.js";
 import * as firebase from "firebase/app";
 import router from "@/router/index.js";
+import Noty from "noty";
 export default {
   vuetify: new Vuetify(),
   name: "meist",
   components: { Burger, Sidebar },
   data() {
     return {
+      active: null,
       tasks: [],
-      selected: [],
+      selected: false,
       ref: firebase.firestore().collection("tasks"),
       key: this.$route.params.id,
       todo: {
         title: "",
-        text: '',
+        text: "",
         createdAt: new Date().getHours()
       },
-      select: false,
-      isCompleted: false,
-
+      modal: null,
       items: [],
       editedIndex: -1,
       dialog: false,
@@ -228,22 +229,31 @@ export default {
         .doc(docId)
         .update({
           isCompleted: isChecked
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          this.$noty.error("Error");
         });
     },
-    editIem(item) {
+    edit(item) {
+      this.modal = "edit";
+      this.todo = item;
+      this.active = item.id;
+      this.dialog = true;
+    },
+    updateEdit() {
       firebase
         .firestore()
         .collection("tasks")
-        .doc(item)
-        .update({
-          // title: this.todo.title,
-          // text: this.todo.text,
-          isCompleted: true
-        })
-        .then(() => {
-          console.log("updated");
+        .doc(this.active)
+        .update({ title: this.todo.title, text: this.todo.text })
+        .then(el => {
+          this.todo.title = "";
+          this.todo.text = "";
+          this.modal = "";
         });
-      this.dialog = true;
     },
     deleteItem(item) {
       firebase
@@ -268,6 +278,13 @@ export default {
           text: this.todo.text,
           createdAt: new Date().getHours(),
           isCompleted: false
+        })
+        .then(el => {
+          this.todo.title = "";
+          this.todo.text = "";
+        })
+        .catch(err => {
+          this.$noty.error("Error");
         });
       this.close();
     },
@@ -292,7 +309,7 @@ export default {
   width: 50%;
   box-sizing: border-box;
   text-align: center;
-  padding: 40px 0px;
+  padding: 38px 0px;
 }
 
 .checkbox-label {
@@ -300,10 +317,10 @@ export default {
   position: relative;
   margin: auto;
   cursor: pointer;
-  font-size: 15px;
-  line-height: 10px;
-  height: 24px;
-  width: 24px;
+  font-size: 10px;
+  line-height: 8px;
+  height: 20px;
+  width: 20px;
   clear: both;
 }
 
@@ -316,7 +333,8 @@ export default {
 .checkbox-label .checkbox-custom {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: -5px;
+  right: 10px;
   height: 24px;
   width: 24px;
   background-color: transparent;
@@ -342,7 +360,7 @@ export default {
 .checkbox-label .checkbox-custom::after {
   position: absolute;
   content: "";
-  left: 12px;
+  left: 25px;
   top: 12px;
   height: 0px;
   width: 0px;
