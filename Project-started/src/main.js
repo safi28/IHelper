@@ -9,7 +9,14 @@ import VueNoty from "vuejs-noty";
 import "firebase/firestore";
 
 Vue.config.productionTip = false;
-
+const ignoreWarnMessage = 'The .native modifier for v-on is only valid on components but it was used on <div>.';
+Vue.config.warnHandler = function (msg, vm, trace) {
+  if (msg === ignoreWarnMessage) {
+    msg = null;
+    vm = null;
+    trace = null;
+  }
+}
 const configOptions = {
   apiKey: "AIzaSyDnQhgNny7mfLq-i49_RK2JHFvDGmDjz8I",
   authDomain: "vue-project-93965.firebaseapp.com",

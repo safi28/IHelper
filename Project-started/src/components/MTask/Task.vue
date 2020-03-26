@@ -80,76 +80,164 @@
     <v-app>
       <h1>Things To Do</h1>
       <hr />
+      <v-card max-width="600">
+        <v-row dense class="playlist">
+          <v-dialog v-model="dialog" max-width="600px" dark>
+            <template v-slot:activator="{ on }">
+              <v-btn class="addbtn" color="#78244C" dark fab v-on="on">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">Thing to do:</span>
+              </v-card-title>
 
-      <v-container>
-        <v-dialog v-model="dialog" max-width="600px" dark>
-          <template v-slot:activator="{ on }">
-            <v-img
-              src="https://images.vexels.com/media/users/3/130407/isolated/preview/1baad1e614f56cbdb220a518ca35e106-floral-swirls-decorations-by-vexels.png"
-              height="70"
-              width="500"
-              class="flower"
-            ></v-img>
-            <v-btn class="addbtn" color="pink" dark fab v-on="on">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">Thing to do:</span>
-            </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="6" sm="6" md="4">
+                      <v-text-field v-model="todo.title" label="Title"></v-text-field>
+                    </v-col>
+                    <v-col cols="6" sm="6" md="4">
+                      <v-text-field v-model="todo.text" label="Text"></v-text-field>
+                    </v-col>
+                    <v-col cols="6" sm="6" md="4">
+                      <v-text-field v-model="todo.img" label="Image"></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="6" sm="6" md="4">
-                    <v-text-field v-model="todo.title" label="Title"></v-text-field>
-                  </v-col>
-                  <v-col cols="6" sm="6" md="4">
-                    <v-text-field v-model="todo.text" label="Text"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
-              <v-btn v-if="modal !== 'edit'" color="blue darken-1" text @click="save">Save</v-btn>
-              <v-btn v-else color="blue darken-1" text @click="updateEdit">Edit</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-row dense>
-          <v-col v-for="item in tasks" :key="item.id" cols="4" :class="{fade: item.isCompleted}">
-            <v-card color="#EC2049" dark>
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div>
-                  <v-card-title class="headline" v-text="item.title"></v-card-title>
-                  <v-card-subtitle v-text="item.text"></v-card-subtitle>
-                </div>
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-card-actions>
-                  <v-btn color="white" :checked="item.update" @click="edit(item)" text>Edit</v-btn>
-
-                  <v-btn color="white" @click="deleteItem(item.id)" text>Delete</v-btn>
-                  <v-divider class="mx-4" inset vertical></v-divider>
-
-                  <span class="checkbox-container circular-container">
-                    <label class="checkbox-label">
-                      <input
-                        type="checkbox"
-                        :checked="item.isCompleted"
-                        @change="updateTodoItem(item.id, $event)"
-                      />
-                      <span class="checkbox-custom circular"></span>
-                    </label>
-                  </span>
-                </v-card-actions>
-              </div>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
+                <v-btn v-if="modal !== 'edit'" color="blue darken-1" text @click="save">Save</v-btn>
+                <v-btn v-else color="blue darken-1" text @click="updateEdit">Edit</v-btn>
+              </v-card-actions>
             </v-card>
-          </v-col>
+          </v-dialog>
+          <v-row dense>
+            <v-col v-for="item in tasks" :key="item.id" :class="{fade: item.isCompleted}">
+              <v-card color="#59253A" dark>
+                <div class="d-flex">
+                  <div>
+                    <v-card-title class="headline" v-text="item.title"></v-card-title>
+                    <v-card-subtitle v-text="item.text"></v-card-subtitle>
+                  </div>
+                  <v-avatar class="ma-3" size="125" tile>
+                    <v-img :src="item.img"></v-img>
+                  </v-avatar>
+                  <v-divider class="mx-2" inset vertical></v-divider>
+
+                  <v-card-actions>
+                    <v-btn color="white" :checked="item.update" @click="edit(item)" text>Edit</v-btn>
+
+                    <v-btn color="white" @click="deleteItem(item.id)" text>Delete</v-btn>
+                    <v-divider class="mx-2" inset vertical></v-divider>
+
+                    <span class="checkbox-container circular-container">
+                      <label class="checkbox-label">
+                        <input
+                          type="checkbox"
+                          :checked="item.isCompleted"
+                          @change="updateTodoItem(item.id, $event)"
+                        />
+                        <span class="checkbox-custom circular"></span>
+                      </label>
+                    </span>
+                  </v-card-actions>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-row>
+      </v-card>
+      <v-container>
+        <v-card class="pa-2" color="grey lighten-4" max-width="650">
+          <v-row class="fill-height">
+            <v-col>
+              <v-sheet height="64">
+                <v-toolbar flat color="white">
+                  <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">Today</v-btn>
+                  <v-btn fab text small color="grey darken-2" @click="prev">
+                    <v-icon small>mdi-chevron-left</v-icon>
+                  </v-btn>
+                  <v-btn fab text small color="grey darken-2" @click="next">
+                    <v-icon small>mdi-chevron-right</v-icon>
+                  </v-btn>
+                  <v-toolbar-title>{{ title }}</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-menu bottom right>
+                    <template v-slot:activator="{ on }">
+                      <v-btn outlined color="grey darken-2" v-on="on">
+                        <span>{{ typeToLabel[type] }}</span>
+                        <v-icon right>mdi-menu-down</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item @click="type = 'day'">
+                        <v-list-item-title>Day</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = 'week'">
+                        <v-list-item-title>Week</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = 'month'">
+                        <v-list-item-title>Month</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = '4day'">
+                        <v-list-item-title>4 days</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-toolbar>
+              </v-sheet>
+              <v-sheet height="600">
+                <v-calendar
+                  ref="calendar"
+                  v-model="focus"
+                  color="primary"
+                  :events="events"
+                  :event-color="getEventColor"
+                  :now="today"
+                  :type="type"
+                  @click:event="showEvent"
+                  @click:more="viewDay"
+                  @click:date="viewDay"
+                  @change="updateRange"
+                ></v-calendar>
+                <v-menu
+                  v-model="selectedOpen"
+                  :close-on-content-click="false"
+                  :activator="selectedElement"
+                  offset-x
+                >
+                  <v-card color="grey lighten-4" min-width="350px" flat>
+                    <v-toolbar :color="selectedEvent.color" dark>
+                      <v-btn icon>
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                      <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-btn icon>
+                        <v-icon>mdi-heart</v-icon>
+                      </v-btn>
+                      <v-btn icon>
+                        <v-icon>mdi-dots-vertical</v-icon>
+                      </v-btn>
+                    </v-toolbar>
+                    <v-card-text>
+                      <span v-html="selectedEvent.details"></span>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-menu>
+              </v-sheet>
+            </v-col>
+          </v-row>
+        </v-card>
       </v-container>
     </v-app>
   </div>
@@ -177,6 +265,7 @@ export default {
       todo: {
         title: "",
         text: "",
+        img: "",
         createdAt: new Date().getHours()
       },
       modal: null,
@@ -192,7 +281,33 @@ export default {
         artist: "",
         src: ""
       },
-      keys: ["Title", "Text"]
+      keys: ["Title", "Text"],
+      //Calendar data:
+      focus: "",
+      type: "month",
+      typeToLabel: {
+        month: "Month",
+        week: "Week",
+        day: "Day",
+        "4day": "4 Days"
+      },
+      start: null,
+      end: null,
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false,
+      events: [],
+      colors: ["blue", "indigo", "deep-purple", "cyan", "grey darken-1"],
+      names: [
+        "Meeting",
+        "Holiday",
+        "PTO",
+        "Travel",
+        "Event",
+        "Birthday",
+        "Conference",
+        "Party"
+      ]
     };
   },
   created() {
@@ -204,15 +319,51 @@ export default {
         this.items.push({
           key: doc.id,
           title: doc.data().title,
-          text: doc.data().text
+          text: doc.data().text,
+          src: doc.data().img
         });
       });
       this.close();
     });
+    // this.$refs.calendar.checkChange();
   },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    },
+    title() {
+      const { start, end } = this;
+      if (!start || !end) {
+        return "";
+      }
+
+      const startMonth = this.monthFormatter(start);
+      const endMonth = this.monthFormatter(end);
+      const suffixMonth = startMonth === endMonth ? "" : endMonth;
+
+      const startYear = start.year;
+      const endYear = end.year;
+      const suffixYear = startYear === endYear ? "" : endYear;
+
+      const startDay = start.day + this.nth(start.day);
+      const endDay = end.day + this.nth(end.day);
+
+      switch (this.type) {
+        case "month":
+          return `${startMonth} ${startYear}`;
+        case "week":
+        case "4day":
+          return `${startMonth} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`;
+        case "day":
+          return `${startMonth} ${startDay} ${startYear}`;
+      }
+      return "";
+    },
+    monthFormatter() {
+      return this.$refs.calendar.getFormatter({
+        timeZone: "UTC",
+        month: "long"
+      });
     }
   },
   watch: {
@@ -248,11 +399,16 @@ export default {
         .firestore()
         .collection("tasks")
         .doc(this.active)
-        .update({ title: this.todo.title, text: this.todo.text })
+        .update({
+          title: this.todo.title,
+          text: this.todo.text,
+          img: this.todo.img
+        })
         .then(el => {
           this.todo.title = "";
           this.todo.text = "";
           this.modal = "";
+          this.todo.img = "";
         });
     },
     deleteItem(item) {
@@ -277,11 +433,13 @@ export default {
           title: this.todo.title,
           text: this.todo.text,
           createdAt: new Date().getHours(),
-          isCompleted: false
+          isCompleted: false,
+          img: this.todo.img
         })
         .then(el => {
           this.todo.title = "";
           this.todo.text = "";
+          this.todo.img = "";
         })
         .catch(err => {
           this.$noty.error("Error");
@@ -298,18 +456,112 @@ export default {
           this.tasks.push(todo);
         });
       });
+    },
+
+    //Calendar data:
+    viewDay({ date }) {
+      this.focus = date;
+      this.type = "day";
+    },
+    getEventColor(event) {
+      return event.color;
+    },
+    setToday() {
+      this.focus = this.today;
+    },
+    prev() {
+      this.$refs.calendar.prev();
+    },
+    next() {
+      this.$refs.calendar.next();
+    },
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        setTimeout(() => (this.selectedOpen = true), 10);
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
+
+      nativeEvent.stopPropagation();
+    },
+    updateRange({ start, end }) {
+      const events = [];
+
+      const min = new Date(`${start.date}T00:00:00`);
+      const max = new Date(`${end.date}T23:59:59`);
+      const days = (max.getTime() - min.getTime()) / 86400000;
+      const eventCount = this.rnd(days, days + 20);
+
+      for (let i = 0; i < eventCount; i++) {
+        const allDay = this.rnd(0, 3) === 0;
+        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
+        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
+        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
+        const second = new Date(first.getTime() + secondTimestamp);
+
+        events.push({
+          name: this.names[this.rnd(0, this.names.length - 1)],
+          start: this.formatDate(first, !allDay),
+          end: this.formatDate(second, !allDay),
+          color: this.colors[this.rnd(0, this.colors.length - 1)]
+        });
+      }
+
+      this.start = start;
+      this.end = end;
+      this.events = events;
+    },
+    nth(d) {
+      return d > 3 && d < 21
+        ? "th"
+        : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
+    },
+    rnd(a, b) {
+      return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    formatDate(a, withTime) {
+      return withTime
+        ? `${a.getFullYear()}-${a.getMonth() +
+            1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
+        : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     }
   }
 };
 </script>
 
 <style scoped>
+.playlist {
+  background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    linear-gradient(
+      to top right,
+      rgba(236, 235, 131, 0.7),
+      rgba(201, 47, 20, 0.7)
+    );
+}
+.d-flex {
+  left: 42px;
+}
+.playlist {
+  position: absolute;
+}
+.pa-2 {
+  left: 72%;
+  bottom: 10%;
+  position: absolute;
+}
 .checkbox-container {
   float: left;
-  width: 50%;
+  width: 30%;
   box-sizing: border-box;
   text-align: center;
-  padding: 38px 0px;
+  /* padding: 30px 0px; */
 }
 
 .checkbox-label {
@@ -410,7 +662,7 @@ export default {
   left: -3px;
   top: -3px;
   width: 24px;
-  height: 24px;
+  height: 20px;
   border-radius: 5px;
   -webkit-transform: scale(3);
   -ms-transform: scale(3);
@@ -452,11 +704,11 @@ export default {
   border-radius: 50%;
 }
 .flower {
-  left: 330px;
+  left: 565px;
 }
 .addbtn {
-  top: 100px;
-  right: 190px;
+  left: 660px;
+  top: 190px;
 }
 .headline {
   color: #f1d1d9;
@@ -508,14 +760,21 @@ h1 {
   line-height: 48px;
 }
 #app {
-  background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  /* background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"); */
   /* linear-gradient(
       to top right,
       rgba(236, 235, 131, 0.7),
       rgba(201, 47, 20, 0.7)
     ); */
+  /* background-image: url("https://images.pexels.com/photos/2038556/pexels-photo-2038556.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"); */
+  background-image: linear-gradient(
+      to top right,
+      rgba(115, 129, 209, 0.171),
+      rgba(25, 36, 97, 0.322)
+    ),
+    url("https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
 
-  box-shadow: white 0px 0px 0px 2px, rgb(0, 170, 255) 0px 0px 0px 4px;
+  /* box-shadow: white 0px 0px 0px 2px, rgb(0, 170, 255) 0px 0px 0px 4px; */
   background-position: center center;
   background-size: cover;
 }
