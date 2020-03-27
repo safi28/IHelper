@@ -5,18 +5,17 @@
   </div>
 </template>
 <script>
-import ContactInfo from "./components/Contact";
+import publicHome from "./components/core/Home/Home-public";
 import Footer from "./components/core/Footer";
 import login from "./components/auth/Auth";
 import * as firebase from "firebase";
-import LoggedHome from "./components/pages/LoggedPage";
-import HeaderMain from "./views/Header";
+import privateHome from "./components/core/Home/Home-private";
 import appHeader from "./components/core/Header";
 import { mapState } from "vuex";
 export default {
   name: "App",
   components: {
-    ContactInfo,
+    publicHome,
     Footer,
     login,
     appHeader

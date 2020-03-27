@@ -58,7 +58,7 @@
 }
 </style>
 <script>
-import ContactInfo from "../../components/Contact";
+import publicHome from "../../components/core/Home/Home-public";
 import Vuetify from "vuetify";
 import * as firebase from "firebase/app";
 import Noty from "noty";
@@ -66,7 +66,7 @@ import Noty from "noty";
 export default {
   vuetify: new Vuetify(),
   components: {
-    ContactInfo,
+    publicHome,
     
   },
 

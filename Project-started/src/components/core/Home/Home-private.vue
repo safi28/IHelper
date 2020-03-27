@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <div id="main">
       <v-app id="inspire">
         <v-container>
           <v-row class="mb-6" no-gutters>
@@ -85,7 +84,6 @@
                     </router-link>
                   </v-list>
                 </v-navigation-drawer>
-
                 <v-parallax height="1000" class="parall" width="900" dark>
                   <v-row align="center" justify="center">
                     <v-col class="text-center" cols="16">
@@ -117,27 +115,9 @@
           </v-row>
         </v-container>
       </v-app>
-    </div>
   </div>
 </template>
-<style scoped>
-.overflow-hidden {
-  right: 264px;
-  bottom: 13px;
-}
-.parall {
-  bottom: 50px;
-  background-image: linear-gradient(
-      to top right,
-      rgba(97, 116, 223, 0.7),
-      rgba(25, 32, 72, 0.7)
-    ),
-    url("https://i.pinimg.com/736x/68/46/10/684610d7617668e4c68c19431a4f338f.jpg");
-}
-.home {
-  color: aliceblue;
-}
-</style>
+
 
 <script>
 import * as firebase from "firebase";
@@ -145,7 +125,7 @@ import { mapGetters } from "vuex";
 import AppHeader from "@/components/core/Header.vue";
 
 export default {
-  name: "LoggedHome",
+  name: "privateHome",
   components: { AppHeader },
   data() {
     return {
@@ -188,7 +168,7 @@ export default {
         .signOut()
         .then(() => {
           this.$router.replace({
-            name: "ContactInfo"
+            name: "publicHome"
           });
         });
     },
@@ -218,3 +198,22 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.overflow-hidden {
+  right: 264px;
+  bottom: 13px;
+}
+.parall {
+  bottom: 50px;
+  background-image: linear-gradient(
+      to top right,
+      rgba(97, 116, 223, 0.7),
+      rgba(25, 32, 72, 0.7)
+    ),
+    url("https://i.pinimg.com/736x/68/46/10/684610d7617668e4c68c19431a4f338f.jpg");
+}
+.home {
+  color: aliceblue;
+}
+</style>

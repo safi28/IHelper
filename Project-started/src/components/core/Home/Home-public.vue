@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <!-- <HeaderUnL></HeaderUnL> -->
+    <HeaderUnL></HeaderUnL>
     <div class="app">
       <v-app id="inspire">
         <div>
@@ -49,7 +49,7 @@ import Vuetify from "vuetify";
 import HeaderUnL from "@/components/core/HeaderUnL.vue";
 
 export default {
-  name: "ContactInfo",
+  name: "publicHome",
   props: {
     info: String
   },

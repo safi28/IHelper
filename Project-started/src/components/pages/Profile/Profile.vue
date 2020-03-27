@@ -115,11 +115,9 @@
 <script>
 import * as firebase from "firebase/app";
 import { mapState } from "vuex";
-import Dashboard from "../../Dashboard.vue";
 export default {
   pageTitle: "My Profile",
   name: "profile",
-  components: { Dashboard },
   data() {
     return {
       drawer: true,

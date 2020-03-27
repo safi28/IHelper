@@ -5,7 +5,7 @@
       <Sidebar>
         <v-list>
           <v-divider></v-divider>
-          <router-link :to="{ name: 'LoggedHome' }">
+          <router-link :to="{ name: 'privateHome' }">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-view-dashboard</v-icon>

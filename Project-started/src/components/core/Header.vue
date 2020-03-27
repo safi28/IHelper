@@ -4,7 +4,7 @@
       <div id="inspire">
         <div>
           <v-app-bar color="deep-purple accent-4" dense dark>
-            <router-link :to="{ name: 'LoggedHome'}">
+            <router-link :to="{ name: 'privateHome'}">
               <div class="my-2">
                 <v-btn text small color="primary">Health Information</v-btn>
                 <router-link to="/dashboard"></router-link>
@@ -85,20 +85,9 @@
   </div>
 </template>
 
-<style scoped>
-.grey {
-  background-size: cover;
-}
-.auth {
-  color: wheat;
-}
-.dashboard {
-  color: wheat;
-  text-decoration: none;
-}
-</style>
+
 <script>
-import ContactInfo from "../../components/Contact";
+import publicHome from "../../components/core/Home/Home-public";
 import Vuetify from "vuetify";
 import login from "../../components/auth/Auth";
 import * as firebase from "firebase/app";
@@ -107,7 +96,7 @@ import Noty from "noty";
 export default {
   vuetify: new Vuetify(),
   components: {
-    ContactInfo,
+    publicHome,
     login
   },
   props: {
@@ -155,7 +144,7 @@ export default {
         .signOut()
         .then(() => {
           this.$noty.success("Logged out successfully!");
-          this.$router.replace({ name: "ContactInfo" }).catch(err => {
+          this.$router.replace({ name: "publicHome" }).catch(err => {
             this.$noty.error("Error router!");
           });
         })
@@ -167,3 +156,16 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.grey {
+  background-size: cover;
+}
+.auth {
+  color: wheat;
+}
+.dashboard {
+  color: wheat;
+  text-decoration: none;
+}
+</style>

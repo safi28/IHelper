@@ -196,7 +196,7 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(data => {
           this.isLogged = true;
-          this.$router.replace({ name: "LoggedHome" });
+          this.$router.replace({ name: "privateHome" });
           this.$noty.success("Logged in successfully!");
         })
         .catch(err => {
