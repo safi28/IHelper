@@ -1,78 +1,8 @@
 <template>
   <div id="app">
     <nav class="main-nav">
-      <Burger></Burger>
+      <mainMenu></mainMenu>
     </nav>
-    <Sidebar class="burger-button">
-      <v-list>
-        <v-divider></v-divider>
-        <router-link :to="{ name: 'privateHome' }">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-view-dashboard</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              Dashboard
-              <router-link to="/dashboard"></router-link>
-            </v-list-item-title>
-
-            <v-list-item-icon></v-list-item-icon>
-          </v-list-item>
-        </router-link>
-        <router-link :to="{ name: 'About'}">
-          <v-list-item>
-            <v-list-item-icon link class="title">
-              <v-icon>mdi-heart</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              Health
-              <router-link to="/about"></router-link>
-            </v-list-item-title>
-
-            <v-list-item-icon></v-list-item-icon>
-          </v-list-item>
-        </router-link>
-        <router-link :to="{ name: 'Calories'}">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-food-apple</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              Food
-              <router-link to="/calories"></router-link>
-            </v-list-item-title>
-
-            <v-list-item-icon></v-list-item-icon>
-          </v-list-item>
-        </router-link>
-        <router-link :to="{ name: 'About'}">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-help-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              About
-              <router-link to="/about"></router-link>
-            </v-list-item-title>
-
-            <v-list-item-icon></v-list-item-icon>
-          </v-list-item>
-        </router-link>
-        <router-link :to="{ name: 'About'}">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-help-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              About
-              <router-link to="/about"></router-link>
-            </v-list-item-title>
-
-            <v-list-item-icon></v-list-item-icon>
-          </v-list-item>
-        </router-link>
-      </v-list>
-    </Sidebar>
     <v-app>
       <h1>Here you can add what you have eaten for the day</h1>
       <v-container>
@@ -133,7 +63,6 @@
                 </template>
                 <template v-slot:item.actions="{ item }">
                   <v-icon
-
                     class="ma-2"
                     color="purple"
                     dark
@@ -162,9 +91,9 @@
 import Vuetify from "vuetify";
 import AppHeader from "@/components/core/Header.vue";
 import Noty from "noty";
-import Burger from "@/components/core/Menu/Burger.vue";
-import Sidebar from "@/components/core/Menu/Sidebar.vue";
+
 import UTable from "@/components/pages/Food/dailyCounter.vue";
+import mainMenu from "@/components/core/Menu/Main.vue";
 
 import {
   mdiAccount,
@@ -180,8 +109,7 @@ export default {
   vuetify: new Vuetify(),
   components: {
     AppHeader,
-    Burger,
-    Sidebar,
+    mainMenu,
     UTable
   },
   data() {
@@ -528,25 +456,5 @@ body {
   font-weight: bold;
   font-family: "Lato";
 }
-.burger-button {
-  right: 50%;
-}
-.main-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0.8rem;
-}
-#burger {
-  left: 50%;
-}
-ul.sidebar-panel-nav {
-  list-style-type: none;
-}
-ul.sidebar-panel-nav > li > a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-  display: block;
-  padding-bottom: 0.5em;
-}
+
 </style>

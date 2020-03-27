@@ -5,7 +5,7 @@ import privateHome from "@/components/core/Home/Home-private.vue";
 import Calories from "@/components/pages/Food/Calories.vue";
 import youTable from "@/components/pages/Food/dailyCounter.vue";
 import calendar from "@/components/pages/Calendar/Calendar.vue";
-import Meistask from "@/components/MTask/Task.vue";
+import Meistask from "@/components/pages/MTask/Task.vue";
 import profile from "@/components/pages/Profile/Profile.vue";
 import publicHome from "@/components/core/Home/Home-public.vue";
 Vue.use(VueRouter);

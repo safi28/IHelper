@@ -1,82 +1,8 @@
 <template>
   <div id="app">
     <nav class="main-nav">
-      <Burger></Burger>
-      <router-link :to="{ name: 'privateHome' }">
-        <img src="../../assets/slogo.png" class="slogo" />
-      </router-link>
-      <Sidebar>
-        <v-list>
-          <v-divider></v-divider>
-          <router-link :to="{ name: 'privateHome' }">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-view-dashboard</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Dashboard
-                <router-link to="/dashboard"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-          <router-link :to="{ name: 'About'}">
-            <v-list-item>
-              <v-list-item-icon link class="title">
-                <v-icon>mdi-heart</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Health
-                <router-link to="/about"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-          <router-link :to="{ name: 'Calories'}">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-food-apple</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Food
-                <router-link to="/calories"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-          <router-link :to="{ name: 'About'}">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-help-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                About
-                <router-link to="/about"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-          <router-link :to="{ name: 'About'}">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-help-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                About
-                <router-link to="/about"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-        </v-list>
-      </Sidebar>
+      <mainMenu></mainMenu>
     </nav>
-
     <v-app>
       <h1>Things To Do</h1>
       <hr />
@@ -125,16 +51,16 @@
                     <v-card-title class="headline" v-text="item.title"></v-card-title>
                     <v-card-subtitle v-text="item.text"></v-card-subtitle>
                   </div>
-                  <v-avatar class="ma-3" size="125" tile>
+                  <v-avatar class="ma-1" size="125" tile>
                     <v-img :src="item.img"></v-img>
                   </v-avatar>
-                  <v-divider class="mx-2" inset vertical></v-divider>
+                  <v-divider class="mx-6" inset vertical></v-divider>
 
                   <v-card-actions>
                     <v-btn color="white" :checked="item.update" @click="edit(item)" text>Edit</v-btn>
 
                     <v-btn color="white" @click="deleteItem(item.id)" text>Delete</v-btn>
-                    <v-divider class="mx-2" inset vertical></v-divider>
+                    <v-divider class="mx-6" inset vertical></v-divider>
 
                     <span class="checkbox-container circular-container">
                       <label class="checkbox-label">
@@ -245,8 +171,8 @@
 
 <script>
 import Vuetify from "vuetify";
-import Burger from "@/components/core/Menu/Burger.vue";
-import Sidebar from "@/components/core/Menu/Sidebar.vue";
+
+import mainMenu from "@/components/core/Menu/Main.vue";
 import db from "@/main.js";
 import * as firebase from "firebase/app";
 import router from "@/router/index.js";
@@ -254,7 +180,7 @@ import Noty from "noty";
 export default {
   vuetify: new Vuetify(),
   name: "meist",
-  components: { Burger, Sidebar },
+  components: { mainMenu },
   data() {
     return {
       active: null,
@@ -270,17 +196,8 @@ export default {
       },
       modal: null,
       items: [],
-      editedIndex: -1,
       dialog: false,
-      editedItem: {
-        title: "",
-        text: ""
-      },
-      defaultItem: {
-        title: "",
-        artist: "",
-        src: ""
-      },
+
       keys: ["Title", "Text"],
       //Calendar data:
       focus: "",
@@ -313,19 +230,7 @@ export default {
   created() {
     this.getTodos();
   },
-  mounted() {
-    this.ref.onSnapshot(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        this.items.push({
-          key: doc.id,
-          title: doc.data().title,
-          text: doc.data().text,
-          src: doc.data().img
-        });
-      });
-      this.close();
-    });
-  },
+
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
@@ -380,9 +285,7 @@ export default {
         .update({
           isCompleted: isChecked
         })
-        .then(data => {
-          console.log(data);
-        })
+        .then(data => {})
         .catch(err => {
           this.$noty.error("Error");
         });
@@ -409,6 +312,7 @@ export default {
           this.modal = "";
           this.todo.img = "";
         });
+      this.close();
     },
     deleteItem(item) {
       firebase
@@ -419,10 +323,6 @@ export default {
     },
     close() {
       this.dialog = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
     },
     save() {
       firebase
@@ -536,245 +436,5 @@ export default {
 </script>
 
 <style scoped>
-.playlist {
-  background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-    linear-gradient(
-      to top right,
-      rgba(236, 235, 131, 0.7),
-      rgba(201, 47, 20, 0.7)
-    );
-}
-.d-flex {
-  left: 42px;
-}
-.playlist {
-  position: absolute;
-}
-.pa-2 {
-  left: 72%;
-  bottom: 10%;
-  position: absolute;
-}
-.checkbox-container {
-  float: left;
-  width: 30%;
-  box-sizing: border-box;
-  text-align: center;
-  /* padding: 30px 0px; */
-}
-
-.checkbox-label {
-  display: block;
-  position: relative;
-  margin: auto;
-  cursor: pointer;
-  font-size: 10px;
-  line-height: 8px;
-  height: 20px;
-  width: 20px;
-  clear: both;
-}
-
-.checkbox-label input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.checkbox-label .checkbox-custom {
-  position: absolute;
-  top: 0px;
-  left: -5px;
-  right: 10px;
-  height: 24px;
-  width: 24px;
-  background-color: transparent;
-  border-radius: 5px;
-  transition: all 0.3s ease-out;
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  border: 2px solid #d31d1d;
-}
-
-.checkbox-label input:checked ~ .checkbox-custom {
-  background-color: #c7184d;
-  border-radius: 5px;
-  -webkit-transform: rotate(0deg) scale(1);
-  -ms-transform: rotate(0deg) scale(1);
-  transform: rotate(0deg) scale(1);
-  opacity: 1;
-  border: 2px solid #ffffff;
-}
-
-.checkbox-label .checkbox-custom::after {
-  position: absolute;
-  content: "";
-  left: 25px;
-  top: 12px;
-  height: 0px;
-  width: 0px;
-  border-radius: 5px;
-  border: solid #009bff;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(0deg) scale(0);
-  -ms-transform: rotate(0deg) scale(0);
-  transform: rotate(0deg) scale(0);
-  opacity: 1;
-  transition: all 0.3s ease-out;
-  -webkit-transition: all 0.1s ease-out;
-  -moz-transition: all 0.1s ease-out;
-  -ms-transition: all 0.1s ease-out;
-  -o-transition: all 0.1s ease-out;
-}
-
-.checkbox-label input:checked ~ .checkbox-custom::after {
-  -webkit-transform: rotate(45deg) scale(1);
-  -ms-transform: rotate(45deg) scale(1);
-  transform: rotate(45deg) scale(1);
-  opacity: 1;
-  left: 8px;
-  top: 3px;
-  width: 6px;
-  height: 12px;
-  border: solid #f3f7fa;
-  border-width: 0 2px 2px 0;
-  background-color: transparent;
-  border-radius: 0;
-}
-.checkbox-label .checkbox-custom::before {
-  position: absolute;
-  content: "";
-  left: 10px;
-  top: 10px;
-  width: 0px;
-  height: 0px;
-  border-radius: 5px;
-  border: 2px solid #ffffff;
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
-}
-
-.checkbox-label input:checked ~ .checkbox-custom::before {
-  left: -3px;
-  top: -3px;
-  width: 24px;
-  height: 20px;
-  border-radius: 5px;
-  -webkit-transform: scale(3);
-  -ms-transform: scale(3);
-  transform: scale(3);
-  opacity: 0;
-  z-index: 999;
-  transition: all 0.3s ease-out;
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-}
-
-/* Style for Circular Checkbox */
-.checkbox-label .checkbox-custom.circular {
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-}
-
-.checkbox-label input:checked ~ .checkbox-custom.circular {
-  background-color: #52032a;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-}
-.checkbox-label input:checked ~ .checkbox-custom.circular::after {
-  border: solid #ffffff;
-  border-width: 0 2px 2px 0;
-}
-.checkbox-label .checkbox-custom.circular::after {
-  border-radius: 50%;
-}
-
-.checkbox-label .checkbox-custom.circular::before {
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-}
-
-.checkbox-label input:checked ~ .checkbox-custom.circular::before {
-  border-radius: 50%;
-}
-.flower {
-  left: 565px;
-}
-.addbtn {
-  left: 660px;
-  top: 190px;
-}
-.headline {
-  color: #f1d1d9;
-  font-family: "Trocchi", serif;
-  font-size: 45px;
-  font-weight: normal;
-  line-height: 48px;
-  margin: 0;
-}
-.slogo {
-  width: 90px;
-}
-.elevation-1 {
-  border-radius: 5%;
-}
-.logo {
-  align-self: center;
-  color: #fff;
-  font-weight: bold;
-  font-family: "Lato";
-}
-.burger-button {
-  right: 50%;
-}
-.main-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0.8rem;
-}
-#burger {
-  left: 50%;
-}
-ul.sidebar-panel-nav {
-  list-style-type: none;
-}
-ul.sidebar-panel-nav > li > a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-  display: block;
-  padding-bottom: 0.5em;
-}
-h1 {
-  text-align: center;
-  color: #ecece7;
-  font-family: "Trocchi", serif;
-  font-size: 45px;
-  font-weight: normal;
-  line-height: 48px;
-}
-#app {
-  /* background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"); */
-  /* linear-gradient(
-      to top right,
-      rgba(236, 235, 131, 0.7),
-      rgba(201, 47, 20, 0.7)
-    ); */
-  /* background-image: url("https://images.pexels.com/photos/2038556/pexels-photo-2038556.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"); */
-  background-image: linear-gradient(
-      to top right,
-      rgba(115, 129, 209, 0.171),
-      rgba(25, 36, 97, 0.322)
-    ),
-    url("https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-
-  /* box-shadow: white 0px 0px 0px 2px, rgb(0, 170, 255) 0px 0px 0px 4px; */
-  background-position: center center;
-  background-size: cover;
-}
+@import url("./styles.css");
 </style>

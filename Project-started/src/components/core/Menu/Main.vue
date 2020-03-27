@@ -87,7 +87,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .elevation-1 {
   border-radius: 5%;
 }
@@ -138,3 +137,4 @@ h1 {
   background-position: center center;
   background-size: cover;
 }
+</style>

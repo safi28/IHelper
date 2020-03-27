@@ -5,6 +5,7 @@
         <v-col>
           <v-sheet height="64">
             <v-toolbar flat color="white">
+              
               <v-btn color="primary" dark @click.stop="dialog = true">New Event</v-btn>
               <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
               <v-btn fab text small @click="prev">
@@ -40,59 +41,51 @@
             </v-toolbar>
           </v-sheet>
 
-          <v-dialog v-model="dialog" max-width="500">
+          <v-dialog v-model="dialog" max-width="600" dark>
             <v-card>
               <v-container>
-                <v-row>
-                  <v-col cols="6" sm="6" md="4">
-                    <v-text-field v-model="name" label="Name"></v-text-field>
-                  </v-col>
-                  <v-col cols="6" sm="6" md="4">
-                    <v-text-field v-model="details" label="Details"></v-text-field>
-                  </v-col>
-                  <v-col cols="6" sm="6" md="4">
-                    <v-text-field v-model="start" label="Start"></v-text-field>
-                  </v-col>
-                  <v-col cols="6" sm="6" md="4">
-                    <v-text-field v-model="end" label="End"></v-text-field>
-                  </v-col>
-
-                  <v-btn type="submit" color="primary" class="mr-4" @click="addEvent">create event</v-btn>
-                </v-row>
+                <v-form @submit.prevent="addEvent">
+                  <v-text-field v-model="name" type="text" label="event name (required)"></v-text-field>
+                  <v-text-field v-model="details" type="text" label="detail"></v-text-field>
+                  <v-text-field v-model="start" type="date" label="start (required)"></v-text-field>
+                  <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
+                  <v-text-field
+                    v-model="color"
+                    type="color"
+                    label="color (click to open color menu)"
+                  ></v-text-field>
+                  <v-btn
+                    type="submit"
+                    color="primary"
+                    class="mr-4"
+                    @click.stop="dialog = false"
+                  >create event</v-btn>
+                </v-form>
               </v-container>
             </v-card>
           </v-dialog>
 
           <v-dialog v-model="dialogDate" max-width="500">
             <v-card>
-              <template>
-                <!-- <v-form @submit.prevent="addEvent"> -->
-
-                <v-container>
-                  <v-row>
-                    <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="name" label="Name"></v-text-field>
-                    </v-col>
-                    <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="details" label="Details"></v-text-field>
-                    </v-col>
-                    <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="start" label="Start"></v-text-field>
-                    </v-col>
-                    <v-col cols="6" sm="6" md="4">
-                      <v-text-field v-model="end" label="End"></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-                <!-- <v-btn type="submit" color="primary" class="mr-4" dark fab v-on="on">create event</v-btn> -->
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="selectedOpen = false">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="addEvent">Save</v-btn>
-                </v-card-actions>
-                <!-- </v-form> -->
-              </template>
+              <v-container>
+                <v-form @submit.prevent="addEvent">
+                  <v-text-field v-model="name" type="text" label="event name (required)"></v-text-field>
+                  <v-text-field v-model="details" type="text" label="detail"></v-text-field>
+                  <v-text-field v-model="start" type="date" label="start (required)"></v-text-field>
+                  <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
+                  <v-text-field
+                    v-model="color"
+                    type="color"
+                    label="color (click to open color menu)"
+                  ></v-text-field>
+                  <v-btn
+                    type="submit"
+                    color="primary"
+                    class="mr-4"
+                    @click.stop="dialog = false"
+                  >create event</v-btn>
+                </v-form>
+              </v-container>
             </v-card>
           </v-dialog>
 
@@ -160,7 +153,6 @@
 
 <script>
 import * as firebase from "firebase/app";
-import Noty from "noty";
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
@@ -185,9 +177,6 @@ export default {
     dialog: false,
     dialogDate: false
   }),
-   created() {
-    this.getEvents();
-  },
   mounted() {
     this.getEvents();
   },
@@ -237,49 +226,6 @@ export default {
       });
       this.events = events;
     },
-    addEvent() {
-      firebase
-        .firestore()
-        .collection("calendar")
-        .add({
-          name: this.name,
-          details: this.details,
-          start: this.start,
-          end: this.end,
-          color: this.color
-        })
-        .then(el => {
-          (this.name = ""),
-            (this.details = ""),
-            (this.start = ""),
-            (this.end = ""),
-            (this.color = "");
-        })
-        .catch(err => {
-          this.$noty.error("Error");
-        });
-    },
-    editEvent(ev) {
-      this.currentlyEditing = ev.id;
-    },
-    async updateEvent(ev) {
-      await firebase
-        .firestore()
-        .collection("calendar")
-        .doc(this.currentlyEditing)
-        .update({
-          details: ev.details
-        });
-      (this.selectedOpen = false), (this.currentlyEditing = null);
-    },
-    deleteEvent(ev) {
-      firebase
-        .firestore()
-        .collection("calendar")
-        .doc(ev)
-        .delete();
-      (this.selectedOpen = false), this.getEvents();
-    },
     setDialogDate({ date }) {
       this.dialogDate = true;
       this.focus = date;
@@ -300,12 +246,54 @@ export default {
     next() {
       this.$refs.calendar.next();
     },
+    async addEvent() {
+      if (this.name && this.start && this.end) {
+        await firebase
+          .firestore()
+          .collection("calendar")
+          .add({
+            name: this.name,
+            details: this.details,
+            start: this.start,
+            end: this.end,
+            color: this.color
+          });
+        this.getEvents();
+        (this.name = ""),
+          (this.details = ""),
+          (this.start = ""),
+          (this.end = ""),
+          (this.color = "");
+      } else {
+        alert("You must enter event name, start, and end time");
+      }
+    },
+    editEvent(ev) {
+      this.currentlyEditing = ev.id;
+    },
+    async updateEvent(ev) {
+      await firebase
+        .firestore()
+        .collection("calendar")
+        .doc(this.currentlyEditing)
+        .update({
+          details: ev.details
+        });
+      (this.selectedOpen = false), (this.currentlyEditing = null);
+    },
+    async deleteEvent(ev) {
+      await firebase
+        .firestore()
+        .collection("calendar")
+        .doc(ev)
+        .delete();
+      (this.selectedOpen = false), this.getEvents();
+    },
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
         setTimeout(() => (this.selectedOpen = true), 10);
-        console.log(this.selectedEvent);
       };
       if (this.selectedOpen) {
         this.selectedOpen = false;

@@ -85,7 +85,6 @@
   </div>
 </template>
 
-
 <script>
 import publicHome from "../../components/core/Home/Home-public";
 import Vuetify from "vuetify";
