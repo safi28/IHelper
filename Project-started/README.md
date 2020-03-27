@@ -1,4 +1,4 @@
-* Health app
+# Health app
 # App made with VueJS, Vuetify and Firebase
 # The app is abount tracking your daily movements, food habits and todo tasks
 * Physical and psychological health care
