@@ -125,7 +125,7 @@ import { mapGetters } from "vuex";
 import AppHeader from "@/components/core/Header.vue";
 
 export default {
-  name: "privateHome",
+  name: "LoggedHome",
   components: { AppHeader },
   data() {
     return {

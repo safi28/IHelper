@@ -36,20 +36,13 @@
     </div>
   </div>
 </template>
-<style scoped>
-.grey {
-  background-size: cover;
-}
-.auth {
-  color: wheat;
-}
-</style>
+
 <script>
 import Vuetify from "vuetify";
 import HeaderUnL from "@/components/core/HeaderUnL.vue";
 
 export default {
-  name: "publicHome",
+  name: "ContactInfo",
   props: {
     info: String
   },
@@ -77,4 +70,19 @@ export default {
   }
 };
 </script>
-<style></style>
+<style scoped>
+.main {
+    background-image: linear-gradient(
+      to top right,
+      rgba(97, 116, 223, 0.7),
+      rgba(25, 32, 72, 0.7)
+    ),
+    url("https://i.pinimg.com/736x/68/46/10/684610d7617668e4c68c19431a4f338f.jpg");
+}
+.grey {
+  background-size: cover;
+}
+.auth {
+  color: wheat;
+}
+</style>

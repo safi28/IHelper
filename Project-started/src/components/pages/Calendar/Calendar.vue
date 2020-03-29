@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <v-app id="inspire">
       <v-container>
         <v-card class="pa-2" color="grey lighten-4" max-width="650">
           <v-row class="fill-height">
@@ -103,7 +102,6 @@
                   v-model="selectedOpen"
                   :close-on-content-click="false"
                   :activator="selectedElement"
-                  fluid
                   offset-x
                 >
                   <v-card color="grey lighten-4" :width="350" flat>
@@ -144,13 +142,14 @@
           </v-row>
         </v-card>
       </v-container>
-    </v-app>
   </div>
 </template>
 
 <script>
 import * as firebase from "firebase/app";
+import Noty from "noty";
 export default {
+  name: 'calendar',
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
@@ -263,7 +262,7 @@ export default {
           (this.end = ""),
           (this.color = "");
       } else {
-        alert("You must enter event name, start, and end time");
+        this.$noty.error("You must enter name and date!");
       }
     },
     editEvent(ev) {
@@ -319,3 +318,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.pa-2 {
+  right: 3px;
+}
+</style>

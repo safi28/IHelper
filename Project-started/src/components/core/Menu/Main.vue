@@ -86,6 +86,7 @@ export default {
   components: { Burger, Sidebar }
 };
 </script>
+
 <style scoped>
 .elevation-1 {
   border-radius: 5%;

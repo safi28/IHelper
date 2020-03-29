@@ -112,7 +112,6 @@
                           :disabled="!valid"
                           color="success"
                           @click="register"
-                          
                         >Register</v-btn>
                       </v-col>
                     </v-row>
@@ -195,9 +194,12 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(data => {
+          console.log(data);
+          
           this.isLogged = true;
           this.$router.replace({ name: "privateHome" });
           this.$noty.success("Logged in successfully!");
+          // localStorage.setItem("userToken", { email, password });
         })
         .catch(err => {
           this.$noty.error("Error");

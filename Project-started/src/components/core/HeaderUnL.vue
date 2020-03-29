@@ -23,7 +23,6 @@
                     <router-link to="login" class="auth">Log In</router-link>
                   </v-list-item-title>
                 </v-list-item>
-
                 <v-list-item>
                   <v-list-item-title>
                     <router-link to="login" class="auth">Register</router-link>

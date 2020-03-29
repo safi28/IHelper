@@ -22,11 +22,22 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    authenticated: false,
+    accessToken: null,
   },
   mutations: {
     setUser(state, value) {
       state.user = value;
+      state.authenticated = value;
+    },
+    updateAccessToken: (state, accessToken) => {
+      state.accessToken = accessToken;
+    },
+  },
+  actions: {
+    fetchAccessToken({ commit }) {
+      commit("updateAccessToken", localStorage.getItem("userToken"));
     }
   }
 });
