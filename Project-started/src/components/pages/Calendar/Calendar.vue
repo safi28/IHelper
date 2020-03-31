@@ -318,6 +318,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .pa-2 {
   right: 3px;

@@ -31,14 +31,14 @@
               <v-list-item-icon></v-list-item-icon>
             </v-list-item>
           </router-link>
-          <router-link :to="{ name: 'Calories'}">
+          <router-link :to="{ name: 'Food'}">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-food-apple</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
                 Food
-                <router-link to="/calories"></router-link>
+                <router-link to="/foods"></router-link>
               </v-list-item-title>
 
               <v-list-item-icon></v-list-item-icon>
@@ -57,19 +57,7 @@
               <v-list-item-icon></v-list-item-icon>
             </v-list-item>
           </router-link>
-          <router-link :to="{ name: 'About'}">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-help-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                About
-                <router-link to="/about"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
+    
         </v-list>
       </Sidebar>
     </nav>
@@ -128,11 +116,6 @@ h1 {
 }
 #app {
   background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-  /* linear-gradient(
-      to top right,
-      rgba(236, 235, 131, 0.7),
-      rgba(201, 47, 20, 0.7)
-    ); */
 
   box-shadow: white 0px 0px 0px 2px, rgb(0, 170, 255) 0px 0px 0px 4px;
   background-position: center center;

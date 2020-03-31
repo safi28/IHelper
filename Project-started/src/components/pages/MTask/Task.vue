@@ -4,7 +4,7 @@
       <mainMenu></mainMenu>
     </nav>
     <v-app>
-      <h1>Things To Do</h1>
+      <h1>Write Your Plans</h1>
       <hr />
       <v-card max-width="600">
         <v-row dense class="playlist">

@@ -2,14 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import login from "@/components/auth/Auth.vue";
 import privateHome from "@/components/core/Home/Home-private.vue";
-import Calories from "@/components/pages/Food/Calories.vue";
-import youTable from "@/components/pages/Food/dailyCounter.vue";
+import Foods from "@/components/pages/Food/Foods.vue";
 import Meistask from "@/components/pages/MTask/Task.vue";
 import profile from "@/components/pages/Profile/Profile.vue";
 import publicHome from "@/components/core/Home/Home-public.vue";
 import Error from "@/components/core/Error/Error.vue";
-import store from "../store";
-import portfolio from "@/components/pages/Calendar/Calendar.vue"
+import create from "@/components/core/Create/Create.vue";
 
 Vue.use(VueRouter);
 
@@ -40,25 +38,25 @@ const routes = [
     component: privateHome
   },
   {
-    path: "/calories",
-    name: "Calories",
-    component: Calories
+    path: "/create",
+    name: "create",
+    component: create
   },
   {
-    path: "/youTable",
-    name: "youTable",
-    component: youTable
+    path: "/foods",
+    name: "Food",
+    component: Foods
   },
   {
-    path: "/portfolio",
-    name: "portfolio",
-    component: portfolio
+    path: "/foods/edit/:id",
+    component: () => import("../components/pages/Food/Food-details.vue")
   },
   {
     path: "/meistask",
     name: "Meistask",
     component: Meistask
   },
+
   {
     path: "**",
     name: "Error",
@@ -67,12 +65,17 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 });
 // router.beforeEach((to, from, next) => {
 //   store.dispatch("fetchAccessToken");
 
- 
+//   if (to.fullPath === "/dashboard") {
+//     if (!store.state.accessToken) {
+//       next("/login");
+//     }
+//   }
 //   if (to.fullPath === "/") {
 //     if (store.state.accessToken) {
 //       next("/profile");

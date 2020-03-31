@@ -197,9 +197,12 @@ export default {
           console.log(data);
           
           this.isLogged = true;
+
           this.$router.replace({ name: "privateHome" });
           this.$noty.success("Logged in successfully!");
-          // localStorage.setItem("userToken", { email, password });
+          let email = data.user.email;
+          let token = data.user.uid
+          localStorage.setItem("userToken", {email, token});
         })
         .catch(err => {
           this.$noty.error("Error");

@@ -43,7 +43,7 @@
                         <v-list-item-icon></v-list-item-icon>
                       </v-list-item>
                     </router-link>
-                    <router-link :to="{ name: 'calendar'}">
+                    <router-link :to="{ name: ''}">
                       <v-list-item link>
                         <v-list-item-icon>
                           <v-icon>mdi-heart</v-icon>
@@ -56,14 +56,14 @@
                         <v-list-item-icon></v-list-item-icon>
                       </v-list-item>
                     </router-link>
-                    <router-link :to="{ name: 'Calories'}">
+                    <router-link :to="{ name: 'Food'}">
                       <v-list-item link>
                         <v-list-item-icon>
                           <v-icon>mdi-food-apple</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>
                           Food
-                          <router-link to="/calories"></router-link>
+                          <router-link to="/foods"></router-link>
                         </v-list-item-title>
 
                         <v-list-item-icon></v-list-item-icon>
@@ -134,7 +134,7 @@ export default {
       items: [
         { title: "Dashboard", icon: "mdi-view-dashboard", link: "/about" },
         { title: "Health", icon: "mdi-heart", link: "/about" },
-        { title: "Food", icon: "mdi-food-apple", link: "/calories" },
+        { title: "Food", icon: "mdi-food-apple", link: "/foods" },
         { title: "Photos", icon: "mdi-image", link: "/health" },
         { title: "About", icon: "mdi-help-box", link: "/about" }
       ],
