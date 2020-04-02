@@ -6,10 +6,8 @@ import Vuetify from "vuetify";
 import Vuesax from "vuesax";
 import VueNoty from "vuejs-noty";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import * as firebase from "firebase/app";
 import user from "./user/index";
-import shared from "./shared";
-
+import shared from './shared'
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueMaterial);
@@ -30,11 +28,11 @@ export default new Vuex.Store({
   }
 });
 
-export const nav = Vue.observable({
+export const store = Vue.observable({
   isNavOpen: false
 });
 export const mutations = {
   toggleNav() {
-    nav.isNavOpen = !nav.isNavOpen;
+    store.isNavOpen = !store.isNavOpen;
   }
 };

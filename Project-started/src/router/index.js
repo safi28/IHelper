@@ -69,7 +69,7 @@ const routes = [
     path: "/foods",
     name: "Food",
     component: Foods,
-     beforeEnter: AuthGuard
+    //  beforeEnter: AuthGuard
 
   },
   {

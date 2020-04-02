@@ -8,7 +8,6 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
-          a
           <v-card-text>
             <v-container>
               <form @submit.prevent="onSignup">
@@ -19,7 +18,7 @@
                         label="Name"
                         id="name"
                         v-model="name"
-                        type="name    "
+                        type="name"
                         required
                       ></v-text-field>
                   </v-flex>
@@ -65,7 +64,7 @@
                     <div class="text-xs-center">
                       <v-btn rounded type="submit" :disabled="loading" :loading="loading">
                         Sign up
-                        <v-icon right>lock_open</v-icon>
+                      
                         <span slot="loader" class="custom-loader">
                           <v-icon light>cached</v-icon>
                         </span>

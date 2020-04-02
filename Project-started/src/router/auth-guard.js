@@ -1,4 +1,4 @@
-import { store } from "../store";
+import { store } from "../store/index";
 import {Noty} from 'noty';
 
 export default (to, from, next) => {
