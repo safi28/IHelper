@@ -13,17 +13,7 @@ import create from "@/components/core/Create/Create.vue";
 import Health from "@/components/pages/Health/Health-form.vue";
 import AuthGuard from "./auth-guard";
 
-
 Vue.use(VueRouter);
-function authGuard(to, from, next) {
-  if (to.fullPath === "/dashboard")
-    if (localStorage.getItem("token") !== null) {
-      next("/dashboard");
-    } else {
-      next("/");
-    }
-  next();
-}
 const routes = [
   {
     path: "/",
@@ -33,13 +23,15 @@ const routes = [
   {
     path: "/dashboard",
     name: "privateHome",
-    component: privateHome
+    component: privateHome,
+    beforeEnter: AuthGuard
+
   },
   {
     path: "/profile",
     name: "profile",
     component: profile,
-    // beforeEnter: AuthGuard
+    beforeEnter: AuthGuard
   },
   {
     path: '/signup',
@@ -55,31 +47,35 @@ const routes = [
     path: "/health",
     name: "Health",
     component: Health,
-    // beforeEnter: AuthGuard
+    beforeEnter: AuthGuard
 
   },
   {
     path: "/create",
     name: "Create",
     component: create,
-    // beforeEnter: AuthGuard
+    beforeEnter: AuthGuard
 
   },
   {
     path: "/foods",
     name: "Food",
     component: Foods,
-    //  beforeEnter: AuthGuard
+     beforeEnter: AuthGuard
 
   },
   {
     path: "/foods/edit/:id",
-    component: () => import("../components/pages/Food/Food-details.vue")
+    component: () => import("../components/pages/Food/Food-details.vue"),
+    beforeEnter: AuthGuard
+
   },
   {
     path: "/meistask",
     name: "Meistask",
-    component: Meistask
+    component: Meistask,
+    beforeEnter: AuthGuard
+
   },
   {
     path: "**",

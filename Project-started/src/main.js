@@ -9,11 +9,12 @@ import VueNoty from "vuejs-noty";
 import "firebase/firestore";
 const AlertCmp = () => import("./components/auth/Alert.vue");
 import { ValidationProvider } from "vee-validate";
-Vue.component("ValidationProvider", ValidationProvider);
 
+Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("app-alert", AlertCmp);
 
 Vue.config.productionTip = false;
+
 const ignoreWarnMessage =
   "The .native modifier for v-on is only valid on components but it was used on <div>.";
 Vue.config.warnHandler = function(msg, vm, trace) {
