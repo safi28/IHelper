@@ -82,74 +82,91 @@
         </label>
       </div>
     </div>
-
-    <div id="quiz">
-      <div >
-        <h1>Welcome to the Quiz: {{title}}</h1>
-        <p>Some kind of text here. Blah blah.</p>
-
-        <button @click="startQuiz">START!</button>
-      </div>
-
-      <div v-if="questionStage">
-        <question
-          :question="questions[currentQuestion]"
-          v-on:answer="handleAnswer"
-          :question-number="currentQuestion+1"
-        ></question>
-      </div>
-
-      <div
-        v-if="resultsStage"
-      >You got {{correct}} right out of {{questions.length}} questions. Your percentage is {{perc}}%.</div>
+    
+<div class="container" id="quiz">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="title">Futurama Quiz</h1>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div id="userInfo">
+        <h2 id="userName">Hello, {{userInfo.userName}}!</h2>
+        <p id="userScore">You have answered {{userScore}} of {{questions.length}} correctly</p>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div id="questionBlock">
+        <h2>Question</h2>
+        <div id="questionArea" v-if="questions.length &gt; 0">
+          <p id="questionDisplay">{{questions[index].question}}</p>
+          <div class="clearfix" id="possibleAnswersDisplay">
+            <label class="col-xs-6" v-for="pa in questions[index].possibleAnswers">
+              <input type="radio" name="answers" v-model="userAnswer" v-bind:value="pa"/><span>{{pa}}</span>
+            </label>
+          </div>
+        </div><a class="btn btn-block btn-primary" id="finalAnswer" @click="checkAnswer">Final Answer</a>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
 </template>
 <script>
-const quizData = "http://myjson.com/1amj5c";
-
+import Vue from "vue";
+import axios from "axios";
+const baseUrl = "https://api.myjson.com/bins/ahn1p";
 export default {
   name: "Health",
   data() {
     return {
-      introStage: false,
-      questionStage: false,
-      resultsStage: false,
-      title: "",
+      message: "",
+      userInfo: { userName: "A" },
+      userScore: 0,
       questions: [],
-      currentQuestion: 0,
-      answers: [],
-      correct: 0,
-      perc: null
+      index: 0,
+      userAnswer: ""
     };
   },
-  created() {
-  
+  ready: function() {
+    console.log("ready");
+  },
+  created: function() {
+    this.fetchData();
   },
   methods: {
-    startQuiz() {
-      this.introStage = false;
-      this.questionStage = true;
-      console.log(
-        "test" + JSON.stringify(this.questions[this.currentQuestion])
-      );
+    fetchData: function() {
+      fetch(`${baseUrl}`)
+        .then(resp => resp.json())
+        .then(json => this.questions.push(...json));
     },
-    handleAnswer(e) {
-      this.answers[this.currentQuestion] = e.answer;
-
-      if (this.currentQuestion + 1 === this.questions.length) {
-        this.handleResults();
-        this.questionStage = false;
-        this.resultsStage = true;
+    checkAnswer: function() {
+      if (this.userAnswer == this.questions[this.index].correctAnswer) {
+        this.userScore++;
+      }
+      this.updateIndex();
+    },
+    updateIndex: function() {
+      if (this.index < this.questions.length - 1) {
+        this.index++;
       } else {
-        this.currentQuestion++;
+        this.displayResults();
       }
     },
-    handleResults() {
-      this.questions.forEach((a, index) => {
-        if (this.answers[index] === a.answer) this.correct++;
-      });
-      this.perc = ((this.correct / this.questions.length) * 100).toFixed(2)
+    displayResults: function() {
+      if (parseInt(this.userScore) / this.questions.length > 0.7) {
+        alert(`You got ${this.userScore} answers correct, you pass!`);
+      } else {
+        alert(
+          `You got only ${this.userScore} answers correct, you need to rewatch all episodes. NOW!`
+        );
+      }
+      this.restartQuiz();
+    },
+    restartQuiz: function() {
+      this.userScore = 0;
+      this.index = 0;
     }
   }
 };
