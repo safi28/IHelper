@@ -1,170 +1,121 @@
 <template>
   <div id="app">
-    <div v-if="!isSignedIn">
-      <div id="inspire">
-        <div>
-          <v-app-bar color="deep-purple accent-4" dense dark>
-            <router-link :to="{ name: 'privateHome'}">
-              <div class="my-2">
-                <v-btn text small color="primary">Health Information</v-btn>
-                <router-link to="/dashboard"></router-link>
-              </div>
-            </router-link>
+    <v-navigation-drawer
+      v-model="drawer"
+      :color="color"
+      :expand-on-hover="expandOnHover"
+      :mini-variant="miniVariant"
+      :right="right"
+      absolute
+      dark
+    >
+      <v-list dense nav class="py-0">
+        <v-list-item two-line :class="miniVariant && 'px-0'">
+          <router-link :to="{ name: 'profile' }">
+            <v-list-item-avatar>
+              <img src="https://svgur.com/i/65U.svg" />
+            </v-list-item-avatar>
+          </router-link>
 
-            <v-spacer></v-spacer>
+          <v-list-item-content>
+            <v-list-item-title>Profile</v-list-item-title>
+            <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
 
-            <div class="my-2">
-              <v-btn text small @click="signOut">Logout</v-btn>
-            </div>
+        <v-divider></v-divider>
 
-            <v-menu left bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
+        <router-link :to="{ name: 'Meistask' }">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-view-dashboard</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Dashboard
+              <router-link to="/meistask"></router-link>
+            </v-list-item-title>
 
-              <v-list>
-                <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-                  <v-list-item-title>Option {{ n }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-app-bar>
-        </div>
-      </div>
-    </div>
-    <div v-if="isSignedIn">
-      <v-card class="overflow-hidden">
-        <v-app-bar
-          color="#6A76AB"
-          dark
-          shrink-on-scroll
-          src="https://picsum.photos/1920/1080?random"
-          fade-img-on-scroll
-          scroll-target="#scrolling-techniques-2"
-        >
-          <template v-slot:img="{ props }">
-            <v-img v-bind="props" gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"></v-img>
-          </template>
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Health'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-heart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Health
+              <router-link to="/calendar"></router-link>
+            </v-list-item-title>
 
-          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Food'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-food-apple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Food
+              <router-link to="/foods"></router-link>
+            </v-list-item-title>
 
-          <v-navigation-drawer v-model="drawer" absolute bottom temporary>
-            <v-list nav dense>
-              <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
-                <v-list-item>
-                  <v-list-item-title>
-                    <router-link to="login" class="auth">Log In</router-link>
-                  </v-list-item-title>
-                </v-list-item>
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Create'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-help-box</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              About
+              <router-link to="/create"></router-link>
+            </v-list-item-title>
 
-                <v-list-item>
-                  <v-list-item-title>
-                    <router-link to="login" class="auth">Register</router-link>
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-navigation-drawer>
-
-          <v-toolbar-title>Health Information</v-toolbar-title>
-
-          <v-spacer></v-spacer>
-
-          <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-
-          <v-btn icon>
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </v-app-bar>
-      </v-card>
-    </div>
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
 
 <script>
-import publicHome from "../../components/core/Home/Home-public";
 import Vuetify from "vuetify";
-import login from "../../components/auth/Auth";
-import * as firebase from "firebase/app";
-import Noty from "noty";
 
 export default {
   vuetify: new Vuetify(),
-  components: {
-    publicHome,
-    login
-  },
-  props: {
-    isLoggedIn: false
-  },
-  data: () => ({
-    drawer: false,
-    group: null,
-    title: "Click Me",
-    user: null,
-    authUser: null
-  }),
-  watch: {
-    group() {
-      this.drawer = false;
-    }
-  },
-  methods: {
-    isSignedIn() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          var user = firebase.auth().currentUser;
-          var name, email, photoUrl, uid, emailVerified;
-
-          if (user != null) {
-            name = user.displayName;
-            email = user.email;
-            photoUrl = user.photoURL;
-            emailVerified = user.emailVerified;
-            uid = user.uid;
-            console.log(user);
-          }
-          return true;
-        } else {
-          return false;
+  name: "headerLoad",
+  data() {
+    return {
+      drawer: true,
+      color: "primary",
+      right: false,
+      miniVariant: true,
+      expandOnHover: true,
+      background: true,
+      tab: null,
+      years: [
+        {
+          color: "cyan",
+          year: "1960"
+        },
+        {
+          color: "green",
+          year: "1970"
+        },
+        {
+          color: "pink",
+          year: "1980"
         }
-      });
-    },
-    mounted() {
-      this.isSignedIn();
-    },
-    signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$noty.success("Logged out successfully!");
-          this.$router.replace({ name: "publicHome" }).catch(err => {
-            this.$noty.error("Error router!");
-          });
-        })
-        .catch(err => {
-          this.$noty.error("Error");
-          console.log(err);
-        });
-    }
+      ]
+    };
   }
 };
 </script>
 
 <style scoped>
-.grey {
-  background-size: cover;
-}
-.auth {
-  color: wheat;
-}
-.dashboard {
-  color: wheat;
-  text-decoration: none;
-}
+
 </style>

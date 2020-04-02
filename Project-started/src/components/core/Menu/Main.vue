@@ -18,14 +18,14 @@
               <v-list-item-icon></v-list-item-icon>
             </v-list-item>
           </router-link>
-          <router-link :to="{ name: 'About'}">
+          <router-link :to="{ name: 'Create'}">
             <v-list-item>
               <v-list-item-icon link class="title">
                 <v-icon>mdi-heart</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
                 Health
-                <router-link to="/about"></router-link>
+                <router-link to="/create"></router-link>
               </v-list-item-title>
 
               <v-list-item-icon></v-list-item-icon>
@@ -44,14 +44,14 @@
               <v-list-item-icon></v-list-item-icon>
             </v-list-item>
           </router-link>
-          <router-link :to="{ name: 'About'}">
+          <router-link :to="{ name: 'Create'}">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-help-box</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
                 About
-                <router-link to="/about"></router-link>
+                <router-link to="/create"></router-link>
               </v-list-item-title>
 
               <v-list-item-icon></v-list-item-icon>

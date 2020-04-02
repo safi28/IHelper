@@ -11,6 +11,7 @@
         :key="index"
         @click="setActive(food, index)"
       >
+      <div v-if="isLoading">Loading...</div>
         <div class="container">
           <div class="cellphone-container">
             <div class="movie">
@@ -26,7 +27,7 @@
               </div>
               <div class="mr-grid summary-row">
                 <div class="col2">
-                  <h5>Details</h5>
+                  <h5></h5>
                 </div>
               </div>
               <div class="mr-grid">
@@ -34,16 +35,12 @@
                   <p class="movie-description" v-model="food.details">{{food.details}}</p>
                 </div>
               </div>
-              <div class="mr-grid actors-row">
-                <div class="col1">
-                  <p class="movie-actors" v-model="food.ingredients">{{food.ingredients}}</p>
-                </div>
-              </div>
+
               <div class="mr-grid action-row">
                 <div class="col2">
                   <div class="watch-btn">
                     <button v-on:click="sendData">
-                      <router-link :to="{path: `/foods/edit/${food.id}`}">
+                      <router-link :to="`/foods/edit/${food.id}`">
                         <h3>
                           <v-button>
                             <i class="material-icons"></i>Details
@@ -64,15 +61,18 @@
 
 <script>
 import Vuetify from "vuetify";
+import AppHeader from "@/components/core/Header.vue";
 import Noty from "noty";
 import * as firebase from "firebase/app";
 import mainMenu from "@/components/core/Menu/Main.vue";
 import DataService from "../../../services/DataService";
 import EventBus from "../../../eventBus";
+
 export default {
   name: "Foods",
   vuetify: new Vuetify(),
   components: {
+    AppHeader,
     mainMenu
   },
   data() {
@@ -95,23 +95,26 @@ export default {
         ingredients: "",
         details: "",
         img: ""
-      }
+      },
+      isLoading: false
     };
   },
 
   methods: {
     async retrieveFood() {
+      this.isLoading = true;
       await firebase
         .firestore()
         .collection("foods")
         .onSnapshot(snap => {
           snap.forEach(doc => {
             var food = doc.data();
-            this.food = doc.data()
+            this.food = doc.data();
             food.id = doc.id;
             this.id = doc.id;
             this.foods.push(food);
           });
+          this.isLoading = false;
         });
     },
 
@@ -120,7 +123,7 @@ export default {
       this.currentFood = food;
     },
 
-    sendData() { 
+    sendData() {
       const playload = {
         name: this.food.name,
         kg: this.food.kg,
@@ -129,11 +132,10 @@ export default {
         img: this.food.img
       };
       console.log(playload);
-      
+
       EventBus.$emit("DATA_PUBLISHED", playload);
     }
   },
-
   mounted() {
     this.retrieveFood();
   }

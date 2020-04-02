@@ -20,12 +20,12 @@
               <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
                 <v-list-item>
                   <v-list-item-title>
-                    <router-link to="login" class="auth">Log In</router-link>
+                    <router-link to="signin" class="auth">Log In</router-link>
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
-                    <router-link to="login" class="auth">Register</router-link>
+                    <router-link to="signup" class="auth">Register</router-link>
                   </v-list-item-title>
                 </v-list-item>
               </v-list-item-group>

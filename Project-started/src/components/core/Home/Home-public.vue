@@ -42,9 +42,9 @@ import Vuetify from "vuetify";
 import HeaderUnL from "@/components/core/HeaderUnL.vue";
 
 export default {
-  name: "ContactInfo",
+  name: "publicHome",
   props: {
-    info: String
+    isAuth: Boolean
   },
   vuetify: new Vuetify(),
   components: {
@@ -67,12 +67,15 @@ export default {
     group() {
       this.drawer = false;
     }
+  },
+  beforeCreate() {
+    this.$emit("onAuth", localStorage.getItem("token") !== null);
   }
 };
 </script>
 <style scoped>
 .main {
-    background-image: linear-gradient(
+  background-image: linear-gradient(
       to top right,
       rgba(97, 116, 223, 0.7),
       rgba(25, 32, 72, 0.7)

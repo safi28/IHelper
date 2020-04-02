@@ -126,19 +126,16 @@
   </div>
 </template>
 <script>
+import authAxios from "@/services/axios-auth";
 import * as firebase from "firebase";
 import "vuejs-noty/dist/vuejs-noty.css";
 import Noty from "noty";
-
 import Vuetify from "vuetify";
+
 export default {
   name: "login",
   vuetify: new Vuetify(),
-  computed: {
-    passwordMatch() {
-      return () => this.password === this.verify || "Password must match";
-    }
-  },
+
   data: () => ({
     dialog: true,
     tab: 0,
@@ -149,6 +146,7 @@ export default {
     authUser: null,
     valid: true,
     isLogged: false,
+    returnSecureToken: false,
     firstName: "",
     lastName: "",
     email: "",
@@ -173,46 +171,47 @@ export default {
   }),
   methods: {
     register() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(data => {
-          data.user
-            .updateProfile({
-              displayName: this.firstName
-            })
-            .then(() => {
-              this.$noty.success("Registered successfully!");
-            })
-            .catch(err => {
-              this.$noty.warning("Error");
-            });
+      const playload = {
+        email: this.email,
+        password: this.password,
+        returnSecureToken: true
+      };
+      authAxios
+        .post("/accounts:signUp", playload)
+        .then(res => {
+          const { idToken, localId } = res.data;
+
+          localStorage.setItem("token", idToken);
+          localStorage.setItem("userId", localId);
+        })
+        .catch(err => {
+          this.$noty.error("Error while register!");
         });
     },
     login() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(data => {
-          console.log(data);
-          
-          this.isLogged = true;
+      const playload = {
+        email: this.email,
+        password: this.password,
+        returnSecureToken: true
+      };
+      authAxios
+        .post("/accounts:signInWithPassword", playload)
+        .then(res => {
+          const { idToken, localId } = res.data;
+          localStorage.setItem("token", idToken);
+          localStorage.setItem("userId", localId);
 
-          this.$router.replace({ name: "privateHome" });
           this.$noty.success("Logged in successfully!");
-          let email = data.user.email;
-          let token = data.user.uid
-          localStorage.setItem("userToken", {email, token});
+          this.$router.replace({ name: "privateHome" });
         })
         .catch(err => {
-          this.$noty.error("Error");
-          console.log(err);
+          this.$noty.error("Error while log in!");
         });
-    },
-    created() {
-      firebase.auth().onAuthStateChanged(user => {
-        this.authUser = user;
-      });
+    }
+  },
+  computed: {
+    passwordMatch() {
+      return () => this.password === this.verify || "Password must match";
     }
   }
 };

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import login from "@/components/auth/Auth.vue";
+const Signup = () => import('@/components/auth/Sign-Up')
+const Signin = () => import('@/components/auth/Sign-In')
 import privateHome from "@/components/core/Home/Home-private.vue";
 import Foods from "@/components/pages/Food/Foods.vue";
 import Meistask from "@/components/pages/MTask/Task.vue";
@@ -8,29 +10,25 @@ import profile from "@/components/pages/Profile/Profile.vue";
 import publicHome from "@/components/core/Home/Home-public.vue";
 import Error from "@/components/core/Error/Error.vue";
 import create from "@/components/core/Create/Create.vue";
+import Health from "@/components/pages/Health/Health-form.vue";
+import AuthGuard from "./auth-guard";
+
 
 Vue.use(VueRouter);
-
+function authGuard(to, from, next) {
+  if (to.fullPath === "/dashboard")
+    if (localStorage.getItem("token") !== null) {
+      next("/dashboard");
+    } else {
+      next("/");
+    }
+  next();
+}
 const routes = [
   {
     path: "/",
     name: "publicHome",
-    component: publicHome
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: login
-  },
-  {
-    path: "/profile",
-    name: "profile",
-    component: profile
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () => import("../components/core/About.vue")
+    component: publicHome,
   },
   {
     path: "/dashboard",
@@ -38,14 +36,41 @@ const routes = [
     component: privateHome
   },
   {
+    path: "/profile",
+    name: "profile",
+    component: profile,
+    // beforeEnter: AuthGuard
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
+  },
+  {
+    path: '/signin',
+    name: 'Signin',
+    component: Signin
+  },
+  {
+    path: "/health",
+    name: "Health",
+    component: Health,
+    // beforeEnter: AuthGuard
+
+  },
+  {
     path: "/create",
-    name: "create",
-    component: create
+    name: "Create",
+    component: create,
+    // beforeEnter: AuthGuard
+
   },
   {
     path: "/foods",
     name: "Food",
-    component: Foods
+    component: Foods,
+     beforeEnter: AuthGuard
+
   },
   {
     path: "/foods/edit/:id",
@@ -56,36 +81,14 @@ const routes = [
     name: "Meistask",
     component: Meistask
   },
-
   {
     path: "**",
     name: "Error",
     component: Error
   }
 ];
-
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   routes
 });
-// router.beforeEach((to, from, next) => {
-//   store.dispatch("fetchAccessToken");
-
-//   if (to.fullPath === "/dashboard") {
-//     if (!store.state.accessToken) {
-//       next("/login");
-//     }
-//   }
-//   if (to.fullPath === "/") {
-//     if (store.state.accessToken) {
-//       next("/profile");
-//     }
-//   }
-//   if (to.fullPath === "/login") {
-//     if (store.state.accessToken) {
-//       next("/profile");
-//     }
-//   }
-//   next();
-// });
 export default router;

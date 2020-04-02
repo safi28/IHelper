@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <v-app id="inspire">
       <v-container>
         <v-row class="mb-6" no-gutters>
@@ -15,14 +16,13 @@
                       </v-avatar>
                       <v-btn @click="openAvatarPicker">Change Avatar</v-btn>
                     </v-flex>
-                    <v-text-field v-model="user.displayName" label="FirstName"></v-text-field>
-                    <v-text-field v-model="user.email" label="Email Address"></v-text-field>
+                    <v-text-field v-model="user.displayName" label="FirstName">{{user.name}}</v-text-field>
+                    <v-text-field v-model="user.email" label="Email Address">{{user.email}}</v-text-field>
                   </v-card-text>
                   <v-card-actions>
                     <v-btn color="black" :loading="loading" @click.native="update">Save Changes</v-btn>
                   </v-card-actions>
                   <v-spacer></v-spacer>
-
                   <div class="my-2">
                     <v-btn text small @click="signOut">Logout</v-btn>
                   </div>
@@ -38,35 +38,37 @@
 
 <script>
 import * as firebase from "firebase/app";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import mainMenu from "@/components/core/Menu/Main.vue";
+
 export default {
   pageTitle: "My Profile",
   name: "profile",
   components: { mainMenu },
+  props: {
+    isAuth: Boolean
+  },
   data() {
     return {};
   },
   computed: {
-    ...mapState(["user"])
+    // ...mapState(["user"]),
+    user() {
+      return this.$store.getters.user;
+    }
   },
-
   methods: {
+    // setUser(){
+    //   this.$store.dispatch('asyncSetUser')
+    // },
     signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$noty.success("Logged out successfully!");
-          localStorage.removeItem("userToken");
-          this.$router.replace({ name: "publicHome" }).catch(err => {
-            this.$noty.error("Error router!");
-          });
-        })
-        .catch(err => {
-          this.$noty.error("Error");
-          console.log(err);
-        });
+      this.$store.dispatch("logout");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("token");
+
+      this.$emit("onAuth", false);
+      this.$noty.success("Logged out successfully!");
+      this.$router.replace({ name: "publicHome" });
     }
   }
 };

@@ -9,7 +9,7 @@
           <div class="menu">
             <i class="material-icons"></i>
           </div>
-          <div class="movie-img"></div>
+          <v-img class="movie-img" :src="food.img"></v-img>
           <div>
             <div class="text-movie-cont">
               <div class="mr-grid">
@@ -35,9 +35,23 @@
               <div class="mr-grid action-row">
                 <div class="col2">
                   <div class="watch-btn">
-                    <h3>
-                      <i class="material-icons"></i>Details
-                    </h3>
+                    <v-row>
+                      <v-col>
+                        <button>
+                          <h3>
+                            <i class="material-icons"></i>Edit
+                          </h3>
+                        </button>
+                      </v-col>
+                      <v-divider class="mx-6" inset vertical></v-divider>
+                      <v-col>
+                        <button @click="deleteData()">
+                          <h3>
+                            <i class="material-icons"></i>Delete
+                          </h3>
+                        </button>
+                      </v-col>
+                    </v-row>
                   </div>
                 </div>
               </div>
@@ -51,25 +65,15 @@
 
 <script>
 import Vuetify from "vuetify";
-import AppHeader from "@/components/core/Header.vue";
 import Noty from "noty";
 import * as firebase from "firebase/app";
 import mainMenu from "@/components/core/Menu/Main.vue";
 import EventBus from "../../../eventBus";
-import {
-  mdiAccount,
-  mdiFileEdit,
-  mdiPencil,
-  mdiShareVariant,
-  mdiDelete,
-  mdiFolderPlusOutline
-} from "@mdi/js";
 import DataService from "../../../services/DataService";
 export default {
   name: "foods",
   vuetify: new Vuetify(),
   components: {
-    AppHeader,
     mainMenu
   },
   data() {
@@ -93,16 +97,11 @@ export default {
       firebase
         .firestore()
         .collection("foods")
-        .doc()
-        .get(this.food)
-        .onSnapshot(snap => {
-          snap.forEach(doc => {
-            var food = doc.data();
-            food.id = doc.id;
-            this.id = doc.id;
-            this.currentIndex = doc.id;
-            this.foods.push(food);
-          });
+        .doc(this.$route.params.id)
+        .get()
+        .then(el => {
+          this.food = el.data();
+          console.log(el.data());
         });
     },
 
@@ -113,15 +112,26 @@ export default {
 
     updateData(playload) {
       this.food = playload;
+    },
+
+    deleteData() {
+      firebase
+        .firestore()
+        .collection("foods")
+        .doc(this.$route.params.id)
+        .delete()
+        .then(el => {
+          this.$router.replace({ name: "Food" });
+        });
     }
   },
 
   mounted() {
-      EventBus.$on('DATA_PUBLISHED',(playload) => {
-          this.updateData(playload)
-      })
-  },
-  
+    this.retrieveFood();
+    EventBus.$on("DATA_PUBLISHED", playload => {
+      this.updateData(playload);
+    });
+  }
 };
 </script>
 

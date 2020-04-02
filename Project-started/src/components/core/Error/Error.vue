@@ -15,14 +15,40 @@
         </span>
       </section>
     </div>
-    <div class="home">
+    <div class="home" v-if="userIsAuthenticated">
       <router-link to="dashboard">
+        <button>Home</button>
+      </router-link>
+    </div>
+    <div class="home" v-else>
+      <router-link to="/">
         <button>Home</button>
       </router-link>
     </div>
   </v-app>
 </template>
-
+<script>
+export default {
+  props: {
+    isAuth: Boolean
+  },
+  data() {
+    return {};
+  },
+  //   beforeCreate() {
+  //     this.$emit("onAuth", localStorage.getItem("token") !== null);
+  //     // console.log(this.isAuth);
+  //   },
+  computed: {
+    userIsAuthenticated() {
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    }
+  }
+};
+</script>
 <style lang="css" scoped>
 @import url("./styles-error.css");
 </style>

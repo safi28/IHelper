@@ -1,13 +1,18 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./store/index";
 import vuetify from "./plugins/vuetify";
 import * as firebase from "firebase/app";
 import Vuesax from "vuesax";
 import VueNoty from "vuejs-noty";
 import "firebase/firestore";
-import Vuex from "vuex";
+const AlertCmp = () => import("./components/auth/Alert.vue");
+import { ValidationProvider } from "vee-validate";
+Vue.component("ValidationProvider", ValidationProvider);
+
+Vue.component("app-alert", AlertCmp);
+
 Vue.config.productionTip = false;
 const ignoreWarnMessage =
   "The .native modifier for v-on is only valid on components but it was used on <div>.";

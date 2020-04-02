@@ -1,219 +1,119 @@
 <template>
-  <div class="app">
-      <v-app id="inspire">
-        <v-container>
-          <v-row class="mb-6" no-gutters>
-            <v-col cols="14" md="8">
-              <v-card height="900" width="9000" class="overflow-hidden">
-                <v-navigation-drawer
-                  v-model="drawer"
-                  :color="color"
-                  :expand-on-hover="expandOnHover"
-                  :mini-variant="miniVariant"
-                  :right="right"
-                  absolute
-                  dark
-                >
-                  <v-list dense nav class="py-0">
-                    <v-list-item two-line :class="miniVariant && 'px-0'">
-                      <router-link :to="{ name: 'profile' }">
-                        <v-list-item-avatar>
-                          <img src="https://svgur.com/i/65U.svg" />
-                        </v-list-item-avatar>
-                      </router-link>
-
-                      <v-list-item-content>
-                        <v-list-item-title>Profile</v-list-item-title>
-                        <v-list-item-subtitle>Subtext</v-list-item-subtitle>
-                      </v-list-item-content>
-                    </v-list-item>
-
-                    <v-divider></v-divider>
-
-                    <router-link :to="{ name: 'Meistask' }">
-                      <v-list-item link>
-                        <v-list-item-icon>
-                          <v-icon>mdi-view-dashboard</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                          Dashboard
-                          <router-link to="/meistask"></router-link>
-                        </v-list-item-title>
-
-                        <v-list-item-icon></v-list-item-icon>
-                      </v-list-item>
-                    </router-link>
-                    <router-link :to="{ name: ''}">
-                      <v-list-item link>
-                        <v-list-item-icon>
-                          <v-icon>mdi-heart</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                          Health
-                          <router-link to="/calendar"></router-link>
-                        </v-list-item-title>
-
-                        <v-list-item-icon></v-list-item-icon>
-                      </v-list-item>
-                    </router-link>
-                    <router-link :to="{ name: 'Food'}">
-                      <v-list-item link>
-                        <v-list-item-icon>
-                          <v-icon>mdi-food-apple</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                          Food
-                          <router-link to="/foods"></router-link>
-                        </v-list-item-title>
-
-                        <v-list-item-icon></v-list-item-icon>
-                      </v-list-item>
-                    </router-link>
-                    <router-link :to="{ name: 'About'}">
-                      <v-list-item link>
-                        <v-list-item-icon>
-                          <v-icon>mdi-help-box</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                          About
-                          <router-link to="/about"></router-link>
-                        </v-list-item-title>
-
-                        <v-list-item-icon></v-list-item-icon>
-                      </v-list-item>
-                    </router-link>
-                  </v-list>
-                </v-navigation-drawer>
-                <v-parallax height="1000" class="parall" width="900" dark>
-                  <v-row align="center" justify="center">
-                    <v-col class="text-center" cols="16">
-                      <h1 class="display-1 font-weight-thin mb-4">Your online health assistant</h1>
-                      <h4 class="subheading">Track your results!</h4>
-                    </v-col>
-                  </v-row>
-                </v-parallax>
-              </v-card>
-            </v-col>
-            <v-col cols="14" md="4">
-              <v-card height="900" width="9000" outlined tile>
-                <v-timeline>
-                  <v-timeline-item v-for="(year, i) in years" :key="i" :color="year.color" small>
-                    <template v-slot:opposite>
-                      <span
-                        :class="`headline font-weight-bold ${year.color}--text`"
-                        v-text="year.year"
-                      ></span>
-                    </template>
-                    <div class="py-4">
-                      <h2 :class="`headline font-weight-light mb-4 ${year.color}--text`">Lorem ipsum</h2>
-                      <div>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</div>
-                    </div>
-                  </v-timeline-item>
-                </v-timeline>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-app>
+  <div class="k">
+    <headerLoad></headerLoad>
+    <section class="hero">
+      <div class="overlay">
+        <div class="content">
+          <h1>
+            Health
+            <br />care.
+          </h1>
+          <p>We are creating healthy diets for you based on your manners!!</p>
+          <button @click="logout()">Logout</button>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
-
 <script>
-import * as firebase from "firebase";
-import { mapGetters } from "vuex";
-import AppHeader from "@/components/core/Header.vue";
-
+import headerLoad from "@/components/core/Header.vue";
 export default {
-  name: "LoggedHome",
-  components: { AppHeader },
-  data() {
-    return {
-      isLoggedIn: false,
-      drawer: true,
-      items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard", link: "/about" },
-        { title: "Health", icon: "mdi-heart", link: "/about" },
-        { title: "Food", icon: "mdi-food-apple", link: "/foods" },
-        { title: "Photos", icon: "mdi-image", link: "/health" },
-        { title: "About", icon: "mdi-help-box", link: "/about" }
-      ],
-      color: "primary",
-      right: false,
-      miniVariant: true,
-      expandOnHover: true,
-      background: true,
-      tab: null,
-      years: [
-        {
-          color: "cyan",
-          year: "1960"
-        },
-        {
-          color: "green",
-          year: "1970"
-        },
-        {
-          color: "pink",
-          year: "1980"
-        }
-      ]
-    };
-  },
-
+  name: "dashboard",
+  components: { headerLoad },
   methods: {
-    signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.replace({
-            name: "publicHome"
-          });
-        });
-    },
-    isSignedIn() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          var user = firebase.auth().currentUser;
-          var name, email, photoUrl, uid, emailVerified;
-
-          if (user != null) {
-            name = user.displayName;
-            email = user.email;
-            photoUrl = user.photoURL;
-            emailVerified = user.emailVerified;
-            uid = user.uid;
-            console.log(user);
-          }
-          return true;
-        } else {
-          return false;
-        }
-      });
-    },
-    mounted() {
-      this.isSignedIn();
+    logout() {
+      localStorage.removeItem('token')
+     this.$router.replace({name: 'publicHome'})
     }
   }
 };
 </script>
 
 <style scoped>
-.overflow-hidden {
-  right: 264px;
-  bottom: 13px;
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,400,800,900&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+  background: #333;
+  justify-content: center;
 }
-.parall {
-  bottom: 50px;
-  background-image: linear-gradient(
-      to top right,
-      rgba(97, 116, 223, 0.7),
-      rgba(25, 32, 72, 0.7)
-    ),
-    url("https://i.pinimg.com/736x/68/46/10/684610d7617668e4c68c19431a4f338f.jpg");
+
+.hero {
+  background: #133a53
+    url("https://images.pexels.com/photos/461428/pexels-photo-461428.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  /* background: url(""); */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  width: 100vw;
 }
-.home {
-  color: aliceblue;
+.hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.hero .overlay .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 70vw;
+
+  margin: auto;
+  transform-origin: left;
+  animation: reveal 1s ease-in-out forwards;
+}
+.hero .overlay .content h1 {
+  font-size: 90px;
+  line-height: 0.9;
+  margin-bottom: 10px;
+  color: white;
+  left: 209%;
+  right: 20%;
+}
+.hero .overlay .content p {
+  font-size: 24px;
+  color: white;
+  right: 29px;
+}
+.hero .overlay:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff6700;
+  z-index: 3;
+  animation: reveal 0.5s reverse forwards;
+  animation-delay: 0.5s;
+  transform-origin: left;
+}
+.hero .overlay:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #133a53;
+  z-index: 2;
+  animation: reveal 0.7s reverse forwards;
+  animation-delay: 0.7s;
+  transform-origin: left;
+}
+
+@keyframes reveal {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
 </style>

@@ -6,6 +6,9 @@ import Vuetify from "vuetify";
 import Vuesax from "vuesax";
 import VueNoty from "vuejs-noty";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import * as firebase from "firebase/app";
+import user from "./user/index";
+import shared from "./shared";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -21,32 +24,17 @@ Vue.use(VueNoty, {
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    user: null,
-    authenticated: false,
-    accessToken: null,
-  },
-  mutations: {
-    setUser(state, value) {
-      state.user = value;
-      state.authenticated = value;
-    },
-    updateAccessToken: (state, accessToken) => {
-      state.accessToken = accessToken;
-    },
-  },
-  actions: {
-    fetchAccessToken({ commit }) {
-      commit("updateAccessToken", localStorage.getItem("userToken"));
-    }
+  modules: {
+    user: user,
+    shared: shared
   }
 });
 
-export const store = Vue.observable({
+export const nav = Vue.observable({
   isNavOpen: false
 });
 export const mutations = {
   toggleNav() {
-    store.isNavOpen = !store.isNavOpen;
+    nav.isNavOpen = !nav.isNavOpen;
   }
 };
