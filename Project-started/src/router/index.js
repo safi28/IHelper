@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import login from "@/components/auth/Auth.vue";
 const Signup = () => import('@/components/auth/Sign-Up')
 const Signin = () => import('@/components/auth/Sign-In')
 import privateHome from "@/components/core/Home/Home-private.vue";
@@ -13,7 +12,17 @@ import create from "@/components/core/Create/Create.vue";
 import Health from "@/components/pages/Health/Health-form.vue";
 import AuthGuard from "./auth-guard";
 
+
 Vue.use(VueRouter);
+function authGuard(to, from, next) {
+  if (to.fullPath === "/dashboard")
+    if (localStorage.getItem("token") !== null) {
+      next("/dashboard");
+    } else {
+      next("/");
+    }
+  next();
+}
 const routes = [
   {
     path: "/",
@@ -85,6 +94,7 @@ const routes = [
 ];
 const router = new VueRouter({
   mode: "history",
+  base: process.env.BASE_URL,
   routes
 });
 export default router;

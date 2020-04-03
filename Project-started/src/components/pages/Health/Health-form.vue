@@ -1,33 +1,40 @@
 <template>
   <div class="app">
     <div class="container">
-      <div class="option">
-        <input type="radio" name="card" id="silver" value="silver" />
-        <label for="silver" aria-label="Silver">
-          <span></span>
-          Silver
-          <div class="card card--white card--sm">
-            <div class="card__chip"></div>
-            <div class="card__content">
-              <div class="card__text">
-                <div class="text__row">
-                  <div class="text__loader"></div>
-                  <div class="text__loader"></div>
-                </div>
-                <div class="text__row">
-                  <div class="text__loader"></div>
-                  <div class="text__loader"></div>
-                </div>
-              </div>
-              <div class="card__symbol">
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-        </label>
+      <h2>Question</h2>
+      <div id="questionArea" v-if="questions.length &gt; 0">
+        <p id="questionDisplay">{{questions[index].question}}</p>
+        <div class="clearfix" id="possibleAnswersDisplay">
+          <label class="col-xs-6" v-for="pa in questions[index].possibleAnswers">
+            <input type="radio" name="answers" v-model="userAnswer" v-bind:value="pa" />
+            <span></span>
+            {{pa}}
+          </label>
+        </div>
+        <a class="btn btn-block btn-primary" id="finalAnswer" @click="checkAnswer">Final Answer</a>
       </div>
 
+      <!-- <div class="option">
+        <div id="questionArea" v-if="questions.length &gt; 0">
+          <p id="questionDisplay">{{questions[index].question}}</p>
+          <div class="clearfix" id="possibleAnswersDisplay">
+            <input
+              type="radio"
+              name="card"
+              id="silver"
+              v-model="userAnswer"
+              v-bind:value="pa  "
+              value="silver"
+            />
+            <label class="col-xs-6" v-for="pa in questions[index].possibleAnswers">
+              <label for="royal" aria-label="Royal blue">
+                <span></span>
+                {{pa}}
+              </label>
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="option">
         <input type="radio" name="card" id="royal" value="royal" />
         <label for="royal" aria-label="Royal blue">
@@ -80,43 +87,15 @@
             </div>
           </div>
         </label>
-      </div>
+      </div>-->
     </div>
-    
-<div class="container" id="quiz">
-  <div class="row">
-    <div class="col-xs-12">
-      <h1 class="title">Futurama Quiz</h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <div id="userInfo">
-        <h2 id="userName">Hello, {{userInfo.userName}}!</h2>
-        <p id="userScore">You have answered {{userScore}} of {{questions.length}} correctly</p>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div id="questionBlock">
-        <h2>Question</h2>
-        <div id="questionArea" v-if="questions.length &gt; 0">
-          <p id="questionDisplay">{{questions[index].question}}</p>
-          <div class="clearfix" id="possibleAnswersDisplay">
-            <label class="col-xs-6" v-for="pa in questions[index].possibleAnswers">
-              <input type="radio" name="answers" v-model="userAnswer" v-bind:value="pa"/><span>{{pa}}</span>
-            </label>
-          </div>
-        </div><a class="btn btn-block btn-primary" id="finalAnswer" @click="checkAnswer">Final Answer</a>
-      </div>
-    </div>
-  </div>
-</div>
   </div>
 </template>
 <script>
 import Vue from "vue";
 import axios from "axios";
-const baseUrl = "https://api.myjson.com/bins/ahn1p";
+// import Json from "../../../../public/Health-questions.json";
+const baseUrl = "https://sampleapis.com/futurama/api";
 export default {
   name: "Health",
   data() {
@@ -126,35 +105,41 @@ export default {
       userScore: 0,
       questions: [],
       index: 0,
-      userAnswer: ""
+      userAnswer: "",
+      // baseUrl: Json
     };
   },
-  ready: function() {
+  ready() {
     console.log("ready");
   },
-  created: function() {
+  created() {
     this.fetchData();
   },
   methods: {
-    fetchData: function() {
-      fetch(`${baseUrl}`)
+    fetchData() {
+      fetch(`${baseUrl}/questions?limit=3`, {
+        headers: {
+          "Content-Type": "application/json",
+          'Accept': 'application/json'
+        }
+      })
         .then(resp => resp.json())
         .then(json => this.questions.push(...json));
     },
-    checkAnswer: function() {
+    checkAnswer() {
       if (this.userAnswer == this.questions[this.index].correctAnswer) {
         this.userScore++;
       }
       this.updateIndex();
     },
-    updateIndex: function() {
+    updateIndex() {
       if (this.index < this.questions.length - 1) {
         this.index++;
       } else {
         this.displayResults();
       }
     },
-    displayResults: function() {
+    displayResults() {
       if (parseInt(this.userScore) / this.questions.length > 0.7) {
         alert(`You got ${this.userScore} answers correct, you pass!`);
       } else {

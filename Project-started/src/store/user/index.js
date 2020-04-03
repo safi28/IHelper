@@ -81,22 +81,7 @@ export default {
         photoUrl: playload.photoURL
       });
     },
-    resetPasswordWithEmail({ commit }, playload) {
-      const { email } = playload;
-      commit("setLoading", true);
-      firebase
-        .auth()
-        .sendPasswordResetEmail(email)
-        .then(() => {
-          commit("setLoading", false);
-          console.log("Email Sent");
-        })
-        .catch(error => {
-          commit("setLoading", false);
-          commit("setError", error);
-          console.log(error);
-        });
-    },
+ 
     logout({ commit }) {
       firebase.auth().signOut();
       commit("setUser", null);
