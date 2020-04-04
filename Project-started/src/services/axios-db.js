@@ -1,13 +1,13 @@
 import axios from "axios";
-
+import data from '../../public/Health-questions.json'
 const instance = axios.create({
-  baseURL: "https://vue-project-93965.firebaseio.com/quiz/",
+  baseURL: `${data}`,
   headers: { "Content-Type": "application/json" }
 });
 
-instance.interceptors.request.use(c => {
-  c.url = `${c.url}?auth=${localStorage.getItem("token")}`;
-  return c;
-});
+// instance.interceptors.request.use(c => {
+//   c.url = `${c.url}}`;
+//   return c;
+// });
 
 export default instance;

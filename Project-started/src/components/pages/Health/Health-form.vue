@@ -94,8 +94,9 @@
 <script>
 import Vue from "vue";
 import axios from "axios";
-// import Json from "../../../../public/Health-questions.json";
-const baseUrl = "https://sampleapis.com/futurama/api";
+import Json from "../../../../public/Health-questions.json";
+// const baseUrl = "https://sampleapis.com/futurama/api/questions";
+import quizMixin from '@/mixins/quiz-mixin'
 export default {
   name: "Health",
   data() {
@@ -106,25 +107,23 @@ export default {
       questions: [],
       index: 0,
       userAnswer: "",
-      // baseUrl: Json
+      baseUrl: Json
     };
   },
+  mixins: [quizMixin],
   ready() {
     console.log("ready");
   },
   created() {
-    this.fetchData();
+    this.getQuiz();
   },
   methods: {
     fetchData() {
-      fetch(`${baseUrl}/questions?limit=3`, {
-        headers: {
-          "Content-Type": "application/json",
-          'Accept': 'application/json'
-        }
-      })
-        .then(resp => resp.json())
-        .then(json => this.questions.push(...json));
+      // fetch(`${this.baseUrl}`)
+      //   .then(resp => resp.json())
+      //   .then(json => this.questions.push(...json));
+  
+    
     },
     checkAnswer() {
       if (this.userAnswer == this.questions[this.index].correctAnswer) {

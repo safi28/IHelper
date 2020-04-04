@@ -24,6 +24,7 @@ Vue.config.warnHandler = function(msg, vm, trace) {
     trace = null;
   }
 };
+
 const configOptions = {
   apiKey: "AIzaSyDnQhgNny7mfLq-i49_RK2JHFvDGmDjz8I",
   authDomain: "vue-project-93965.firebaseapp.com",
