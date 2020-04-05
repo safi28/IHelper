@@ -95,8 +95,7 @@
 import Vue from "vue";
 import axios from "axios";
 import Json from "../../../../public/Health-questions.json";
-// const baseUrl = "https://sampleapis.com/futurama/api/questions";
-import quizMixin from '@/mixins/quiz-mixin'
+// import quizMixin from "@/mixins/quiz-mixin";
 export default {
   name: "Health",
   data() {
@@ -110,20 +109,18 @@ export default {
       baseUrl: Json
     };
   },
-  mixins: [quizMixin],
+  // mixins: [quizMixin],
   ready() {
     console.log("ready");
   },
   created() {
-    this.getQuiz();
+    this.fetchData();
   },
   methods: {
     fetchData() {
-      // fetch(`${this.baseUrl}`)
-      //   .then(resp => resp.json())
-      //   .then(json => this.questions.push(...json));
-  
-    
+      axios.get("Health-questions.json").then(json => {
+        this.questions.push(...json.data);
+      });
     },
     checkAnswer() {
       if (this.userAnswer == this.questions[this.index].correctAnswer) {
@@ -140,10 +137,12 @@ export default {
     },
     displayResults() {
       if (parseInt(this.userScore) / this.questions.length > 0.7) {
-        alert(`You got ${this.userScore} answers correct, you pass!`);
+        alert(
+          `You got ${this.userScore} points, your daily food and movement habit is good!`
+        );
       } else {
         alert(
-          `You got only ${this.userScore} answers correct, you need to rewatch all episodes. NOW!`
+          `You got only ${this.userScore} points, you need to change your food habit and start workout if you want to be healthy!`
         );
       }
       this.restartQuiz();
