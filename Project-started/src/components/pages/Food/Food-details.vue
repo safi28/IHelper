@@ -4,6 +4,41 @@
       <mainMenu></mainMenu>
     </nav>
     <div class="container">
+      <v-dialog v-model="dialog" max-width="600px" dark>
+        <template v-slot:activator="{ on }">
+          <!-- <v-btn class="addbtn" color="#78244C" dark fab v-on="on">
+            <v-icon>Edit</v-icon>
+          </v-btn>-->
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Wanna update your meal?</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="6" sm="6" md="4">
+                  <v-text-field v-model="food.name" label="Name"></v-text-field>
+                </v-col>
+                <v-col cols="6" sm="6" md="4">
+                  <v-text-field v-model="food.kg" label="KG"></v-text-field>
+                </v-col>
+                <v-col cols="6" sm="6" md="4">
+                  <v-text-field v-model="food.img" label="Image"></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <!-- <v-btn color="blue darken-1" text @click.prevent="close">Cancel</v-btn>
+            <v-btn v-if="modal !== 'edit'" color="blue darken-1" text @click="save">Save</v-btn>
+            <v-btn v-else color="blue darken-1" text @click="updateEdit">Edit</v-btn>-->
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <div class="cellphone-container">
         <div class="movie">
           <div class="menu">
@@ -32,12 +67,17 @@
                   <p class="movie-actors" v-model="food.ingredients">{{food.ingredients}}</p>
                 </div>
               </div>
+                  <div class="mr-grid actors-row">
+                <div class="col1">
+                  <p class="movie-actors" v-model="food.kg">{{food.kg}}g</p>
+                </div>
+              </div>
               <div class="mr-grid action-row">
                 <div class="col2">
                   <div class="watch-btn">
                     <v-row>
                       <v-col>
-                        <button>
+                        <button @click="updateData(food)">
                           <h3>
                             <i class="material-icons"></i>Edit
                           </h3>
@@ -70,6 +110,7 @@ import * as firebase from "firebase/app";
 import mainMenu from "@/components/core/Menu/Main.vue";
 import EventBus from "../../../eventBus";
 import DataService from "../../../services/DataService";
+import foodMixin from "@/mixins/mixin";
 export default {
   name: "foods",
   vuetify: new Vuetify(),
@@ -81,17 +122,23 @@ export default {
       foods: [],
       currentIndex: -1,
       currentFood: null,
+      dialog: false,
       food: {
         id: null,
         name: "",
         kg: Number,
         ingredients: "",
-        details: ""
+        details: "",
+        img: ""
       },
       id: null
     };
   },
-
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
   methods: {
     retrieveFood() {
       firebase
@@ -101,7 +148,6 @@ export default {
         .get()
         .then(el => {
           this.food = el.data();
-          console.log(el.data());
         });
     },
 
@@ -109,11 +155,14 @@ export default {
       this.currentIndex = i;
       this.currentFood = food;
     },
-
-    updateData(playload) {
-      this.food = playload;
+    close() {
+      this.dialog = false;
     },
 
+    updateData(playload) {
+      this.dialog = true;
+      this.food = playload;
+    },
     deleteData() {
       firebase
         .firestore()
@@ -125,13 +174,13 @@ export default {
         });
     }
   },
-
   mounted() {
     this.retrieveFood();
     EventBus.$on("DATA_PUBLISHED", playload => {
       this.updateData(playload);
     });
   }
+  // mixins:[foodMixin]
 };
 </script>
 

@@ -78,6 +78,7 @@ export default {
       return this.$store.getters.loading;
     }
   },
+
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {

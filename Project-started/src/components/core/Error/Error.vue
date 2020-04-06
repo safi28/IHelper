@@ -35,16 +35,9 @@ export default {
   data() {
     return {};
   },
-  //   beforeCreate() {
-  //     this.$emit("onAuth", localStorage.getItem("token") !== null);
-  //     // console.log(this.isAuth);
-  //   },
   computed: {
     userIsAuthenticated() {
-      return (
-        this.$store.getters.user !== null &&
-        this.$store.getters.user !== undefined
-      );
+      return this.$emit("onAuth", localStorage.getItem("token") !== null);
     }
   }
 };

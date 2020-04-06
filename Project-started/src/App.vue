@@ -13,7 +13,6 @@ export default {
   name: "App",
   components: {
     Footer,
-    
   },
   data: () => ({
     isAuth: localStorage.getItem('token') !== null
@@ -25,16 +24,16 @@ export default {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
   },
-  beforeMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      // initially user = null, after auth it will be either <fb_user> or false
-      if (user) {
-        this.$store.commit("setUser", user);
-        if (user !== null && this.$route.path === "/signin") {
-          this.$router.replace("/");
-        }
-      }
-    });
-  }
+  // beforeMount() {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     // initially user = null, after auth it will be either <fb_user> or false
+  //     if (user) {
+  //       this.$store.commit("setUser", user);
+  //       if (user !== null && this.$route.path === "/signin") {
+  //         this.$router.replace("/");
+  //       }
+  //     }
+  //   });
+  // }
 };
 </script>

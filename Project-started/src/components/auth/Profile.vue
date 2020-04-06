@@ -1,28 +1,59 @@
-
 <template>
-  <v-container>
-  <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card>
-        <v-card-text>
-          <div class="text-md-center">
-            <v-icon large color="green darken-2">check_circle</v-icon>
-              <h1 class="green--text">Login Success</h1>
-              <h4 class="headline mb-0"><b class="red--text">Name :</b> {{ user.name }}</h4>
-              <h4 class="headline mb-0"><b class="red--text">Email :</b> {{ user.email }}</h4>
+  <container>
+    <mainMenu></mainMenu>
+    <div class="container">
+      <div class="card-wrapper">
+        <div class="card profile-two">
+          <div class="card-image profile-img--two">
+            <img
+              src="https://i.pinimg.com/originals/2e/9d/ab/2e9dab4bbf0696103e6b807cd709477f.png"
+              alt="profile two"
+            />
           </div>
-        </v-card-text>
-     </v-card>
-    </v-flex>
-  </v-layout>
-  </v-container>
+
+          <ul class="social-icons">
+            <li>
+              <a href>
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li>
+              <a href>
+                <i class="fab fa-instagram"></i>
+              </a>
+            </li>
+            <li>
+              <a href>
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li>
+              <a href>
+                <i class="fab fa-dribbble"></i>
+              </a>
+            </li>
+          </ul>
+
+          <div class="details jane">
+            <h2>
+              Saphie
+              <br />
+              <span class="job-title">VueJS project</span>
+              <br />
+              <button @click="signOut">Log out</button>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </container>
 </template>
 
 <script>
 import * as firebase from "firebase/app";
 import { mapState, mapMutations } from "vuex";
 import mainMenu from "@/components/core/Menu/Main.vue";
-
+import Noty from "noty";
 export default {
   pageTitle: "My Profile",
   name: "profile",
@@ -41,7 +72,7 @@ export default {
       return this.$store.getters.user;
     }
   },
-  methods: {                          
+  methods: {
     signOut() {
       this.$store.dispatch("logout");
       localStorage.removeItem("userId");
@@ -51,20 +82,182 @@ export default {
       this.$noty.success("Logged out successfully!");
       this.$router.replace({ name: "publicHome" });
     }
+
   }
 };
 </script>
 <style scoped>
-.mb-6 {
-  background-image: linear-gradient(
-      to top right,
-      rgba(115, 129, 209, 0.171),
-      rgba(25, 36, 97, 0.322)
-    ),
-    url("https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-  /* box-shadow: white 0px 0px 0px 2px, rgb(0, 170, 255) 0px 0px 0px 4px; */
-  background-position: center center;
-  background-size: cover;
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #333;
+}
+
+.container {
+  max-width: 900px;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 auto;
+}
+
+.card-wrapper {
+  width: 400px;
+  height: 500px;
+  position: relative;
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  height: 450px;
+  transform: translate(-50%, -50%);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: 0.5s;
+}
+.card .card-image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: #000;
+  transition: 0.5s;
+}
+.card:hover img {
+  opacity: 0.4;
+  transition: 0.5s;
+}
+
+.card:hover .card-image {
+  transform: translateY(-100px);
+  transition: all 0.9s;
+}
+
+/**** Social Icons *****/
+.social-icons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+}
+.social-icons li {
+  list-style: none;
+}
+.social-icons li a {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background: #fff;
+  font-size: 23px;
+  color: #333;
+  font-weight: bold;
+  margin: 0 6px;
+  transition: 0.4s;
+  transform: translateY(200px);
+  opacity: 0;
+}
+
+.card:hover .social-icons li a {
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+.social-icons li a:hover {
+  background: #000;
+  transition: 0.2s;
+}
+.social-icons li a:hover .fab {
+  color: #fff;
+}
+
+.social-icons li a .fab {
+  transition: 0.8s;
+}
+.social-icons li a .fab:hover {
+  transform: rotateY(360deg);
+  color: #fff;
+}
+
+.card:hover li:nth-child(1) a {
+  transition-delay: 0.1s;
+}
+
+.card:hover li:nth-child(2) a {
+  transition-delay: 0.2s;
+}
+
+.card:hover li:nth-child(3) a {
+  transition-delay: 0.3s;
+}
+
+.card:hover li:nth-child(4) a {
+  transition-delay: 0.4s;
+}
+
+/**** Personal Details ****/
+.details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  height: 120px;
+  z-index: 1;
+  padding: 10px;
+}
+.details h2 {
+  margin: 30px 0;
+  padding: 0;
+  text-align: center;
+}
+.details h2 .job-title {
+  font-size: 1rem;
+  line-height: 2.5rem;
+  color: #333;
+  font-weight: 300;
+}
+
+.jane {
+  position: absolute;
+  bottom: -120px;
+  left: 0;
+  opacity: 0;
+  background: #fff;
+  width: 100%;
+  height: 120px;
+  z-index: 3;
+  padding: 10px;
+  transition: 0.4s;
+}
+
+.profile-two .social-icons li a {
+  border-radius: 50%;
+}
+
+.card:hover .profile-img--two {
+  transform: rotateY(180deg);
+}
+
+.card:hover .jane {
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.5s;
+  opacity: 1;
 }
 </style>

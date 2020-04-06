@@ -117,7 +117,6 @@ export default {
           this.isLoading = false;
         });
     },
-
     setActive(food, i) {
       this.currentIndex = i;
       this.currentFood = food;
@@ -131,7 +130,6 @@ export default {
         details: this.food.details,
         img: this.food.img
       };
-      console.log(playload);
 
       EventBus.$emit("DATA_PUBLISHED", playload);
     }

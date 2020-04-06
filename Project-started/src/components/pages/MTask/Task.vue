@@ -113,8 +113,6 @@ export default {
       modal: null,
       items: [],
       dialog: false,
-
-      keys: ["Title", "Text"]
     };
   },
   created() {

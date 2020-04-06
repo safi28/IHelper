@@ -66,21 +66,11 @@ export default {
 
           localStorage.setItem("token", idToken);
           localStorage.setItem("userId", localId);
-          console.log(newUser);
         })
         .catch(err => {
           commit("setLoading", false);
           commit("setError", err);
         });
-    },
-
-    autoSignIn({ commit }, playload) {
-      commit("setUser", {
-        id: playload.uid,
-        name: playload.displayName,
-        email: playload.email,
-        photoUrl: playload.photoURL
-      });
     },
 
     logout({ commit }) {
