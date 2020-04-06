@@ -7,7 +7,8 @@ import Vuesax from "vuesax";
 import VueNoty from "vuejs-noty";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import user from "./user/index";
-import shared from './shared'
+import shared from './shared';
+
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueMaterial);

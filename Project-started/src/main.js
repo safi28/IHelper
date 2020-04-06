@@ -35,6 +35,11 @@ const configOptions = {
   appId: "1:630574009533:web:3e0a22134673233be53bd4"
 };
 firebase.initializeApp(configOptions);
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    this.$store.dispatch("autoSignIn", user);
+  }
+});
 Vue.prototype.$firebase = firebase;
 
 new Vue({

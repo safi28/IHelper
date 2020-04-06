@@ -23,8 +23,11 @@ export default {
   components: { headerLoad },
   methods: {
     logout() {
-      localStorage.removeItem('token')
-     this.$router.replace({name: 'publicHome'})
+      this.$store.dispatch("logout").then(el => {
+        console.log(el);
+        localStorage.removeItem("token");
+        this.$router.replace({ name: "publicHome" });
+      });
     }
   }
 };

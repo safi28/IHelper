@@ -3,15 +3,15 @@ export default {
     loading: false,
     error: null
   },
-  mutatations: {
-    setLoading(state, playload) {
-      state.loading = playload;
+  mutations: {
+    setLoading (state, payload) {
+      state.loading = payload
     },
-    setError(state, payload) {
-      state.error = payload;
+    setError (state, payload) {
+      state.error = payload
     },
-    clearError(state) {
-      state.error = null;
+    clearError (state) {
+      state.error = null
     }
   },
   actions: {
@@ -30,4 +30,4 @@ export default {
       return state.error
     }
   }
-};
+}

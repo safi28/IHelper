@@ -38,7 +38,7 @@ export default {
         })
         .catch(err => {
           commit("setLoading", false);
-          commit("setError", error);
+          commit("setError", err);
         });
     },
     signUserIn({ commit }, playload) {
@@ -63,13 +63,14 @@ export default {
           };
           commit("setUser", newUser);
           const { idToken, localId } = res.data;
-          
+
           localStorage.setItem("token", idToken);
           localStorage.setItem("userId", localId);
+          console.log(newUser);
         })
         .catch(err => {
           commit("setLoading", false);
-          commit("setError", error);
+          commit("setError", err);
         });
     },
 
@@ -81,7 +82,7 @@ export default {
         photoUrl: playload.photoURL
       });
     },
- 
+
     logout({ commit }) {
       firebase.auth().signOut();
       commit("setUser", null);

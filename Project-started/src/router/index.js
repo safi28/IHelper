@@ -5,7 +5,7 @@ const Signin = () => import('@/components/auth/Sign-In')
 import privateHome from "@/components/core/Home/Home-private.vue";
 import Foods from "@/components/pages/Food/Foods.vue";
 import Meistask from "@/components/pages/MTask/Task.vue";
-import profile from "@/components/pages/Profile/Profile.vue";
+import profile from "@/components/auth/Profile.vue";
 import publicHome from "@/components/core/Home/Home-public.vue";
 import Error from "@/components/core/Error/Error.vue";
 import create from "@/components/core/Create/Create.vue";

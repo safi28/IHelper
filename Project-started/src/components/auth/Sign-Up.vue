@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h1>Register form</h1>
     <v-layout row v-if="error">
       <v-flex xs12 sm6 offset-sm3>
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
@@ -13,14 +14,14 @@
               <form @submit.prevent="onSignup">
                 <v-layout row>
                   <v-flex xs12>
-                      <v-text-field
-                        name="name"
-                        label="Name"
-                        id="name"
-                        v-model="name"
-                        type="name"
-                        required
-                      ></v-text-field>
+                    <v-text-field
+                      name="name"
+                      label="Name"
+                      id="name"
+                      v-model="name"
+                      type="name"
+                      required
+                    ></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -64,9 +65,8 @@
                     <div class="text-xs-center">
                       <v-btn rounded type="submit" :disabled="loading" :loading="loading">
                         Sign up
-                      
                         <span slot="loader" class="custom-loader">
-                          <v-icon light>cached</v-icon>
+                          <v-icon light>Loading..</v-icon>
                         </span>
                       </v-btn>
                     </div>
@@ -82,6 +82,8 @@
 </template>
 
 <script>
+import Noty from "noty";
+
 export default {
   data() {
     return {
@@ -110,7 +112,7 @@ export default {
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {
-        this.$router.replace({ name: "Signin" });
+        this.$router.push("/signin");
       }
     }
   },
@@ -121,13 +123,14 @@ export default {
           email: this.email,
           password: this.password
         })
+        .then(el => {
+          this.$noty.success("Registered successfully!");
+          this.$router.replace({ name: "Signin" });
+        })
         .catch(err => {
           this.$noty.error("Error while register!");
         });
-      this.$noty.success("Registered successfully!");
-      this.$router.replace({ name: "Signin" });
     },
-
     onDismissed() {
       this.$store.dispatch("clearError");
     }

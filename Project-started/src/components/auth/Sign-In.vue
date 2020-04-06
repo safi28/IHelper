@@ -1,16 +1,16 @@
 <template>
   <v-container>
+    <h1>Login form</h1>
     <v-layout row v-if="error">
       <v-flex xs12 sm6 offset-sm3>
-        <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+        <app-alert @dismissed="onDismissed" :text="error.message">Error!</app-alert>
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs14 sm89 offset-sm3>
+      <v-flex xs18 sm80 offset-sm3>
         <v-card>
           <v-card-text>
             <v-container>
-         
               <form @submit.prevent="onSignin">
                 <v-layout row>
                   <v-flex xs12>
@@ -25,7 +25,7 @@
                   </v-flex>
                 </v-layout>
                 <v-layout row>
-                  <v-flex xs12>
+                  <v-flex xs24>
                     <v-text-field
                       name="password"
                       label="Password"
@@ -42,13 +42,11 @@
                       <v-btn rounded type="submit" :disabled="loading" :loading="loading">
                         Sign in
                         <span slot="loader" class="custom-loader">
-                          <v-icon light>cached</v-icon>
+                          <v-icon light>Loading...</v-icon>
                         </span>
                       </v-btn>
                     </div>
-
                     <br />
-                 
                   </v-flex>
                 </v-layout>
               </form>
@@ -61,6 +59,7 @@
 </template>
 
 <script>
+import Noty from "noty";
 export default {
   data() {
     return {
@@ -83,6 +82,7 @@ export default {
     user(value) {
       if (value !== null && value !== undefined) {
         this.$router.push("/dashboard");
+        this.$noty.success("Logged in successfully!");
       }
     }
   },
@@ -93,11 +93,13 @@ export default {
           email: this.email,
           password: this.password
         })
+        .then(el => {
+          this.$noty.success("Logged in successfully!");
+          this.$router.replace({ name: "privateHome" });
+        })
         .catch(err => {
           this.$noty.error("Error while log in!");
         });
-      this.$noty.success("Logged in successfully!");
-      this.$router.replace({ name: "privateHome" });
     },
 
     onResetPassword() {
@@ -116,54 +118,37 @@ export default {
 </script>
 
 <style lang="css" scoped>
-* {
-  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Helvetica, Arial, sans-serif;
-  font-weight: 300;
-  margin: 0;
-}
 
-html, body {
-  height: 100vh;
-  width: 100vw;
-  margin: 0 0;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-align: start;
-          align-items: flex-start;
-  -webkit-box-pack: start;
-          justify-content: flex-start;
-  background: #f3f2f2;
-}
 
 h4 {
   font-size: 24px;
   font-weight: 600;
   color: #000;
-  opacity: .85;
+  opacity: 0.85;
 }
 
 label {
   font-size: 12.5px;
   color: #000;
-  opacity: .8;
+  opacity: 0.8;
   font-weight: 400;
 }
 
 form {
-  padding: 40px 30px;
+  padding: 90px 50px;
   background: #fefefe;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-          flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: start;
-          align-items: flex-start;
-  padding-bottom: 20px;
+  align-items: flex-start;
+  padding-bottom: 99px;
   width: 300px;
 }
 form h4 {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   color: rgba(0, 0, 0, 0.5);
 }
 form h4 span {
@@ -175,11 +160,9 @@ form p {
   margin-bottom: 5px;
   font-size: 14px;
   color: #000;
-  opacity: .65;
+  opacity: 0.65;
   font-weight: 400;
-  max-width: 200px;
+  max-width: 400px;
   margin-bottom: 40px;
 }
-
-
 </style>
