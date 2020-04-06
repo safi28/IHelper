@@ -48,14 +48,6 @@
   </div>
 </template>
 
-<style scoped>
-.grey {
-  background-size: cover;
-}
-.auth {
-  color: wheat;
-}
-</style>
 <script>
 import publicHome from "../../components/core/Home/Home-public";
 import Vuetify from "vuetify";
@@ -78,3 +70,12 @@ export default {
   })
 };
 </script>
+
+<style scoped>
+.grey {
+  background-size: cover;
+}
+.auth {
+  color: wheat;
+}
+</style>

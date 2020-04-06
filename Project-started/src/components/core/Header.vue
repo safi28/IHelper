@@ -13,7 +13,7 @@
         <v-list-item two-line :class="miniVariant && 'px-0'">
           <router-link :to="{ name: 'profile' }">
             <v-list-item-avatar>
-              <img src="https://svgur.com/i/65U.svg" />
+              <img src="../../assets/slogo.png" />
             </v-list-item-avatar>
           </router-link>
 
@@ -31,22 +31,19 @@
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Dashboard
+              Tasks
               <router-link to="/meistask"></router-link>
             </v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>
         </router-link>
-        <router-link :to="{ name: 'Health'}">
+        <router-link :to="{ name: 'Create'}">
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon>mdi-heart</v-icon>
+              <v-icon>{{icons.svgPath}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>
-              Health
-              <router-link to="/calendar"></router-link>
-            </v-list-item-title>
+            <v-list-item-title>Create</v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>
@@ -56,23 +53,17 @@
             <v-list-item-icon>
               <v-icon>mdi-food-apple</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>
-              Food
-              <router-link to="/foods"></router-link>
-            </v-list-item-title>
+            <v-list-item-title>Food</v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>
         </router-link>
-        <router-link :to="{ name: 'Create'}">
+        <router-link :to="{ name: 'Health'}">
           <v-list-item link>
             <v-list-item-icon>
               <v-icon>mdi-help-box</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>
-              About
-              <router-link to="/create"></router-link>
-            </v-list-item-title>
+            <v-list-item-title>Health questions</v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>
@@ -84,10 +75,10 @@
 
 <script>
 import Vuetify from "vuetify";
-
+import { mdiFolderPlus } from "@mdi/js";
 export default {
   vuetify: new Vuetify(),
-  name: "headerLoad",
+  name: "Header",
   data() {
     return {
       drawer: true,
@@ -97,25 +88,13 @@ export default {
       expandOnHover: true,
       background: true,
       tab: null,
-      years: [
-        {
-          color: "cyan",
-          year: "1960"
-        },
-        {
-          color: "green",
-          year: "1970"
-        },
-        {
-          color: "pink",
-          year: "1980"
-        }
-      ]
+      icons: {
+        svgPath: mdiFolderPlus
+      }
     };
   }
 };
 </script>
 
 <style scoped>
-
 </style>

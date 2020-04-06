@@ -1,124 +1,100 @@
 <template>
-  <div>
-    <nav class="main-nav">
-      <Burger></Burger>
-      <Sidebar>
-        <v-list>
-          <v-divider></v-divider>
-          <router-link :to="{ name: 'privateHome' }">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-view-dashboard</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Dashboard
-                <router-link to="/dashboard"></router-link>
-              </v-list-item-title>
-
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
+  <div id="app">
+    <v-navigation-drawer
+      v-model="drawer"
+      :color="color"
+      :expand-on-hover="expandOnHover"
+      :mini-variant="miniVariant"
+      :right="right"
+      absolute
+      dark
+    >
+      <v-list dense nav class="py-0">
+        <v-list-item two-line :class="miniVariant && 'px-0'">
+          <router-link :to="{ name: 'profile' }">
+            <v-list-item-avatar>
+              <img src="../../../assets/slogo.png" />
+            </v-list-item-avatar>
           </router-link>
-          <router-link :to="{ name: 'Create'}">
-            <v-list-item>
-              <v-list-item-icon link class="title">
-                <v-icon>mdi-heart</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Health
-                <router-link to="/create"></router-link>
-              </v-list-item-title>
 
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-          <router-link :to="{ name: 'Food'}">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-food-apple</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Food
-                <router-link to="/foods"></router-link>
-              </v-list-item-title>
+          <v-list-item-content>
+            <v-list-item-title>Profile</v-list-item-title>
+            <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
 
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-          <router-link :to="{ name: 'Create'}">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-help-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                About
-                <router-link to="/create"></router-link>
-              </v-list-item-title>
+        <v-divider></v-divider>
 
-              <v-list-item-icon></v-list-item-icon>
-            </v-list-item>
-          </router-link>
-    
-        </v-list>
-      </Sidebar>
-    </nav>
+        <router-link :to="{ name: 'privateHome' }">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>{{icons.home}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Home
+            </v-list-item-title>
+
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Create'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>{{icons.svgPath}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Health</v-list-item-title>
+
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Food'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-food-apple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Food</v-list-item-title>
+
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Health'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-help-box</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Health questions</v-list-item-title>
+
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
 
 <script>
 import Vuetify from "vuetify";
-import Burger from "../Menu/Burger.vue";
-import Sidebar from "../Menu/Sidebar.vue";
+import { mdiFolderPlus, mdiHomeCircle } from "@mdi/js";
 export default {
-  name: "mainMenu",
   vuetify: new Vuetify(),
-  components: { Burger, Sidebar }
+  name: "Header",
+  data() {
+    return {
+      drawer: true,
+      color: "primary",
+      right: false,
+      miniVariant: true,
+      expandOnHover: true,
+      background: true,
+      tab: null,
+      icons: {
+        svgPath: mdiFolderPlus,
+        home: mdiHomeCircle
+      }
+    };
+  }
 };
 </script>
 
 <style scoped>
-.elevation-1 {
-  border-radius: 5%;
-}
-.logo {
-  align-self: center;
-  color: #fff;
-  font-weight: bold;
-  font-family: "Lato";
-}
-.burger-button {
-  right: 50%;
-}
-.main-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0.8rem;
-}
-#burger {
-  left: 50%;
-}
-ul.sidebar-panel-nav {
-  list-style-type: none;
-}
-ul.sidebar-panel-nav > li > a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-  display: block;
-  padding-bottom: 0.5em;
-}
-h1 {
-  text-align: center;
-  color: #ecece7;
-  font-family: "Trocchi", serif;
-  font-size: 45px;
-  font-weight: normal;
-  line-height: 48px;
-}
-#app {
-  background-image: url("https://images.pexels.com/photos/1373965/pexels-photo-1373965.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-
-  box-shadow: white 0px 0px 0px 2px, rgb(0, 170, 255) 0px 0px 0px 4px;
-  background-position: center center;
-  background-size: cover;
-}
 </style>

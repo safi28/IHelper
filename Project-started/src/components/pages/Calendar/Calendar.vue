@@ -61,7 +61,7 @@
                 </v-card>
               </v-dialog>
 
-              <v-dialog v-model="dialogDate" max-width="500">
+              <v-dialog v-model="dialogDate" max-width="600">
                 <v-card>
                   <v-container>
                     <v-form @submit.prevent="updateEvent">
@@ -321,6 +321,9 @@ export default {
 
 <style scoped>
 .pa-2 {
-  right: 3px;
+  right: 0px;
+}
+.fill-heigth {
+  width: 300px;
 }
 </style>

@@ -6,7 +6,7 @@
     <v-app>
       <h1>Write Your Plans</h1>
       <hr />
-      <v-card max-width="600">
+      <v-card max-width="500">
         <v-row dense class="playlist">
           <v-dialog v-model="dialog" max-width="600px" dark>
             <template v-slot:activator="{ on }">
@@ -54,7 +54,7 @@
                   <v-avatar class="ma-1" size="125" tile>
                     <v-img :src="item.img"></v-img>
                   </v-avatar>
-                  <v-divider class="mx-6" inset vertical></v-divider>
+                  <v-divider class="mx-7" inset vertical></v-divider>
 
                   <v-card-actions>
                     <v-btn color="white" :checked="item.update" @click="edit(item)" text>Edit</v-btn>

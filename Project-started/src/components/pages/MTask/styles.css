@@ -155,14 +155,15 @@
     );
 }
 .d-flex {
-  left: 42px;
+  left: 522px;
 }
 .playlist {
   position: absolute;
+  left: 100px;
 }
 .pa-2 {
   left: 72%;
-  bottom: 10%;
+  bottom: 1%;
   position: absolute;
 }
 
@@ -170,8 +171,8 @@
   left: 565px;
 }
 .addbtn {
-  left: 660px;
-  top: 190px;
+  left: 560px;
+  top: 235px;
 }
 .headline {
   color: #f1d1d9;
