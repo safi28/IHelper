@@ -28,6 +28,7 @@ export default {
             id: res.uid,
             name: res.displayName,
             email: res.email,
+            password: res.password,
             photoUrl: res.photoURL
           };
           commit("setUser", newUser);
@@ -55,13 +56,6 @@ export default {
         .then(res => {
           commit("setLoading", false);
 
-          const newUser = {
-            id: res.uid,
-            name: res.displayName,
-            email: res.email,
-            photoUrl: res.photoURL
-          };
-          commit("setUser", newUser);
           const { idToken, localId } = res.data;
 
           localStorage.setItem("token", idToken);

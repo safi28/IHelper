@@ -42,7 +42,7 @@
             <v-list-item-icon>
               <v-icon>{{icons.svgPath}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Health</v-list-item-title>
+            <v-list-item-title>Create</v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>

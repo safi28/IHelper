@@ -36,7 +36,6 @@ body {
 .movie-img {
   width: 100%;
   height: 380px;
-  /* background-image: url(https://i.ibb.co/FDGqCmM/papers-co-ag74-interstellar-wide-space-film-movie-art-33-iphone6-wallpaper.jpg); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -65,6 +64,7 @@ body {
   height: 660px;
   display: block;
   border-radius: 4px;
+  top: 20px;
 }
 
 .text-movie-cont {
@@ -85,8 +85,9 @@ body {
   display: block;
   border: 1px solid #fe4141;
   border-radius: 5px;
-  padding: 4px;
+  padding: 0%;
   width: 140px;
+  top: 30px;
 }
 .watch-btn h3 i {
   font-size: 14px;
@@ -196,6 +197,7 @@ h5 {
 
 .mr-grid {
   width: 100%;
+  top: 20px;
 }
 
 .mr-grid:before, .mr-grid:after {
@@ -212,7 +214,7 @@ h5 {
 }
 
 .col1, .col2, .col3, .col3rest, .col4, .col4rest, .col5, .col5rest, .col6, .col6rest {
-  margin: 0% 0.5% 0.5% 0.5%;
+  margin: 0% 0.5% 0% 0.5%;
   padding: 0%;
   float: left;
   display: block;
@@ -225,7 +227,6 @@ h5 {
 
 .col2 {
   width: 47%;
-  top: 20px;
 }
 
 .col3 {

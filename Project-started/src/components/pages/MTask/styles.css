@@ -170,6 +170,10 @@
 .flower {
   left: 565px;
 }
+.ma-1 {
+  border-radius: 50%;
+  left: 20px;
+}
 .addbtn {
   left: 560px;
   top: 235px;
@@ -177,7 +181,7 @@
 .headline {
   color: #f1d1d9;
   font-family: "Trocchi", serif;
-  font-size: 45px;
+  font-size: 15px;
   font-weight: normal;
   line-height: 48px;
   margin: 0;

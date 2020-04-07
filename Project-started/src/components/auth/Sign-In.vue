@@ -78,15 +78,6 @@ export default {
       return this.$store.getters.loading;
     }
   },
-
-  watch: {
-    user(value) {
-      if (value !== null && value !== undefined) {
-        this.$router.push("/dashboard");
-        this.$noty.success("Logged in successfully!");
-      }
-    }
-  },
   methods: {
     onSignin() {
       this.$store
@@ -102,7 +93,6 @@ export default {
           this.$noty.error("Error while log in!");
         });
     },
-
     onResetPassword() {
       if (this.email === "") {
         return this.$store.dispatch("setError", {

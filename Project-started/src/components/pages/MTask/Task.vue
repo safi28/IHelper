@@ -45,13 +45,14 @@
           </v-dialog>
           <v-row dense>
             <v-col v-for="item in tasks" :key="item.id" :class="{fade: item.isCompleted}">
-              <v-card color="#59253A" dark>
+              <v-card color="#000000" dark>
                 <div class="d-flex">
+                  <!-- #59253A -->
                   <div>
                     <v-card-title class="headline" v-text="item.title"></v-card-title>
                     <v-card-subtitle v-text="item.text"></v-card-subtitle>
                   </div>
-                  <v-avatar class="ma-1" size="125" tile>
+                  <v-avatar class="ma-1" size="100" tile>
                     <v-img :src="item.img"></v-img>
                   </v-avatar>
                   <v-divider class="mx-7" inset vertical></v-divider>
