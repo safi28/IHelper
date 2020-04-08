@@ -12,6 +12,16 @@
           <button @click="logout()">Logout</button>
         </div>
       </div>
+      <div>
+        <router-link :to="{name: 'Mood'}">
+          <button class="c-smileyButton">
+            <div class="c-smileyButton__hoverListener"></div>
+            <div class="c-smileyButton__hoverListener"></div>
+            <span class="c-smileyButton__face"></span>
+            &nbsp;GET STARTED 
+          </button>
+        </router-link>
+      </div>
     </section>
   </div>
 </template>
@@ -39,6 +49,75 @@ body {
   padding: 0;
   background: #333;
   justify-content: center;
+}
+
+.c-smileyButton {
+  font-size: 25px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  border: 0;
+  outline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 2.5em;
+  left: 650px;
+  top: 170px;
+  padding: 0.5em 0.75em;
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  background-color: #e0acf7;
+  box-shadow: 0 0.15em 1em rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.c-smileyButton:hover .c-smileyButton__face::before {
+  content: "\1F618";
+  animation: animate 1.05s infinite;
+}
+.c-smileyButton::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.c-smileyButton__face::before {
+  content: "\1F614";
+}
+
+.c-smileyButton__hoverListener {
+  position: absolute;
+  cursor: default;
+  z-index: -1;
+}
+.c-smileyButton__hoverListener:hover ~ .c-smileyButton__face::before {
+  animation: none;
+}
+.c-smileyButton__hoverListener:nth-child(1) {
+  width: 290%;
+  height: 550%;
+}
+.c-smileyButton__hoverListener:nth-child(1):hover
+  ~ .c-smileyButton__face::before {
+  content: "\1F60C";
+}
+.c-smileyButton__hoverListener:nth-child(2) {
+  width: 190%;
+  height: 330%;
+}
+.c-smileyButton__hoverListener:nth-child(2):hover
+  ~ .c-smileyButton__face::before {
+  content: "\1F61A";
+}
+
+@keyframes animate {
+  100% {
+    content: "\1F60A";
+  }
 }
 
 .hero {

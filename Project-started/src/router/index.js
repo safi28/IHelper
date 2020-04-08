@@ -4,6 +4,8 @@ const Signup = () => import('@/components/auth/Sign-Up')
 const Signin = () => import('@/components/auth/Sign-In')
 import privateHome from "@/components/core/Home/Home-private.vue";
 import Foods from "@/components/pages/Food/Foods.vue";
+const Mood = () => import('@/components/Select/Select-Mood')
+
 import Meistask from "@/components/pages/MTask/Task.vue";
 import profile from "@/components/auth/Profile.vue";
 import publicHome from "@/components/core/Home/Home-public.vue";
@@ -60,6 +62,14 @@ const routes = [
 
   },
   {
+    path: "/bmi",
+    name: "Bmi",
+    component: () => import("../components/pages/Health/BMI.vue"),
+
+    beforeEnter: AuthGuard
+
+  },
+  {
     path: "/create",
     name: "Create",
     component: create,
@@ -72,6 +82,12 @@ const routes = [
     component: Foods,
      beforeEnter: AuthGuard
 
+  },
+  {
+    path: "/mood",
+    name: "Mood",
+    component: Mood,
+     beforeEnter: AuthGuard
   },
   {
     path: "/foods/edit/:id",
@@ -94,7 +110,7 @@ const routes = [
 ];
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes
 });
 export default router;

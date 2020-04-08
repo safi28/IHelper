@@ -5,7 +5,7 @@ const instance = axios.create({
   headers: { "Content-Type": "application/json" }
 });
 
-instance.interceptors.request.use(config => {
+instance.interceptors.request.use((config) => {
   config.url = `${config.url}?key=AIzaSyDnQhgNny7mfLq-i49_RK2JHFvDGmDjz8I`;
   return config;
 });

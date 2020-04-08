@@ -7,7 +7,7 @@
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs18 sm80 offset-sm3>
+      <v-flex class="container">
         <v-card>
           <v-card-text>
             <v-container>
@@ -46,7 +46,10 @@
                         </span>
                       </v-btn>
                     </div>
+                    <br />Don't have an account?
                     <br />
+                    <br />
+                    <router-link :to="{ name: 'Signup'}">Register</router-link>
                   </v-flex>
                 </v-layout>
               </form>
@@ -60,6 +63,8 @@
 
 <script>
 import Noty from "noty";
+import header from "../core/HeaderUnL";
+import router from "@/router/index";
 export default {
   data() {
     return {
@@ -67,6 +72,7 @@ export default {
       password: ""
     };
   },
+  components: { header },
   computed: {
     user() {
       return this.$store.getters.user;
@@ -86,12 +92,14 @@ export default {
           password: this.password
         })
         .then(el => {
-          this.$noty.success("Logged in successfully!");
-          this.$router.replace({ name: "privateHome" });
+          this.$router.push({ path: "dashboard" }).catch(err => {
+            console.log(err);
+          });
         })
-        .catch(err => {
-          this.$noty.error("Error while log in!");
-        });
+        .then(el => {
+          this.$router.push({ name: "privateHome" }).catch(err => {});
+        })
+        .catch(err => {});
     },
     onResetPassword() {
       if (this.email === "") {
@@ -109,8 +117,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-
+.container {
+  /* left: 60px; */
+  background-image: url("https://images.pexels.com/photos/163143/sackcloth-sackcloth-textured-laptop-ipad-163143.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+}
 h4 {
   font-size: 24px;
   font-weight: 600;

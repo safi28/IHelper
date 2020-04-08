@@ -30,9 +30,7 @@
             <v-list-item-icon>
               <v-icon>{{icons.home}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>
-              Home
-            </v-list-item-title>
+            <v-list-item-title>Home</v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>
@@ -63,6 +61,16 @@
               <v-icon>mdi-help-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Health questions</v-list-item-title>
+
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{ name: 'Bmi'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-calculator-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>BMI Calculator</v-list-item-title>
 
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>

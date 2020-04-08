@@ -6,18 +6,18 @@ export default {
     user: null
   },
   mutations: {
-    setUser(state, playload) {
-      state.user = playload;
+    setUser(state, payload) {
+      state.user = payload;
     }
   },
   actions: {
-    signUserUp({ commit }, playload) {
+    signUserUp: ({ commit }, payload) => {
       commit("setLoading", true);
       commit("clearError");
 
       const data = {
-        email: playload.email,
-        password: playload.password,
+        email: payload.email,
+        password: payload.password,
         returnSecureToken: true
       };
       authAxios
@@ -28,8 +28,7 @@ export default {
             id: res.uid,
             name: res.displayName,
             email: res.email,
-            password: res.password,
-            photoUrl: res.photoURL
+            password: res.password
           };
           commit("setUser", newUser);
           const { idToken, localId } = res.data;
@@ -42,21 +41,30 @@ export default {
           commit("setError", err);
         });
     },
-    signUserIn({ commit }, playload) {
+    signUserIn: ({ commit }, payload) => {
       commit("setLoading", true);
       commit("clearError");
 
       const data = {
-        email: playload.email,
-        password: playload.password,
-        returnSecureToken: true
+        email: payload.email,
+        password: payload.password
       };
       authAxios
-        .post("/accounts:signInWithPassword", data)
-        .then(res => {
+        .post("/accounts:signInWithPassword", {
+          email: payload.email,
+          password: payload.password
+        })
+        .then(user => {
           commit("setLoading", false);
+          const newUser = {
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL
+          };
 
-          const { idToken, localId } = res.data;
+          commit("setUser", newUser);
+          const { idToken, localId } = user.data;
 
           localStorage.setItem("token", idToken);
           localStorage.setItem("userId", localId);
@@ -66,10 +74,17 @@ export default {
           commit("setError", err);
         });
     },
-
     logout({ commit }) {
-      firebase.auth().signOut();
-      commit("setUser", null);
+      firebase
+        .auth()
+        .signOut()
+        .then(res => {
+          commit("setUser", null);
+        })
+        .catch(error => {
+          commit("setLoading", false);
+          commit("setError", error);
+        });
     }
   },
   getters: {

@@ -43,6 +43,7 @@
           <v-btn icon>
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
+          
         </v-app-bar>
       </v-card>
   </div>
@@ -56,12 +57,11 @@ import Noty from "noty";
 
 export default {
   vuetify: new Vuetify(),
+  name: 'header',
   components: {
     publicHome,
-    
   },
-
-  data: () => ({
+ data: () => ({
     drawer: false,
     group: null,
     title: "Click Me",

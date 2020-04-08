@@ -16,7 +16,7 @@
       </section>
     </div>
     <div class="home" v-if="userIsAuthenticated">
-      <router-link to="dashboard">
+      <router-link to="/dashboard">
         <button>Home</button>
       </router-link>
     </div>

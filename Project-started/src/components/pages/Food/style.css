@@ -85,9 +85,9 @@ body {
   display: block;
   border: 1px solid #fe4141;
   border-radius: 5px;
-  padding: 0%;
+  padding: 5%;
   width: 140px;
-  top: 30px;
+  left: 30px;
 }
 .watch-btn h3 i {
   font-size: 14px;
@@ -198,6 +198,7 @@ h5 {
 .mr-grid {
   width: 100%;
   top: 20px;
+  left: 10px;
 }
 
 .mr-grid:before, .mr-grid:after {

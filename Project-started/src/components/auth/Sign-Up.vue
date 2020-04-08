@@ -7,7 +7,7 @@
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex class="container">
         <v-card>
           <v-card-text>
             <v-container>
@@ -70,6 +70,9 @@
                         </span>
                       </v-btn>
                     </div>
+                    <br />Have an account?
+                    <br />
+                    <router-link :to="{ name: 'Signin'}">Login</router-link>
                   </v-flex>
                 </v-layout>
               </form>
@@ -124,11 +127,11 @@ export default {
           password: this.password
         })
         .then(el => {
-          this.$noty.success("Registered successfully!");
           this.$router.replace({ name: "Signin" });
         })
         .catch(err => {
-          this.$noty.error("Error while register!");
+          console.log(err);
+          
         });
     },
     onDismissed() {
@@ -137,3 +140,55 @@ export default {
   }
 };
 </script>
+<style scoped>
+.container {
+  /* left: 60px; */
+  background-image: url("https://images.pexels.com/photos/163143/sackcloth-sackcloth-textured-laptop-ipad-163143.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+}
+h4 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+  opacity: 0.85;
+}
+
+label {
+  font-size: 12.5px;
+  color: #000;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+form {
+  padding: 90px 50px;
+  background: #fefefe;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  padding-bottom: 99px;
+  width: 300px;
+}
+form h4 {
+  margin-bottom: 50px;
+  color: rgba(0, 0, 0, 0.5);
+}
+form h4 span {
+  color: black;
+  font-weight: 700;
+}
+form p {
+  line-height: 155%;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #000;
+  opacity: 0.65;
+  font-weight: 400;
+  max-width: 400px;
+  margin-bottom: 40px;
+}
+</style>

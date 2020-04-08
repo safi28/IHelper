@@ -68,6 +68,18 @@
             <v-list-item-icon></v-list-item-icon>
           </v-list-item>
         </router-link>
+        <router-link :to="{ name: 'Bmi'}">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>
+               mdi-calculator-variant
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>BMI Calculator</v-list-item-title>
+
+            <v-list-item-icon></v-list-item-icon>
+          </v-list-item>
+        </router-link>
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -75,7 +87,7 @@
 
 <script>
 import Vuetify from "vuetify";
-import { mdiFolderPlus } from "@mdi/js";
+import { mdiFolderPlus,  } from "@mdi/js";
 export default {
   vuetify: new Vuetify(),
   name: "Header",

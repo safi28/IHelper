@@ -19,21 +19,9 @@ export default {
   }),
 
   computed: {
-    // ...mapState(["user"])
      userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
   },
-  // beforeMount() {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     // initially user = null, after auth it will be either <fb_user> or false
-  //     if (user) {
-  //       this.$store.commit("setUser", user);
-  //       if (user !== null && this.$route.path === "/signin") {
-  //         this.$router.replace("/");
-  //       }
-  //     }
-  //   });
-  // }
 };
 </script>

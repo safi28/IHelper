@@ -35,7 +35,6 @@
                   <p class="movie-description" v-model="food.details">{{food.details}}</p>
                 </div>
               </div>
-
               <div class="mr-grid action-row">
                 <div class="col2">
                   <div class="watch-btn">
