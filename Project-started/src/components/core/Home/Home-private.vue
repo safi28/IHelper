@@ -9,7 +9,6 @@
             <br />care.
           </h1>
           <p>We are creating healthy diets for you based on your manners!!</p>
-          <button @click="logout()">Logout</button>
         </div>
       </div>
       <div>
@@ -32,12 +31,7 @@ export default {
   name: "dashboard",
   components: { headerLoad },
   methods: {
-    logout() {
-      this.$store.dispatch("logout").then(el => {
-        localStorage.removeItem("token");
-        this.$router.replace({ name: "publicHome" });
-      });
-    }
+   
   }
 };
 </script>
