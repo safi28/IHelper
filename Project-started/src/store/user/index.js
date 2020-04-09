@@ -16,6 +16,7 @@ export default {
       commit("clearError");
 
       const data = {
+        displayName: payload.displayName,
         email: payload.email,
         password: payload.password,
         returnSecureToken: true
@@ -23,6 +24,7 @@ export default {
       authAxios
         .post("/accounts:signUp", data)
         .then(res => {
+          
           commit("setLoading", false);
           const newUser = {
             id: res.uid,
@@ -51,6 +53,7 @@ export default {
       };
       authAxios
         .post("/accounts:signInWithPassword", {
+          displayName: payload.displayName,
           email: payload.email,
           password: payload.password
         })

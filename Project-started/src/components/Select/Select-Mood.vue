@@ -141,7 +141,7 @@
   </div>
 </template>
 <script>
-import mainMenu from "@/components/core/Menu/Main.vue";
+import mainMenu from "@/components/core/Shared/Main.vue";
 
 export default {
   name: "Mood",

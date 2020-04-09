@@ -67,7 +67,7 @@ import Vue from "vue";
 import axios from "axios";
 import Json from "../../../../public/Health-questions.json";
 import { mdiCheckboxMarkedCircle, mdiMessageAlert } from "@mdi/js";
-import mainMenu from "@/components/core/Menu/Main.vue";
+import mainMenu from "@/components/core/Shared/Main.vue";
 export default {
   name: "Health",
   components: { mainMenu },

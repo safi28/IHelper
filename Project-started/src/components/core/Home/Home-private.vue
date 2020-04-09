@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import headerLoad from "@/components/core/Header.vue";
+import headerLoad from "@/components/core/Shared/Header.vue";
 export default {
   name: "dashboard",
   components: { headerLoad },
   methods: {
-   
+    
   }
 };
 </script>

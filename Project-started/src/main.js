@@ -24,6 +24,7 @@ Vue.config.warnHandler = function(msg, vm, trace) {
     trace = null;
   }
 };
+
 const configOptions = {
   apiKey: "AIzaSyDnQhgNny7mfLq-i49_RK2JHFvDGmDjz8I",
   authDomain: "vue-project-93965.firebaseapp.com",
@@ -34,6 +35,7 @@ const configOptions = {
   appId: "1:630574009533:web:3e0a22134673233be53bd4"
 };
 firebase.initializeApp(configOptions);
+
 firebase.getCurrentUser = () => {
   return new Promise((resolve, reject) => {
       const unsubscribe = firebase.auth().onAuthStateChanged(user => {

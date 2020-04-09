@@ -126,12 +126,14 @@ export default {
           email: this.email,
           password: this.password
         })
-        .then(el => {
+        .then(function(user) {
+          el.user.updateProfile({
+            displayName: this.name
+          })
           this.$router.replace({ name: "Signin" });
         })
         .catch(err => {
           console.log(err);
-          
         });
     },
     onDismissed() {

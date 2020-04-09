@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import Footer from "./components/core/Footer";
+import Footer from "./components/core/Shared/Footer";
 import * as firebase from "firebase";
 
 import { mapState } from "vuex";

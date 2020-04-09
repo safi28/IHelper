@@ -94,7 +94,7 @@
 
 <script>
 import Vuetify from "vuetify";
-import mainMenu from "@/components/core/Menu/Main.vue";
+import mainMenu from "@/components/core/Shared/Main.vue";
 import * as firebase from "firebase/app";
 import DataService from "../../../services/DataService";
 import Noty from "noty";

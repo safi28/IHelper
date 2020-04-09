@@ -109,10 +109,8 @@
 import Vuetify from "vuetify";
 import Noty from "noty";
 import * as firebase from "firebase/app";
-import mainMenu from "@/components/core/Menu/Main.vue";
+import mainMenu from "@/components/core/Shared/Main.vue";
 import EventBus from "../../../eventBus";
-import DataService from "../../../services/DataService";
-import foodMixin from "@/mixins/mixin";
 export default {
   name: "foods",
   vuetify: new Vuetify(),
@@ -199,7 +197,6 @@ export default {
       this.updateData(playload);
     });
   }
-  // mixins:[foodMixin]
 };
 </script>
 

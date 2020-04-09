@@ -13,7 +13,7 @@
         <v-list-item two-line :class="miniVariant && 'px-0'">
           <router-link :to="{ name: 'profile' }">
             <v-list-item-avatar>
-              <img src="../../assets/slogo.png" />
+              <img src="../../../assets/slogo.png" />
             </v-list-item-avatar>
           </router-link>
 

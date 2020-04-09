@@ -60,11 +60,10 @@
 
 <script>
 import Vuetify from "vuetify";
-import AppHeader from "@/components/core/Header.vue";
+import AppHeader from "@/components/core/Shared/Header.vue";
 import Noty from "noty";
 import * as firebase from "firebase/app";
-import mainMenu from "@/components/core/Menu/Main.vue";
-import DataService from "../../../services/DataService";
+import mainMenu from "@/components/core/Shared/Main.vue";
 import EventBus from "../../../eventBus";
 
 export default {

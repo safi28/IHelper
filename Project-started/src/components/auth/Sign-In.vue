@@ -1,11 +1,13 @@
 <template>
   <v-container>
     <h1>Login form</h1>
+
     <v-layout row v-if="error">
       <v-flex xs12 sm6 offset-sm3>
         <app-alert @dismissed="onDismissed" :text="error.message">Error!</app-alert>
       </v-flex>
     </v-layout>
+
     <v-layout row>
       <v-flex class="container">
         <v-card>
@@ -63,7 +65,7 @@
 
 <script>
 import Noty from "noty";
-import header from "../core/HeaderUnL";
+import HeaderUnL from "@/components/core/Shared/HeaderUnL.vue";
 import router from "@/router/index";
 export default {
   data() {
@@ -72,7 +74,7 @@ export default {
       password: ""
     };
   },
-  components: { header },
+  components: { HeaderUnL },
   computed: {
     user() {
       return this.$store.getters.user;
@@ -92,7 +94,7 @@ export default {
           password: this.password
         })
         .then(el => {
-          this.$router.push({ path: "dashboard" }).catch(err => {
+           this.$router.replace({ name: "publicHome" }).catch(err => {
             console.log(err);
           });
         })
