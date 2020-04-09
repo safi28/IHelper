@@ -18,6 +18,7 @@
 ![Screenshot](screenshot5.png)
 # Test
 ![Screenshot](screenshot4.png)
-
+# Technologies
+* VueJS, Vuex, Axios, Vuetify
 # Aim
 * The app is abount tracking your daily movements, food habits and todo tasks
