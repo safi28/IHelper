@@ -90,7 +90,7 @@
 <script>
 import Vuetify from "vuetify";
 import calendar from "@/components/pages/Calendar/Calendar.vue";
-import mainMenu from "@/components/core/Menu/Main.vue";
+import mainMenu from "@/components/core/Shared/Main.vue";
 import db from "@/main.js";
 import * as firebase from "firebase/app";
 import router from "@/router/index.js";

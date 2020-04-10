@@ -1,30 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-const Signup = () => import('@/components/auth/Sign-Up')
-const Signin = () => import('@/components/auth/Sign-In')
-import privateHome from "@/components/core/Home/Home-private.vue";
-import Foods from "@/components/pages/Food/Foods.vue";
-const Mood = () => import('@/components/Select/Select-Mood')
-
-import Meistask from "@/components/pages/MTask/Task.vue";
-import profile from "@/components/auth/Profile.vue";
-import publicHome from "@/components/core/Home/Home-public.vue";
-import Error from "@/components/core/Error/Error.vue";
-import create from "@/components/core/Create/Create.vue";
-import Health from "@/components/pages/Health/Health-form.vue";
 import AuthGuard from "./auth-guard";
 
+const Signup = () => import('@/components/auth/Sign-Up')
+const Signin = () => import('@/components/auth/Sign-In')
+const privateHome = () => import("@/components/core/Home/Home-private.vue");
+const Foods = () => import('@/components/pages/Food/Foods.vue');
+const Mood = () => import('@/components/Select/Select-Mood')
+const Meistask = () => import("@/components/pages/MTask/Task.vue");
+const profile = () => import("@/components/auth/Profile.vue");
+const publicHome = () => import("@/components/core/Home/Home-public.vue");
+const Error = () => import("@/components/core/Error/Error.vue");
+const create = () => import("@/components/core/Create/Create.vue");
+const Health = () => import("@/components/pages/Health/Health-form.vue");
 
 Vue.use(VueRouter);
-function authGuard(to, from, next) {
-  if (to.fullPath === "/dashboard")
-    if (localStorage.getItem("token") !== null) {
-      next("/dashboard");
-    } else {
-      next("/");
-    }
-  next();
-}
+
 const routes = [
   {
     path: "/",
@@ -65,9 +56,7 @@ const routes = [
     path: "/bmi",
     name: "Bmi",
     component: () => import("../components/pages/Health/BMI.vue"),
-
     beforeEnter: AuthGuard
-
   },
   {
     path: "/create",
@@ -110,7 +99,6 @@ const routes = [
 ];
 const router = new VueRouter({
   mode: "history",
-  // base: process.env.BASE_URL,
   routes
 });
 export default router;

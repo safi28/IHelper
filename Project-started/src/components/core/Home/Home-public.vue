@@ -98,6 +98,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 

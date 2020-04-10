@@ -34,7 +34,7 @@
 <script>
 import * as firebase from "firebase/app";
 import { mapState, mapMutations } from "vuex";
-import mainMenu from "@/components/core/Menu/Main.vue";
+import mainMenu from "@/components/core/Shared/Main.vue";
 import Noty from "noty";
 export default {
   pageTitle: "My Profile",
@@ -49,10 +49,10 @@ export default {
     };
   },
   computed: {
-    ...mapState({ user: "user" })
-    // user() {
-    //   return this.$store.getters.user;
-    // }
+    // ...mapState({ user: "user" })
+    user() {
+      return this.$store.getters.user;
+    }
   },
   methods: {
     signOut() {

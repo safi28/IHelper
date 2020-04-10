@@ -47,10 +47,6 @@ export default {
       commit("setLoading", true);
       commit("clearError");
 
-      const data = {
-        email: payload.email,
-        password: payload.password
-      };
       authAxios
         .post("/accounts:signInWithPassword", {
           displayName: payload.displayName,
