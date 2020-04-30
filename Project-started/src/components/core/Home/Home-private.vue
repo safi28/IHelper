@@ -148,8 +148,8 @@ body {
   line-height: 0.9;
   margin-bottom: 10px;
   color: white;
-  left: 209%;
-  right: 20%;
+  /* left: 200%; */
+  right: 70%;
 }
 .hero .overlay .content p {
   font-size: 24px;

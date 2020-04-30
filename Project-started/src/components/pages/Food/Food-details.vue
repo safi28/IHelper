@@ -111,6 +111,7 @@ import Noty from "noty";
 import * as firebase from "firebase/app";
 import mainMenu from "@/components/core/Shared/Main.vue";
 import EventBus from "../../../eventBus";
+import foodMixin from "@/mixins/food-mixin";
 export default {
   name: "foods",
   vuetify: new Vuetify(),
@@ -119,7 +120,7 @@ export default {
   },
   data() {
     return {
-      foods: [],
+      //foods: [],
       currentIndex: -1,
       currentFood: null,
       dialog: false,
@@ -135,22 +136,26 @@ export default {
       active: null
     };
   },
+  mixins: [foodMixin],
   watch: {
     dialog(val) {
       val || this.close();
     }
   },
+  created() {
+    this.retrieveFood();
+  },
   methods: {
-    retrieveFood() {
-      firebase
-        .firestore()
-        .collection("foods")
-        .doc(this.$route.params.id)
-        .get()
-        .then(el => {
-          this.food = el.data();
-        });
-    },
+    // retrieveFood() {
+    //   firebase
+    //     .firestore()
+    //     .collection("foods")
+    //     .doc(this.$route.params.id)
+    //     .get()
+    //     .then(el => {
+    //       this.food = el.data();
+    //     });
+    // },
     setActive(food, i) {
       this.currentIndex = i;
       this.currentFood = food;
@@ -192,7 +197,7 @@ export default {
     }
   },
   mounted() {
-    this.retrieveFood();
+    // this.retrieveFood();
     EventBus.$on("DATA_PUBLISHED", playload => {
       this.updateData(playload);
     });

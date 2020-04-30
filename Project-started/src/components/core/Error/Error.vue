@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="all">
     <div class="wrapper">
       <h1>404 Error Page #2</h1>
       <p class="zoom-area"></p>
@@ -42,6 +42,10 @@ export default {
   }
 };
 </script>
+
 <style lang="css" scoped>
 @import url("./styles-error.css");
+.all {
+  background-image: url('https://images.pexels.com/photos/1410225/pexels-photo-1410225.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+}
 </style>

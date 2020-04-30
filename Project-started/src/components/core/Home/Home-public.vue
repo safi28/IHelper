@@ -6,7 +6,7 @@
 			<div class="content rellax" data-rellax-speed="5">
 				<h1>Online Health App</h1>
         <h1>Pay Attention to your Health</h1>
-				<a href="#" class="btn btn-primary">Learn More</a>
+				<a class="btn btn-primary">Learn More</a>
 			</div>
 		</section>
 

@@ -11,26 +11,29 @@
         :key="index"
         @click="setActive(food, index)"
       >
-      <div v-if="isLoading">Loading...</div>
+        <div v-if="isLoading">Loading...</div>
         <div class="container">
           <div class="cellphone-container">
             <div class="movie">
               <div class="menu">
                 <i class="material-icons"></i>
               </div>
-
               <v-img :src="food.img" class="movie-img"></v-img>
+
               <div class="mr-grid">
                 <div class="col1">
                   <h1>{{food.name}}</h1>
                 </div>
               </div>
+
               <div class="mr-grid summary-row">
                 <div class="col2">
                   <h5></h5>
                 </div>
               </div>
               <div class="mr-grid">
+                <h3>Category</h3>
+
                 <div class="col1">
                   <p class="movie-description" v-model="food.details">{{food.details}}</p>
                 </div>
@@ -65,7 +68,7 @@ import Noty from "noty";
 import * as firebase from "firebase/app";
 import mainMenu from "@/components/core/Shared/Main.vue";
 import EventBus from "../../../eventBus";
-
+import foodMixin from '@/mixins/food-mixin'
 export default {
   name: "Foods",
   vuetify: new Vuetify(),
@@ -97,24 +100,27 @@ export default {
       isLoading: false
     };
   },
-
+  created(){
+    this.retrieveFood()
+  },
+  mixins: [foodMixin],
   methods: {
-    async retrieveFood() {
-      this.isLoading = true;
-      await firebase
-        .firestore()
-        .collection("foods")
-        .onSnapshot(snap => {
-          snap.forEach(doc => {
-            var food = doc.data();
-            this.food = doc.data();
-            food.id = doc.id;
-            this.id = doc.id;
-            this.foods.push(food);
-          });
-          this.isLoading = false;
-        });
-    },
+    // async retrieveFood() {
+    //   this.isLoading = true;
+    //   await firebase
+    //     .firestore()
+    //     .collection("foods")
+    //     .onSnapshot(snap => {
+    //       snap.forEach(doc => {
+    //         var food = doc.data();
+    //         this.food = doc.data();
+    //         food.id = doc.id;
+    //         this.id = doc.id;
+    //         this.foods.push(food);
+    //       });
+    //       this.isLoading = false;
+    //     });
+    // },
     setActive(food, i) {
       this.currentIndex = i;
       this.currentFood = food;
@@ -133,11 +139,26 @@ export default {
     }
   },
   mounted() {
-    this.retrieveFood();
+    // this.retrieveFood();
   }
 };
 </script>
 
 <style scoped>
 @import url("./style.css");
+.col1,
+.col2,
+.col3,
+.col3rest,
+.col4,
+.col4rest,
+.col5,
+.col5rest,
+.col6,
+.col6rest {
+  margin: 8% 0.5% 0% 0.5%;
+  padding: 0%;
+  float: left;
+  display: block;
+}
 </style>

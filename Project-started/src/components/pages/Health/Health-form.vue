@@ -154,6 +154,12 @@ body {
 .card {
   width: 50%;
 }
+h1 {
+  padding: 15px;
+}
+.container {
+  color: white;
+}
 .hero {
   background: #133a53
     url("https://images.pexels.com/photos/2014691/pexels-photo-2014691.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
@@ -178,7 +184,7 @@ body {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-  width: 100vw;
+  width: 50vw;
   height: 50vh;
 }
 </style>

@@ -82,7 +82,6 @@ const routes = [
     path: "/foods/edit/:id",
     component: () => import("../components/pages/Food/Food-details.vue"),
     beforeEnter: AuthGuard
-
   },
   {
     path: "/meistask",
