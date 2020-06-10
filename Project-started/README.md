@@ -1,5 +1,7 @@
-# Project setup
-* npm install   
+# Deployed app
+* https://vue-project-93965.web.app
+# Project setup locally
+* npm install
 # Compiles
 * npm run serve
 # Private page
