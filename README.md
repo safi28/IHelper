@@ -13,7 +13,7 @@
 # Compiles
 * npm run serve
 ---
-# Technologies 🔃
+# Tools & Technologies 🔃
 > VueJS, Vuex, Axios, Vuetify
 ---
 # Aim
