@@ -14,7 +14,7 @@
 * npm run serve
 ---
 # Tools & Technologies 🔃
-> VueJS, Vuex, Axios, Vuetify
+> VueJS, Vuex, Axios, Vuetify⚙️
 ---
 # Aim
 - The app is abount tracking your daily movements, food habits and todo tasks
@@ -23,6 +23,6 @@
 ## FAQ
 
 - **How do I do *specifically* so and so?**
-    - No problem! Just do this.
+    - No problem! Just do this.😒
 
 ---
