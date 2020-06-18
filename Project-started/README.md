@@ -12,7 +12,7 @@
 * npm install 🔨🔨🔨
 # Compiles
 * npm run serve
-# Technologies
+# Technologies 🔃
 * VueJS, Vuex, Axios, Vuetify
 # Aim
 * The app is abount tracking your daily movements, food habits and todo tasks
