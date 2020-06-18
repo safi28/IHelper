@@ -9,7 +9,7 @@
 # Setup
 ## Locally setup
 > update and install all packages 
-$ npm install
+** npm install
 # Compiles
 * npm run serve
 # Technologies
