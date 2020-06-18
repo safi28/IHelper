@@ -1,5 +1,5 @@
 ## IHelper :ghost:
-
+- Vue project for SoftUni
 ### Clone
 
 - Clone this repo to your local machine using https://github.com/safi28/Helper-app.git
