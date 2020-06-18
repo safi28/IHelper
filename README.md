@@ -1,5 +1,5 @@
 ## IHelper :ghost:
-- Vue project for SoftUni
+> Vue project for SoftUni
 ### Clone
 
 - Clone this repo to your local machine using https://github.com/safi28/Helper-app.git
@@ -14,7 +14,7 @@
 * npm run serve
 ---
 # Technologies 🔃
-* VueJS, Vuex, Axios, Vuetify
+> VueJS, Vuex, Axios, Vuetify
 ---
 # Aim
 - The app is abount tracking your daily movements, food habits and todo tasks
