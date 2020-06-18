@@ -6,8 +6,8 @@
 
 # Deployed app
 * https://vue-project-93965.web.app
-### Setup
-# Project setup locally
+# Setup
+## Locally setup
 > update and install all packages 
 $ npm install
 # Compiles
